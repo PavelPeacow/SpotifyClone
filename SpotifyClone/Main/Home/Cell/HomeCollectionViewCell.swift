@@ -20,7 +20,6 @@ class HomeCollectionViewCell: UICollectionViewCell {
     
     private lazy var title: UILabel = {
         let label = UILabel()
-        label.text = "Lool"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 18)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -29,7 +28,6 @@ class HomeCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .blue
         contentView.addSubview(image)
         contentView.addSubview(title)
         setConstraints()

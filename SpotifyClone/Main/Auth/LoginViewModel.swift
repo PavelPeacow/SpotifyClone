@@ -12,7 +12,7 @@ final class LoginViewModel {
     
     func showOAuthPrompt(in view: UIViewController, then onCompletion: @escaping () -> ()) {
 
-        guard let url = APIEndpoint.getCode.url else { return }
+        guard let url = AuthEndpoint.getCode.url else { return }
         let callBackScheme = APIConstant.callbackScheme
         
         let session = ASWebAuthenticationSession(url: url, callbackURLScheme: callBackScheme) { callbackURL, error in
@@ -21,7 +21,7 @@ final class LoginViewModel {
             
             Task {
                 if let code = query.first(where: {$0.name == "code" })?.value {
-                    _ = try? await APIManager().getSpotifyContent(type: OauthCode.self, endpoint: .exchangeCodeForToken(code: code))
+                    _ = try? await APIManager().getSpotifyContent(type: OauthCode.self, endpoint: AuthEndpoint.exchangeCodeForToken(code: code))
                     onCompletion()
                 }
             }

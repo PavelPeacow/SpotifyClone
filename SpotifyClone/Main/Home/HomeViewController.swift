@@ -24,6 +24,8 @@ class HomeViewController: UIViewController {
         
         Task {
             await viewModel.getFeaturedPlaylists()
+            await viewModel.getUserAlbums()
+            await viewModel.getNewReleases()
             homeView.collectionView.reloadData()
         }
         
@@ -44,32 +46,54 @@ extension HomeViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch Sections.allCases[section] {
+        
+        let section = Sections.allCases[section]
+        
+        switch section {
         case .featuredPlaylist:
             return viewModel.featuredPlaylist.count
-        case .popularPlaylist:
-            return viewModel.popularPlaylist.count
+        case .newReleases:
+            return viewModel.newReleases.count
+        case .userAlbum:
+            return viewModel.userAlbums.count
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.identifier, for: indexPath) as! HomeCollectionViewCell
         
-        let title = viewModel.featuredPlaylist[indexPath.row].name ?? ""
-        let image = viewModel.featuredPlaylist[indexPath.row].images.first?.url ?? ""
+        let section = Sections.allCases[indexPath.section]
         
-        cell.configure(with: title, imageURL: image)
+        switch section {
+        case .featuredPlaylist:
+            let title = viewModel.featuredPlaylist[indexPath.row].name ?? ""
+            let image = viewModel.featuredPlaylist[indexPath.row].images.first?.url ?? ""
+            cell.configure(with: title, imageURL: image)
+        case .newReleases:
+            let title = viewModel.newReleases[indexPath.row].name ?? ""
+            let image = viewModel.newReleases[indexPath.row].images.first?.url ?? ""
+            cell.configure(with: title, imageURL: image)
+        case .userAlbum:
+            let title = viewModel.userAlbums[indexPath.row].album.label
+            let image = viewModel.userAlbums[indexPath.row].album.images.first?.url ?? ""
+            cell.configure(with: title, imageURL: image)
+        }
+        
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
 
-        switch Sections.allCases[indexPath.section] {
+        let section = Sections.allCases[indexPath.section]
+        
+        switch section {
         case .featuredPlaylist:
-            header.setTitle(with: "Featured")
-        case .popularPlaylist:
-            header.setTitle(with: "Popular")
+            header.setTitle(with: section.title)
+        case .newReleases:
+            header.setTitle(with: section.title)
+        case .userAlbum:
+            header.setTitle(with: section.title)
         }
         
         return header

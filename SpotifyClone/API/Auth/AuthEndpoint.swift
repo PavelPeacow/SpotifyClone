@@ -7,22 +7,28 @@
 
 import Foundation
 
-enum APIEndpoint {
+protocol Endpoint {
+    var httpMethod: String { get }
+    func urlComponents(scheme: String, host: String, path: String, queryItems: [URLQueryItem]?) -> URL?
+    var url: URL? { get }
+    func getRequest(url: URL) -> URLRequest
+}
+
+enum AuthEndpoint: Endpoint {
     case getCode
     case exchangeCodeForToken(code: String)
-    case getFeaturedPlaylists
     
-    private var httpMethod: String {
+    var httpMethod: String {
         switch self {
             
         case .exchangeCodeForToken:
             return "POST"
-        case .getCode, .getFeaturedPlaylists:
+        case .getCode:
             return "GET"
         }
     }
     
-    private func urlComponents(scheme: String = "https", host: String = "api.spotify.com", path: String, queryItems: [URLQueryItem]?) -> URL? {
+    func urlComponents(scheme: String = "https", host: String = "accounts.spotify.com", path: String, queryItems: [URLQueryItem]?) -> URL? {
         var components = URLComponents()
         components.scheme = scheme
         components.host = host
@@ -30,7 +36,7 @@ enum APIEndpoint {
         components.queryItems = queryItems
         return components.url
     }
-       
+    
     var url: URL? {
         switch self {
             
@@ -42,25 +48,21 @@ enum APIEndpoint {
                 URLQueryItem(name: "redirect_uri", value: APIConstant.redirect_uri)
             ]
             
-            return urlComponents(host: "accounts.spotify.com", path: "/api/token", queryItems: queryItems)
+            return urlComponents(path: "/api/token", queryItems: queryItems)
             
         case .getCode:
             let queryItems = [
                 URLQueryItem(name: "client_id", value: APIConstant.clientID),
                 URLQueryItem(name: "response_type", value: "code"),
-                URLQueryItem(name: "redirect_uri", value: APIConstant.redirect_uri)
+                URLQueryItem(name: "redirect_uri", value: APIConstant.redirect_uri),
+                URLQueryItem(name: "scope", value: "user-library-read")
             ]
             
-            return urlComponents(host: "accounts.spotify.com", path: "/authorize", queryItems: queryItems)
-        case .getFeaturedPlaylists:
-            let queryItems = [
-            URLQueryItem(name: "country", value: "PL")
-            ]
+            return urlComponents(path: "/authorize", queryItems: queryItems)
             
-            return urlComponents(path: "/v1/browse/featured-playlists", queryItems: queryItems)
         }
     }
-            
+    
     func getRequest(url: URL) -> URLRequest {
         var request = URLRequest(url: url)
         print(url)
@@ -73,13 +75,7 @@ enum APIEndpoint {
             request.setValue("Basic \(value.encodeToBase64())", forHTTPHeaderField: "Authorization")
         case .getCode:
             return request
-        case .getFeaturedPlaylists:
-            request.httpMethod = httpMethod
-            request.setValue("Bearer \(Token.token ?? "")", forHTTPHeaderField: "Authorization")
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            return request
         }
-
         return request
     }
 }
