@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B56C3CA22984125F002BC147 /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56C3CA12984125F002BC147 /* HeaderCollectionReusableView.swift */; };
+		B56C3CA429842ACF002BC147 /* FeaturedPlaylists.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56C3CA329842ACF002BC147 /* FeaturedPlaylists.swift */; };
+		B56C3CA62984CBF4002BC147 /* UIImageViewURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56C3CA52984CBF4002BC147 /* UIImageViewURL.swift */; };
+		B59272962983C60400932ADD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59272952983C60400932ADD /* HomeView.swift */; };
+		B59272982983C6A600932ADD /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59272972983C6A600932ADD /* HomeCollectionViewCell.swift */; };
+		B592729B2983C9B600932ADD /* CompLayoutSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B592729A2983C9B600932ADD /* CompLayoutSections.swift */; };
+		B592729D2983D99000932ADD /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B592729C2983D99000932ADD /* HomeViewModel.swift */; };
 		B5BD576E2978EB9E004D9789 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD576D2978EB9E004D9789 /* AppDelegate.swift */; };
 		B5BD57702978EB9E004D9789 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD576F2978EB9E004D9789 /* SceneDelegate.swift */; };
 		B5BD57722978EB9E004D9789 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD57712978EB9E004D9789 /* LoginViewController.swift */; };
@@ -24,6 +31,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B56C3CA12984125F002BC147 /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		B56C3CA329842ACF002BC147 /* FeaturedPlaylists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedPlaylists.swift; sourceTree = "<group>"; };
+		B56C3CA52984CBF4002BC147 /* UIImageViewURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewURL.swift; sourceTree = "<group>"; };
+		B59272952983C60400932ADD /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		B59272972983C6A600932ADD /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
+		B592729A2983C9B600932ADD /* CompLayoutSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompLayoutSections.swift; sourceTree = "<group>"; };
+		B592729C2983D99000932ADD /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		B5BD576A2978EB9E004D9789 /* SpotifyClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotifyClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5BD576D2978EB9E004D9789 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5BD576F2978EB9E004D9789 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +67,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B56C3CA72984CBF8002BC147 /* Subclass */ = {
+			isa = PBXGroup;
+			children = (
+				B56C3CA52984CBF4002BC147 /* UIImageViewURL.swift */,
+			);
+			path = Subclass;
+			sourceTree = "<group>";
+		};
+		B56C3CA82984CFF2002BC147 /* ReusableView */ = {
+			isa = PBXGroup;
+			children = (
+				B56C3CA12984125F002BC147 /* HeaderCollectionReusableView.swift */,
+			);
+			path = ReusableView;
+			sourceTree = "<group>";
+		};
+		B59272992983C6A900932ADD /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B59272972983C6A600932ADD /* HomeCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		B5BD57612978EB9E004D9789 = {
 			isa = PBXGroup;
 			children = (
@@ -75,6 +113,7 @@
 				B5BD57812978EBE3004D9789 /* App */,
 				B5BD57862978ED5A004D9789 /* API */,
 				B5BD57892978F25E004D9789 /* Helper */,
+				B56C3CA72984CBF8002BC147 /* Subclass */,
 				B5BD57832978EC02004D9789 /* Main */,
 				B5BD57902978FD6D004D9789 /* Model */,
 				B5BD57822978EBE9004D9789 /* Resources */,
@@ -133,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				B5BD578E2978FD6A004D9789 /* OAuthCode.swift */,
+				B56C3CA329842ACF002BC147 /* FeaturedPlaylists.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -151,6 +191,11 @@
 			isa = PBXGroup;
 			children = (
 				B5BD5799297964FE004D9789 /* HomeViewController.swift */,
+				B59272952983C60400932ADD /* HomeView.swift */,
+				B592729C2983D99000932ADD /* HomeViewModel.swift */,
+				B592729A2983C9B600932ADD /* CompLayoutSections.swift */,
+				B59272992983C6A900932ADD /* Cell */,
+				B56C3CA82984CFF2002BC147 /* ReusableView */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -227,14 +272,21 @@
 			files = (
 				B5BD578D2978F6C5004D9789 /* APIEndpoint.swift in Sources */,
 				B5BD57852978ED55004D9789 /* APIManager.swift in Sources */,
+				B59272962983C60400932ADD /* HomeView.swift in Sources */,
+				B56C3CA62984CBF4002BC147 /* UIImageViewURL.swift in Sources */,
+				B592729D2983D99000932ADD /* HomeViewModel.swift in Sources */,
 				B5BD57722978EB9E004D9789 /* LoginViewController.swift in Sources */,
 				B5BD578B2978F647004D9789 /* APIConstant.swift in Sources */,
 				B5BD576E2978EB9E004D9789 /* AppDelegate.swift in Sources */,
 				B5BD57882978F25A004D9789 /* Animation.swift in Sources */,
+				B59272982983C6A600932ADD /* HomeCollectionViewCell.swift in Sources */,
 				B5BD578F2978FD6A004D9789 /* OAuthCode.swift in Sources */,
+				B592729B2983C9B600932ADD /* CompLayoutSections.swift in Sources */,
 				B5BD57922979348F004D9789 /* EncodeBase64.swift in Sources */,
 				B5BD5796297963BA004D9789 /* LoginView.swift in Sources */,
+				B56C3CA22984125F002BC147 /* HeaderCollectionReusableView.swift in Sources */,
 				B5BD579429795041004D9789 /* LoginViewModel.swift in Sources */,
+				B56C3CA429842ACF002BC147 /* FeaturedPlaylists.swift in Sources */,
 				B5BD57702978EB9E004D9789 /* SceneDelegate.swift in Sources */,
 				B5BD579A297964FE004D9789 /* HomeViewController.swift in Sources */,
 			);
