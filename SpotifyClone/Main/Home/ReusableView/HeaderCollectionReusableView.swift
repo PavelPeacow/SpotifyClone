@@ -7,11 +7,11 @@
 
 import UIKit
 
-class HeaderCollectionReusableView: UICollectionReusableView {
+final class HeaderCollectionReusableView: UICollectionReusableView {
         
     static let identifier = "HeaderCollectionReusableView"
     
-    lazy var sectionTitle: UILabel = {
+    private lazy var sectionTitle: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 18)
         return label

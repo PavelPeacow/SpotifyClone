@@ -29,19 +29,6 @@ struct CurrentUserAlbumsItem: Decodable {
     }
 }
 
-// MARK: - Artist
-struct Artist: Decodable {
-    let href: String
-    let id: String
-    let name: String
-    let type: String
-    let uri: String
-
-    enum CodingKeys: String, CodingKey {
-        case href, id, name, type, uri
-    }
-}
-
 // MARK: - Copyright
 struct Copyright: Decodable {
     let text: String

@@ -9,7 +9,7 @@ import UIKit
 
 final class LoginView: UIView {
     
-    lazy var stackView: UIStackView = {
+    private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [logoImage, loginTitle, loginBtn])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .center
@@ -19,7 +19,7 @@ final class LoginView: UIView {
         return stackView
     }()
     
-    lazy var logoImage: UIImageView = {
+    private lazy var logoImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "music.note.house.fill")?.withTintColor(.green, renderingMode: .alwaysOriginal)
         image.contentMode = .scaleAspectFit
@@ -27,7 +27,7 @@ final class LoginView: UIView {
         return image
     }()
     
-    lazy var loginTitle: UILabel = {
+    private lazy var loginTitle: UILabel = {
         let label = UILabel()
         label.text = "Millions of songs.\nFree on spotify."
         label.numberOfLines = 2

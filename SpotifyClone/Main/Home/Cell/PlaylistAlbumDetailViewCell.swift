@@ -7,11 +7,11 @@
 
 import UIKit
 
-class PlaylistAlbumDetailViewCell: UICollectionViewCell {
+final class PlaylistAlbumDetailViewCell: UICollectionViewCell {
     
     static let identifier = "AlbumCollectionViewCell"
     
-    lazy var contentStackView: UIStackView = {
+    private lazy var contentStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [trackImage, titlesStackView])
         stackView.spacing = 8
         stackView.axis = .horizontal
@@ -21,7 +21,7 @@ class PlaylistAlbumDetailViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    lazy var titlesStackView: UIStackView = {
+    private lazy var titlesStackView: UIStackView = {
        let stackView = UIStackView(arrangedSubviews: [trackTitle, groupTitle])
         stackView.axis = .vertical
         stackView.distribution = .fillProportionally
@@ -29,18 +29,18 @@ class PlaylistAlbumDetailViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    lazy var trackImage: UIImageViewURL = {
+    private lazy var trackImage: UIImageViewURL = {
         let image = UIImageViewURL()
         image.contentMode = .scaleAspectFit
         return image
     }()
     
-    lazy var trackTitle: UILabel = {
+    private lazy var trackTitle: UILabel = {
         let label = UILabel()
         return label
     }()
     
-    lazy var groupTitle: UILabel = {
+    private lazy var groupTitle: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .thin)
         label.textColor = .gray

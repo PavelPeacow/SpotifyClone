@@ -55,7 +55,7 @@ enum AuthEndpoint: Endpoint {
                 URLQueryItem(name: "client_id", value: APIConstant.clientID),
                 URLQueryItem(name: "response_type", value: "code"),
                 URLQueryItem(name: "redirect_uri", value: APIConstant.redirect_uri),
-                URLQueryItem(name: "scope", value: "user-library-read")
+                URLQueryItem(name: "scope", value: "user-library-read user-read-recently-played")
             ]
             
             return urlComponents(path: "/authorize", queryItems: queryItems)

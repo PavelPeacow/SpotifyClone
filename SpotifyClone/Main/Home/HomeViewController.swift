@@ -9,8 +9,8 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    let homeView = HomeView()
-    let viewModel = HomeViewModel()
+    private let homeView = HomeView()
+    private let viewModel = HomeViewModel()
     
     override func loadView() {
         super.loadView()
@@ -25,6 +25,7 @@ class HomeViewController: UIViewController {
         Task {
             await viewModel.getFeaturedPlaylists()
             await viewModel.getUserAlbums()
+            await viewModel.getRecentlyPlayed()
             homeView.collectionView.reloadData()
         }
         
@@ -39,23 +40,25 @@ class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: UICollectionViewDataSource {
-
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         Sections.allCases.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         let section = Sections.allCases[section]
-
+        
         switch section {
         case .featuredPlaylist:
-            return viewModel.featuredPlaylist?.playlists.items.count ?? 0
+            return viewModel.featuredPlaylist.count
         case .userAlbum:
-            return viewModel.userAlbums?.items.count ?? 0
+            return viewModel.userAlbums.count
+        case .recentlyPlayed:
+            return viewModel.recentlyPlayed.count
         }
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.identifier, for: indexPath) as! HomeCollectionViewCell
         
@@ -63,22 +66,26 @@ extension HomeViewController: UICollectionViewDataSource {
         
         switch section {
         case .featuredPlaylist:
-            let title = viewModel.featuredPlaylist?.playlists.items[indexPath.row].name ?? ""
-            let image = viewModel.featuredPlaylist?.playlists.items[indexPath.row].images.first?.url ?? ""
+            let title = viewModel.featuredPlaylist[indexPath.row].name
+            let image = viewModel.featuredPlaylist[indexPath.row].images.first?.url ?? ""
             cell.configure(with: title, imageURL: image)
         case .userAlbum:
-            let title = viewModel.userAlbums?.items[indexPath.row].album.name ?? ""
-            let image = viewModel.userAlbums?.items[indexPath.row].album.images?.first?.url ?? ""
+            let title = viewModel.userAlbums[indexPath.row].album.name ?? ""
+            let image = viewModel.userAlbums[indexPath.row].album.images?.first?.url ?? ""
             cell.configure(with: title, imageURL: image)
             break
+        case .recentlyPlayed:
+            let title = viewModel.recentlyPlayed[indexPath.row].track.album?.name ?? ""
+            let image = viewModel.recentlyPlayed[indexPath.row].track.album?.images?.first?.url ?? ""
+            cell.configure(with: title, imageURL: image)
         }
         
         return cell
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
-
+        
         let section = Sections.allCases[indexPath.section]
         
         switch section {
@@ -86,17 +93,19 @@ extension HomeViewController: UICollectionViewDataSource {
             header.setTitle(with: viewModel.featuredPlaylistSectionTitle)
         case .userAlbum:
             header.setTitle(with: section.title)
+        case .recentlyPlayed:
+            header.setTitle(with: section.title)
         }
         
         return header
     }
-
+    
 }
 
 extension HomeViewController: UICollectionViewDelegate {
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       
+        
         let cell = collectionView.cellForItem(at: indexPath)
         cell?.animateTap(scale: 0.95)
         
@@ -104,11 +113,11 @@ extension HomeViewController: UICollectionViewDelegate {
         case .featuredPlaylist:
             Task {
                 let vc = PlaylistAlbumDetailViewController()
-                let id = viewModel.featuredPlaylist?.playlists.items[indexPath.row].id ?? ""
+                let id = viewModel.featuredPlaylist[indexPath.row].id
                 let tracks = await viewModel.getPlaylistContent(playlistID: id)
                 
                 var tracksArray = [Track]()
-                tracks?.items.forEach {
+                tracks?.forEach {
                     tracksArray.append($0.track)
                 }
                 
@@ -116,14 +125,25 @@ extension HomeViewController: UICollectionViewDelegate {
                 navigationController?.pushViewController(vc, animated: true)
             }
         case .userAlbum:
+            let vc = PlaylistAlbumDetailViewController()
+            let album = viewModel.userAlbums[indexPath.row].album
+            let tracks = viewModel.userAlbums[indexPath.row].album.tracks?.items
+            vc.configure(tracks: tracks, album: album)
+            navigationController?.pushViewController(vc, animated: true)
+        case .recentlyPlayed:
             Task {
                 let vc = PlaylistAlbumDetailViewController()
-                let album = viewModel.userAlbums?.items[indexPath.row].album
-                let tracks = viewModel.userAlbums?.items[indexPath.row].album.tracks?.items
-                vc.configure(tracks: tracks, album: album)
+                
+                let id = viewModel.recentlyPlayed[indexPath.row].track.album?.id ?? ""
+                let albumContent = await viewModel.getAlbumContent(albumID: id)
+                
+                let album = viewModel.recentlyPlayed[indexPath.row].track.album
+                let albumTracks = albumContent?.tracks?.items
+                
+                vc.configure(tracks: albumTracks, album: album)
                 navigationController?.pushViewController(vc, animated: true)
             }
         }
     }
-
+    
 }

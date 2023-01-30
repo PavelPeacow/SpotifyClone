@@ -14,8 +14,8 @@ enum CellType {
 
 final class PlaylistAlbumDetailViewController: UIViewController {
     
-    let albumDetailView = PlaylistAlbumDetailView()
-    let viewModel = PlaylistAlbumDetailViewModel()
+    private let albumDetailView = PlaylistAlbumDetailView()
+    private let viewModel = PlaylistAlbumDetailViewModel()
     
     override func loadView() {
         super.loadView()

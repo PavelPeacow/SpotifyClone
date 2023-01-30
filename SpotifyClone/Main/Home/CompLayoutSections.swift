@@ -10,6 +10,7 @@ import UIKit
 enum Sections: CaseIterable {
     case featuredPlaylist
     case userAlbum
+    case recentlyPlayed
     
     var title: String {
         switch self {
@@ -17,6 +18,8 @@ enum Sections: CaseIterable {
             return "Featured"
         case .userAlbum:
             return "Your albums"
+        case .recentlyPlayed:
+            return "Recently Played"
         }
     }
 }
@@ -30,6 +33,8 @@ extension UICollectionViewCompositionalLayout {
             case .featuredPlaylist:
                 return .createHomeSection()
             case .userAlbum:
+                return .createSecondSection()
+            case .recentlyPlayed:
                 return .createSecondSection()
             }
         }
