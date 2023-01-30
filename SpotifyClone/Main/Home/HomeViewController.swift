@@ -25,7 +25,6 @@ class HomeViewController: UIViewController {
         Task {
             await viewModel.getFeaturedPlaylists()
             await viewModel.getUserAlbums()
-            await viewModel.getNewReleases()
             homeView.collectionView.reloadData()
         }
         
@@ -48,14 +47,12 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         let section = Sections.allCases[section]
-        
+
         switch section {
         case .featuredPlaylist:
-            return viewModel.featuredPlaylist.count
-        case .newReleases:
-            return viewModel.newReleases.count
+            return viewModel.featuredPlaylist?.playlists.items.count ?? 0
         case .userAlbum:
-            return viewModel.userAlbums.count
+            return viewModel.userAlbums?.items.count ?? 0
         }
     }
 
@@ -66,17 +63,14 @@ extension HomeViewController: UICollectionViewDataSource {
         
         switch section {
         case .featuredPlaylist:
-            let title = viewModel.featuredPlaylist[indexPath.row].name ?? ""
-            let image = viewModel.featuredPlaylist[indexPath.row].images.first?.url ?? ""
-            cell.configure(with: title, imageURL: image)
-        case .newReleases:
-            let title = viewModel.newReleases[indexPath.row].name ?? ""
-            let image = viewModel.newReleases[indexPath.row].images.first?.url ?? ""
+            let title = viewModel.featuredPlaylist?.playlists.items[indexPath.row].name ?? ""
+            let image = viewModel.featuredPlaylist?.playlists.items[indexPath.row].images.first?.url ?? ""
             cell.configure(with: title, imageURL: image)
         case .userAlbum:
-            let title = viewModel.userAlbums[indexPath.row].album.label
-            let image = viewModel.userAlbums[indexPath.row].album.images.first?.url ?? ""
+            let title = viewModel.userAlbums?.items[indexPath.row].album.name ?? ""
+            let image = viewModel.userAlbums?.items[indexPath.row].album.images?.first?.url ?? ""
             cell.configure(with: title, imageURL: image)
+            break
         }
         
         return cell
@@ -89,9 +83,7 @@ extension HomeViewController: UICollectionViewDataSource {
         
         switch section {
         case .featuredPlaylist:
-            header.setTitle(with: section.title)
-        case .newReleases:
-            header.setTitle(with: section.title)
+            header.setTitle(with: viewModel.featuredPlaylistSectionTitle)
         case .userAlbum:
             header.setTitle(with: section.title)
         }
@@ -104,7 +96,34 @@ extension HomeViewController: UICollectionViewDataSource {
 extension HomeViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
+       
+        let cell = collectionView.cellForItem(at: indexPath)
+        cell?.animateTap(scale: 0.95)
+        
+        switch Sections.allCases[indexPath.section] {
+        case .featuredPlaylist:
+            Task {
+                let vc = PlaylistAlbumDetailViewController()
+                let id = viewModel.featuredPlaylist?.playlists.items[indexPath.row].id ?? ""
+                let tracks = await viewModel.getPlaylistContent(playlistID: id)
+                
+                var tracksArray = [Track]()
+                tracks?.items.forEach {
+                    tracksArray.append($0.track)
+                }
+                
+                vc.configure(tracks: tracksArray)
+                navigationController?.pushViewController(vc, animated: true)
+            }
+        case .userAlbum:
+            Task {
+                let vc = PlaylistAlbumDetailViewController()
+                let album = viewModel.userAlbums?.items[indexPath.row].album
+                let tracks = viewModel.userAlbums?.items[indexPath.row].album.tracks?.items
+                vc.configure(tracks: tracks, album: album)
+                navigationController?.pushViewController(vc, animated: true)
+            }
+        }
     }
 
 }

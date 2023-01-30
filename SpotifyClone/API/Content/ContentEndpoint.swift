@@ -10,11 +10,13 @@ import Foundation
 enum ContentEndpoint: Endpoint {
     case getFeaturedPlaylists
     case getUserAlbum
-    case getNewReleases
+    
+    case getPlaylistContent(playlistID: String)
+    case getAlbumContent(albumID: String)
     
     var httpMethod: String {
         switch self {
-        case .getFeaturedPlaylists, .getUserAlbum, .getNewReleases:
+        case .getFeaturedPlaylists, .getUserAlbum, .getPlaylistContent, .getAlbumContent:
             return "GET"
         }
     }
@@ -41,11 +43,16 @@ enum ContentEndpoint: Endpoint {
                 URLQueryItem(name: "market", value: "PL")
             ]
             return urlComponents(path: "/v1/me/albums", queryItems: queryItems)
-        case .getNewReleases:
+        case .getPlaylistContent(let playlistID):
             let queryItems = [
                 URLQueryItem(name: "country", value: "PL")
             ]
-            return urlComponents(path: "/v1/browse/new-releases", queryItems: queryItems)
+            return urlComponents(path: "/v1/playlists/\(playlistID)/tracks", queryItems: queryItems)
+        case .getAlbumContent(albumID: let albumID):
+            let queryItems = [
+                URLQueryItem(name: "country", value: "PL")
+            ]
+            return urlComponents(path: "/v1/albums/\(albumID)/tracks", queryItems: queryItems)
         }
     }
             
@@ -54,7 +61,7 @@ enum ContentEndpoint: Endpoint {
         print(url)
      
         switch self {
-        case .getFeaturedPlaylists, .getUserAlbum, .getNewReleases:
+        case .getFeaturedPlaylists, .getUserAlbum, .getPlaylistContent, .getAlbumContent:
             request.httpMethod = httpMethod
             request.setValue("Bearer \(Token.token ?? "")", forHTTPHeaderField: "Authorization")
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")

@@ -9,24 +9,17 @@ import Foundation
 
 final class HomeViewModel {
     
-    var featuredPlaylist = [FeaturedPlaylist]()
-    var newReleases = [NewAlbumContent]()
-    var userAlbums = [UserAlbum]()
+    var featuredPlaylistSectionTitle = ""
+    
+    var featuredPlaylist: FeaturedPlaylists?
+    var userAlbums: CurrentUserAlbums?
     
     func getFeaturedPlaylists() async {
         do {
-            let result = try await APIManager().getSpotifyContent(type: FeaturedPlaylistsResponse.self, endpoint: ContentEndpoint.getFeaturedPlaylists)
-            featuredPlaylist = result.playlists.items
+            let result = try await APIManager().getSpotifyContent(type: FeaturedPlaylists.self, endpoint: ContentEndpoint.getFeaturedPlaylists)
+            featuredPlaylist = result
+            featuredPlaylistSectionTitle = result.message
             print(result)
-        } catch {
-            print(error)
-        }
-    }
-    
-    func getNewReleases() async {
-        do {
-            let result = try await APIManager().getSpotifyContent(type: NewAlbumReleaseResponse.self, endpoint: ContentEndpoint.getNewReleases)
-            newReleases = result.albums.items
         } catch {
             print(error)
         }
@@ -34,12 +27,22 @@ final class HomeViewModel {
     
     func getUserAlbums() async {
         do {
-            let result = try await APIManager().getSpotifyContent(type: UserAlbumItems.self, endpoint: ContentEndpoint.getUserAlbum)
-            userAlbums = result.items
+            let result = try await APIManager().getSpotifyContent(type: CurrentUserAlbums.self, endpoint: ContentEndpoint.getUserAlbum)
+            userAlbums = result
             print(result.items)
         } catch {
             print(error)
         }
     }
-    
+
+    func getPlaylistContent(playlistID: String) async -> PlaylistContent? {
+        do {
+            let result = try await APIManager().getSpotifyContent(type: PlaylistContent.self, endpoint: ContentEndpoint.getPlaylistContent(playlistID: playlistID))
+            return result
+        } catch {
+            print(error)
+            return nil
+        }
+    }
+
 }

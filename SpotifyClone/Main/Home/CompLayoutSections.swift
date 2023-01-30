@@ -9,15 +9,12 @@ import UIKit
 
 enum Sections: CaseIterable {
     case featuredPlaylist
-    case newReleases
     case userAlbum
     
     var title: String {
         switch self {
         case .featuredPlaylist:
             return "Featured"
-        case .newReleases:
-            return "New Releases"
         case .userAlbum:
             return "Your albums"
         }
@@ -32,8 +29,6 @@ extension UICollectionViewCompositionalLayout {
             switch Sections.allCases[sectionIndex] {
             case .featuredPlaylist:
                 return .createHomeSection()
-            case .newReleases:
-                return .createSecondSection()
             case .userAlbum:
                 return .createSecondSection()
             }
@@ -72,7 +67,7 @@ extension NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(200), heightDimension: .absolute(180))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(100), heightDimension: .absolute(100))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
