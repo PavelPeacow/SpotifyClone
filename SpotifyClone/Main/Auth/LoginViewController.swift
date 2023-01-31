@@ -35,10 +35,16 @@ extension LoginViewController {
     
     @objc func didTapLoginBtn(_ sender: UIButton) {
         sender.animateTap(scale: 0.95)
-        viewModel.showOAuthPrompt(in: self) { [weak self] in
-            DispatchQueue.main.async {
-                let vc = HomeViewController()
-                self?.navigationController?.pushViewController(vc, animated: true)
+        viewModel.showOAuthPrompt(in: self) { [weak self] result in
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    let vc = MainTabBarViewController()
+                    vc.modalPresentationStyle = .fullScreen
+                    self?.present(vc, animated: true)
+                }
+            case .failure:
+                print("There is a error!!!")
             }
         }
     }

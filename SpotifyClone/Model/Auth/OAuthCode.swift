@@ -5,6 +5,14 @@
 //  Created by Павел Кай on 19.01.2023.
 //
 
-struct OauthCode: Decodable {
-    let access_token: String
+struct OauthToken: Decodable {
+    let accessToken: String
+    let refreshToken: String?
+    let expiresIn: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case accessToken = "access_token"
+        case refreshToken = "refresh_token"
+        case expiresIn = "expires_in"
+    }
 }

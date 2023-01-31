@@ -67,7 +67,7 @@ enum ContentEndpoint: Endpoint {
         switch self {
         case .getFeaturedPlaylists, .getUserAlbum, .getPlaylistContent, .getAlbum, .getRecentlyPlayed:
             request.httpMethod = httpMethod
-            request.setValue("Bearer \(Token.token ?? "")", forHTTPHeaderField: "Authorization")
+            request.setValue("Bearer \(Token.shared.token ?? "")", forHTTPHeaderField: "Authorization")
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             return request
         }

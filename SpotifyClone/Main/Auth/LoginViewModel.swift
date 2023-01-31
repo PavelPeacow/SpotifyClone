@@ -8,9 +8,13 @@
 import AuthenticationServices
 import UIKit
 
+enum AouthError: Error {
+    case errorSignIn
+}
+
 final class LoginViewModel {
     
-    func showOAuthPrompt(in view: UIViewController, then onCompletion: @escaping () -> ()) {
+    func showOAuthPrompt(in view: UIViewController, then onCompletion: @escaping (Result<Void, AouthError>) -> ()) {
 
         guard let url = AuthEndpoint.getCode.url else { return }
         let callBackScheme = APIConstant.callbackScheme
@@ -21,9 +25,14 @@ final class LoginViewModel {
             
             Task {
                 if let code = query.first(where: {$0.name == "code" })?.value {
-                    _ = try? await APIManager().getSpotifyContent(type: OauthCode.self, endpoint: AuthEndpoint.exchangeCodeForToken(code: code))
-                    onCompletion()
+                    let result = try? await APIManager().getSpotifyContent(type: OauthToken.self, endpoint: AuthEndpoint.exchangeCodeForToken(code: code))
+                    Token.shared.cacheToken(with: result)
+                    Token.shared.isSignedIn = true
+                    onCompletion(.success(()))
+                } else {
+                    onCompletion(.failure(.errorSignIn))
                 }
+                
             }
             
         }

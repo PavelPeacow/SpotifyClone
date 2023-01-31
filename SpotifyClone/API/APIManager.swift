@@ -17,21 +17,6 @@ fileprivate enum APIError: Error {
     case cannotDecode
 }
 
-fileprivate enum UserDefaultKey: String {
-    case token = "token"
-}
-
-final class Token {
-    static var token: String? {
-        get {
-            UserDefaults.standard.string(forKey: UserDefaultKey.token.rawValue)
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: UserDefaultKey.token.rawValue)
-        }
-    }
-}
-
 final class APIManager: APIManagerProtocol {
     
     private let urlSession: URLSession
@@ -54,10 +39,6 @@ final class APIManager: APIManagerProtocol {
         }
         
         guard let result = try? jsonDecoder.decode(T.self, from: data) else { print(APIError.cannotDecode); throw APIError.cannotDecode}
-        
-        if result is OauthCode {
-            Token.token = (result as! OauthCode).access_token
-        }
         
         return result
     }

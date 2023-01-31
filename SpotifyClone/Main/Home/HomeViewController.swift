@@ -20,7 +20,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(Token.token ?? "no found")
+        print(Token.shared.token ?? "no found")
         
         Task {
             await viewModel.getFeaturedPlaylists()

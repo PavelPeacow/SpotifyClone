@@ -17,11 +17,12 @@ protocol Endpoint {
 enum AuthEndpoint: Endpoint {
     case getCode
     case exchangeCodeForToken(code: String)
+    case getRefreshToken(token: String)
     
     var httpMethod: String {
         switch self {
             
-        case .exchangeCodeForToken:
+        case .exchangeCodeForToken, .getRefreshToken:
             return "POST"
         case .getCode:
             return "GET"
@@ -60,6 +61,13 @@ enum AuthEndpoint: Endpoint {
             
             return urlComponents(path: "/authorize", queryItems: queryItems)
             
+        case .getRefreshToken(let token):
+            let queryItems = [
+                URLQueryItem(name: "grant_type", value: "refresh_token"),
+                URLQueryItem(name: "refresh_token", value: token)
+            ]
+            
+            return urlComponents(path: "/api/token", queryItems: queryItems)
         }
     }
     
@@ -68,7 +76,7 @@ enum AuthEndpoint: Endpoint {
         print(url)
         switch self {
             
-        case .exchangeCodeForToken:
+        case .exchangeCodeForToken, .getRefreshToken:
             let value = APIConstant.clientID + ":" + APIConstant.clientSecret
             request.httpMethod = httpMethod
             request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
