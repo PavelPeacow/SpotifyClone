@@ -32,6 +32,7 @@ final class PlaylistAlbumDetailViewCell: UICollectionViewCell {
     private lazy var trackImage: UIImageViewURL = {
         let image = UIImageViewURL()
         image.contentMode = .scaleAspectFit
+        image.isHidden = true
         return image
     }()
     
@@ -58,16 +59,13 @@ final class PlaylistAlbumDetailViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(imageURL: String?, trackTitle: String, groupTitle: String, cellType: CellType) {
-        guard let url = URL(string: imageURL ?? "") else { return }
-        switch cellType {
-        case .album:
-            trackImage.isHidden = true
-        case .playlist:
-            trackImage.loadImage(for: url)
+    func configure(imageURL: String? = nil, trackTitle: String, groupTitle: String) {
+        if let imageURL = imageURL {
+            guard let url = URL(string: imageURL) else { return }
             trackImage.isHidden = false
+            trackImage.loadImage(for: url)
         }
-        
+
         self.trackTitle.text = trackTitle
         self.groupTitle.text = groupTitle
     }

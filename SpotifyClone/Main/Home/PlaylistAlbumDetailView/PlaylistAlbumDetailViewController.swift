@@ -16,6 +16,8 @@ final class PlaylistAlbumDetailViewController: UIViewController {
     
     private let albumDetailView = PlaylistAlbumDetailView()
     private let viewModel = PlaylistAlbumDetailViewModel()
+        
+    private var type: CellType = .playlist
     
     override func loadView() {
         super.loadView()
@@ -24,7 +26,7 @@ final class PlaylistAlbumDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setDelegates()
     }
     
@@ -33,12 +35,32 @@ final class PlaylistAlbumDetailViewController: UIViewController {
         albumDetailView.collectionView.dataSource = self
     }
     
-    func configure(tracks: [Track]?, album: Album? = nil) {
+    func configure(tracks: [Track]?, album: Album? = nil, playlist: PlaylistItem? = nil) {
         guard let tracks = tracks else { return }
-        viewModel.tracks = tracks
-        viewModel.album = album
+        
+        if let _ = album {
+            type = .album
+        } else {
+            type = .playlist
+        }
+        
         print(viewModel.tracks)
+        
+        let coverURL: String
+      
+        switch type {
+        case .album:
+            viewModel.album = album
+            coverURL = viewModel.album?.images?.first?.url ?? ""
+        case .playlist:
+            viewModel.playlist = playlist
+            coverURL = viewModel.playlist?.images.first?.url ?? ""
+        }
+        
+        viewModel.tracks = tracks
         albumDetailView.collectionView.reloadData()
+
+        albumDetailView.floatingCover.setCover(with: coverURL)
     }
     
 }
@@ -53,22 +75,62 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlaylistAlbumDetailViewCell.identifier, for: indexPath) as! PlaylistAlbumDetailViewCell
         
         let track = viewModel.tracks[indexPath.row]
-        var cellType: CellType = .playlist
-
-        let title = track.name ?? ""
-        var grouptTitle = track.album?.artists?.first?.name ?? ""
-        var image = track.album?.images?.first?.url ?? ""
         
-        if let album = viewModel.album {
-            image = album.images?.first?.url ?? ""
-            grouptTitle = album.artists?.first?.name ?? ""
-            cellType = .album
+        let title: String
+        let grouptTitle: String
+        let image: String?
+        
+        switch type {
+            
+        case .album:
+            title = track.name ?? ""
+            grouptTitle = viewModel.album?.artists?.first?.name ?? ""
+            image = nil
+        case .playlist:
+            title = track.name ?? ""
+            grouptTitle = track.artists?.first?.name ?? ""
+            image = track.album?.images?.first?.url ?? ""
         }
-        
-        cell.configure(imageURL: image, trackTitle: title, groupTitle: grouptTitle, cellType: cellType)
+
+        cell.configure(imageURL: image, trackTitle: title, groupTitle: grouptTitle)
         return cell
     }
-        
+    
+        func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PlaylistAlbumHeaderCollectionReusableView.identifier, for: indexPath) as! PlaylistAlbumHeaderCollectionReusableView
+            
+            let title: String
+            let date: String
+            let itemType: String
+    
+            switch type {
+                
+            case .album:
+                title = viewModel.album?.name ?? ""
+                date = viewModel.album?.releaseDate ?? ""
+                itemType = viewModel.album?.type ?? ""
+                header.setCover(title: title, typeAndDate: "\(itemType.capitalized) - \(date.prefix(4))")
+            case .playlist:
+                title = viewModel.playlist?.description ?? ""
+                date = viewModel.playlist?.owner.displayName ?? ""
+                itemType = viewModel.playlist?.type ?? ""
+                header.setCover(title: title, typeAndDate: "\(itemType.capitalized) - \(date)")
+            }
+            
+            print(title)
+            
+    
+            return header
+        }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        CGSize(width: view.frame.width, height: 350)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        albumDetailView.floatingCover.scrollViewDidScroll(scrollView: scrollView)
+    }
+    
 }
 
 extension PlaylistAlbumDetailViewController: UICollectionViewDelegateFlowLayout {

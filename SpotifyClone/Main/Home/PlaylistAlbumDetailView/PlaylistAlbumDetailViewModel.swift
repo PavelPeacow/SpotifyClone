@@ -10,6 +10,7 @@ import Foundation
 final class PlaylistAlbumDetailViewModel {
     
     var tracks = [Track]()
+    var playlist: PlaylistItem?
     var album: Album?
     
 }

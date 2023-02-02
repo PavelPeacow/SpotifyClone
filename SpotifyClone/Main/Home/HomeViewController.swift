@@ -113,7 +113,8 @@ extension HomeViewController: UICollectionViewDelegate {
         case .featuredPlaylist:
             Task {
                 let vc = PlaylistAlbumDetailViewController()
-                let id = viewModel.featuredPlaylist[indexPath.row].id
+                let playlist = viewModel.featuredPlaylist[indexPath.row]
+                let id = playlist.id
                 let tracks = await viewModel.getPlaylistContent(playlistID: id)
                 
                 var tracksArray = [Track]()
@@ -121,7 +122,7 @@ extension HomeViewController: UICollectionViewDelegate {
                     tracksArray.append($0.track)
                 }
                 
-                vc.configure(tracks: tracksArray)
+                vc.configure(tracks: tracksArray, playlist: playlist)
                 navigationController?.pushViewController(vc, animated: true)
             }
         case .userAlbum:
