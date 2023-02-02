@@ -12,13 +12,16 @@ class FloatingCover: UIView {
     private var coverHeight: NSLayoutConstraint?
     private var coverWidth: NSLayoutConstraint?
     
-    private var heightConstant: CGFloat = 250
-    private var widthConstant: CGFloat = 250
+    private var heightConstant: CGFloat = 200
+    private var widthConstant: CGFloat = 200
     
-    private lazy var cover: UIImageViewURL = {
+    lazy var cover: UIImageViewURL = {
         let image = UIImageViewURL()
         image.contentMode = .scaleToFill
         image.translatesAutoresizingMaskIntoConstraints = false
+        image.layer.shadowRadius = 25
+        image.layer.shadowOffset = CGSize(width: 0, height: 10)
+        image.layer.shadowOpacity = 1
         return image
     }()
     
@@ -32,9 +35,9 @@ class FloatingCover: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setCover(with imageURL: String) {
+    func setCover(with imageURL: String, onCompleteion: (() -> ())? = nil) {
         guard let url = URL(string: imageURL) else { return }
-        cover.loadImage(for: url)
+        cover.loadImage(for: url, onCompletion: onCompleteion)
     }
     
 }
@@ -48,6 +51,13 @@ extension FloatingCover {
               let heightConstraint = coverHeight else { return }
         
         let normalizedScroll = y / 2
+        
+        if normalizedScroll > 200 {
+            isHidden = true
+            return
+        } else {
+            isHidden = false
+        }
         
         widthConstraint.constant = heightConstant - normalizedScroll
         heightConstraint.constant = widthConstant - normalizedScroll

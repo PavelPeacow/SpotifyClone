@@ -14,7 +14,7 @@ final class UIImageViewURL: UIImageView {
     var task: URLSessionDataTask!
     let loadingView = UIActivityIndicatorView(style: .large)
     
-    func loadImage(for url: URL) {
+    func loadImage(for url: URL, onCompletion: (() -> ())? = nil) {
         image = nil
         
         setLoadingView()
@@ -26,6 +26,9 @@ final class UIImageViewURL: UIImageView {
         if let imageCache = imageCache.object(forKey: url.absoluteURL as AnyObject) as? UIImage {
             self.image = imageCache
             removeLoadingView()
+            if let onCompletion  = onCompletion {
+                onCompletion()
+            }
             return
         }
         
@@ -40,6 +43,9 @@ final class UIImageViewURL: UIImageView {
             DispatchQueue.main.async {
                 self.image = image
                 self.removeLoadingView()
+                if let onCompletion  = onCompletion {
+                    onCompletion()
+                }
             }
             
         }

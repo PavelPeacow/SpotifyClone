@@ -16,7 +16,7 @@ final class PlaylistAlbumDetailViewController: UIViewController {
     
     private let albumDetailView = PlaylistAlbumDetailView()
     private let viewModel = PlaylistAlbumDetailViewModel()
-        
+    
     private var type: CellType = .playlist
     
     override func loadView() {
@@ -43,11 +43,10 @@ final class PlaylistAlbumDetailViewController: UIViewController {
         } else {
             type = .playlist
         }
-        
         print(viewModel.tracks)
         
         let coverURL: String
-      
+        
         switch type {
         case .album:
             viewModel.album = album
@@ -59,8 +58,27 @@ final class PlaylistAlbumDetailViewController: UIViewController {
         
         viewModel.tracks = tracks
         albumDetailView.collectionView.reloadData()
-
-        albumDetailView.floatingCover.setCover(with: coverURL)
+        
+        albumDetailView.floatingCover.setCover(with: coverURL) { [weak self] in
+            self?.setGradientColorsAndBackground()
+        }
+        
+    }
+    
+    private func setGradientColorsAndBackground() {
+        let averageColor = albumDetailView.floatingCover.cover.image?.averageColor ?? .green
+        albumDetailView.gradient.colors = [
+            averageColor.cgColor,
+            UIColor.black.cgColor,
+        ]
+        albumDetailView.backgroundColor = averageColor
+        albumDetailView.container.backgroundColor = averageColor
+    }
+    
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        albumDetailView.gradient.frame = albumDetailView.floatingCover.bounds
     }
     
 }
@@ -91,37 +109,36 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
             grouptTitle = track.artists?.first?.name ?? ""
             image = track.album?.images?.first?.url ?? ""
         }
-
+        
         cell.configure(imageURL: image, trackTitle: title, groupTitle: grouptTitle)
         return cell
     }
     
-        func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PlaylistAlbumHeaderCollectionReusableView.identifier, for: indexPath) as! PlaylistAlbumHeaderCollectionReusableView
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PlaylistAlbumHeaderCollectionReusableView.identifier, for: indexPath) as! PlaylistAlbumHeaderCollectionReusableView
+        
+        let title: String
+        let date: String
+        let itemType: String
+        
+        switch type {
             
-            let title: String
-            let date: String
-            let itemType: String
-    
-            switch type {
-                
-            case .album:
-                title = viewModel.album?.name ?? ""
-                date = viewModel.album?.releaseDate ?? ""
-                itemType = viewModel.album?.type ?? ""
-                header.setCover(title: title, typeAndDate: "\(itemType.capitalized) - \(date.prefix(4))")
-            case .playlist:
-                title = viewModel.playlist?.description ?? ""
-                date = viewModel.playlist?.owner.displayName ?? ""
-                itemType = viewModel.playlist?.type ?? ""
-                header.setCover(title: title, typeAndDate: "\(itemType.capitalized) - \(date)")
-            }
-            
-            print(title)
-            
-    
-            return header
+        case .album:
+            title = viewModel.album?.name ?? ""
+            date = viewModel.album?.releaseDate ?? ""
+            itemType = viewModel.album?.type ?? ""
+            header.setCover(title: title, typeAndDate: "\(itemType.capitalized) - \(date.prefix(4))")
+        case .playlist:
+            title = viewModel.playlist?.description ?? ""
+            date = viewModel.playlist?.owner.displayName ?? ""
+            itemType = viewModel.playlist?.type ?? ""
+            header.setCover(title: title, typeAndDate: "\(itemType.capitalized) - \(date)")
         }
+        
+        print(title)
+        
+        return header
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         CGSize(width: view.frame.width, height: 350)

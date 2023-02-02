@@ -16,6 +16,21 @@ final class PlaylistAlbumDetailView: UIView {
         return cover
     }()
     
+    lazy var gradient: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.type = .axial
+        gradient.zPosition = -2
+        gradient.locations = [0, 1]
+        return gradient
+    }()
+    
+    lazy var container: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.zPosition = -3
+        return view
+    }()
+    
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         
@@ -32,6 +47,9 @@ final class PlaylistAlbumDetailView: UIView {
         
         addSubview(collectionView)
         collectionView.addSubview(floatingCover)
+        collectionView.layer.addSublayer(gradient)
+        
+        floatingCover.addSubview(container)
         setConstraints()
     }
     
@@ -45,13 +63,19 @@ extension PlaylistAlbumDetailView {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: topAnchor),
+            collectionView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             floatingCover.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             floatingCover.centerXAnchor.constraint(equalTo: centerXAnchor),
+            floatingCover.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1),
+            floatingCover.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.45),
+            
+            container.bottomAnchor.constraint(equalTo: collectionView.topAnchor),
+            container.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1),
+            container.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 1),
         ])
     }
 }

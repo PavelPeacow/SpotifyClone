@@ -18,6 +18,7 @@
 		B56C279229890DFD0048F8D7 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56C279129890DFD0048F8D7 /* MainTabBarViewController.swift */; };
 		B56C2795298926E00048F8D7 /* PlaylistAlbumHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56C2794298926E00048F8D7 /* PlaylistAlbumHeaderCollectionReusableView.swift */; };
 		B56C2797298BBE4D0048F8D7 /* FloatingCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56C2796298BBE4D0048F8D7 /* FloatingCover.swift */; };
+		B56C279A298BF7CE0048F8D7 /* UIIMage+AverageColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56C2799298BF7CE0048F8D7 /* UIIMage+AverageColor.swift */; };
 		B56C3CA22984125F002BC147 /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56C3CA12984125F002BC147 /* HeaderCollectionReusableView.swift */; };
 		B56C3CA429842ACF002BC147 /* FeaturedPlaylists.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56C3CA329842ACF002BC147 /* FeaturedPlaylists.swift */; };
 		B56C3CA62984CBF4002BC147 /* UIImageViewURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56C3CA52984CBF4002BC147 /* UIImageViewURL.swift */; };
@@ -60,6 +61,7 @@
 		B56C279129890DFD0048F8D7 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		B56C2794298926E00048F8D7 /* PlaylistAlbumHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistAlbumHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		B56C2796298BBE4D0048F8D7 /* FloatingCover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingCover.swift; sourceTree = "<group>"; };
+		B56C2799298BF7CE0048F8D7 /* UIIMage+AverageColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIIMage+AverageColor.swift"; sourceTree = "<group>"; };
 		B56C3CA12984125F002BC147 /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		B56C3CA329842ACF002BC147 /* FeaturedPlaylists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedPlaylists.swift; sourceTree = "<group>"; };
 		B56C3CA52984CBF4002BC147 /* UIImageViewURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewURL.swift; sourceTree = "<group>"; };
@@ -160,6 +162,14 @@
 			path = CommonViews;
 			sourceTree = "<group>";
 		};
+		B56C279B298BF7F80048F8D7 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				B56C2799298BF7CE0048F8D7 /* UIIMage+AverageColor.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		B56C3CA72984CBF8002BC147 /* Subclass */ = {
 			isa = PBXGroup;
 			children = (
@@ -234,6 +244,7 @@
 				B5BD57812978EBE3004D9789 /* App */,
 				B5BD57862978ED5A004D9789 /* API */,
 				B5BD57892978F25E004D9789 /* Helper */,
+				B56C279B298BF7F80048F8D7 /* Extension */,
 				B56C3CA72984CBF8002BC147 /* Subclass */,
 				B5BD57832978EC02004D9789 /* Main */,
 				B5BD57902978FD6D004D9789 /* Model */,
@@ -437,6 +448,7 @@
 				B56C3CB92984EA4A002BC147 /* PlaylistAlbumDetailViewModel.swift in Sources */,
 				B56C3CA429842ACF002BC147 /* FeaturedPlaylists.swift in Sources */,
 				B56C2785298780560048F8D7 /* Track.swift in Sources */,
+				B56C279A298BF7CE0048F8D7 /* UIIMage+AverageColor.swift in Sources */,
 				B5BD57702978EB9E004D9789 /* SceneDelegate.swift in Sources */,
 				B5BD579A297964FE004D9789 /* HomeViewController.swift in Sources */,
 				B56C278C2987A2700048F8D7 /* Artist.swift in Sources */,

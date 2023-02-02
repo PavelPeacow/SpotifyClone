@@ -23,7 +23,7 @@ class PlaylistAlbumHeaderCollectionReusableView: UICollectionReusableView {
     
     private lazy var title: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18)
+        label.font = .systemFont(ofSize: 22, weight: .bold)
         label.adjustsFontSizeToFitWidth = true
         label.numberOfLines = 2
         return label
@@ -31,7 +31,7 @@ class PlaylistAlbumHeaderCollectionReusableView: UICollectionReusableView {
     
     private lazy var typeAndDate: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 15)
+        label.font = .systemFont(ofSize: 16)
         label.textColor = .gray
         return label
     }()
@@ -57,7 +57,7 @@ extension PlaylistAlbumHeaderCollectionReusableView {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
-            stackViewDescription.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            stackViewDescription.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 110),
             stackViewDescription.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
             stackViewDescription.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
         ])
