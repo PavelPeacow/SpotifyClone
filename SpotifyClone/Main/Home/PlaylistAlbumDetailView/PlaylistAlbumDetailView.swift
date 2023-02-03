@@ -12,6 +12,7 @@ final class PlaylistAlbumDetailView: UIView {
     lazy var floatingCover: FloatingCover = {
         let cover = FloatingCover()
         cover.translatesAutoresizingMaskIntoConstraints = false
+        cover.isUserInteractionEnabled = false
         cover.layer.zPosition = -1
         return cover
     }()

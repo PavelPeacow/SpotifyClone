@@ -160,4 +160,12 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDelegateFlowLayout 
 
 extension PlaylistAlbumDetailViewController: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let song = viewModel.tracks[indexPath.row]
+        let id = song.id ?? ""
+        print(id)
+        PlayerViewController.shared.startPlaySong(song: id)
+        present(PlayerViewController.shared, animated: true)
+    }
+    
 }

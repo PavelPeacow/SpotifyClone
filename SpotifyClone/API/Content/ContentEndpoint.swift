@@ -16,9 +16,11 @@ enum ContentEndpoint: Endpoint {
     
     case getRecentlyPlayed
     
+    case getTrack(trackID: String)
+    
     var httpMethod: String {
         switch self {
-        case .getFeaturedPlaylists, .getUserAlbum, .getPlaylistContent, .getAlbum, .getRecentlyPlayed:
+        case .getFeaturedPlaylists, .getUserAlbum, .getPlaylistContent, .getAlbum, .getRecentlyPlayed, .getTrack:
             return "GET"
         }
     }
@@ -57,6 +59,9 @@ enum ContentEndpoint: Endpoint {
             return urlComponents(path: "/v1/albums/\(albumID)", queryItems: queryItems)
         case .getRecentlyPlayed:
             return urlComponents(path: "/v1/me/player/recently-played", queryItems: nil)
+            
+        case .getTrack(let trackID):
+            return urlComponents(path: "/v1/tracks/\(trackID)", queryItems: nil)
         }
     }
             
@@ -65,7 +70,7 @@ enum ContentEndpoint: Endpoint {
         print(url)
      
         switch self {
-        case .getFeaturedPlaylists, .getUserAlbum, .getPlaylistContent, .getAlbum, .getRecentlyPlayed:
+        case .getFeaturedPlaylists, .getUserAlbum, .getPlaylistContent, .getAlbum, .getRecentlyPlayed, .getTrack:
             request.httpMethod = httpMethod
             request.setValue("Bearer \(Token.shared.token ?? "")", forHTTPHeaderField: "Authorization")
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
