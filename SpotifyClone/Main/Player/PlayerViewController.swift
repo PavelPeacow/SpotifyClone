@@ -33,6 +33,10 @@ final class PlayerViewController: UIViewController {
         addTargets()
     }
     
+    override func viewDidLayoutSubviews() {
+        playerView.gradient.frame = playerView.bounds
+    }
+    
     private func addTargets() {
         playerView.timeElapsedSlider.addTarget(self, action: #selector(didSlideSlider(_:)), for: .valueChanged)
         playerView.leftControlBtn.addTarget(self, action: #selector(didTapPrevousSongBtn), for: .touchUpInside)
@@ -46,12 +50,18 @@ final class PlayerViewController: UIViewController {
             isPlaying = true
             guard let url = URL(string: viewModel.track?.album?.images?.first?.url ?? "") else { return }
             
-            playerView.cover.loadImage(for: url)
+            playerView.cover.loadImage(for: url) { [weak self] in
+                let averageColor = self?.playerView.cover.image?.averageColor ?? .green
+                self?.playerView.gradient.colors = [
+                    averageColor.cgColor,
+                    UIColor.black.cgColor
+                ]
+            }
             playerView.songTitle.text = viewModel.track?.name
             playerView.groupTitle.text = viewModel.track?.artists?.first?.name
             
             guard let url = URL(string: viewModel.track?.previewURL ?? "") else { return }
-
+            
             DispatchQueue.global().async {
                 if let data = try? Data(contentsOf: url) {
                     DispatchQueue.main.async {
@@ -72,7 +82,7 @@ final class PlayerViewController: UIViewController {
         }
         
     }
-
+    
 }
 
 extension PlayerViewController {

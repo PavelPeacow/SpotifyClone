@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class FloatingCover: UIView {
 
     private var coverHeight: NSLayoutConstraint?
@@ -19,9 +20,7 @@ class FloatingCover: UIView {
         let image = UIImageViewURL()
         image.contentMode = .scaleToFill
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.layer.shadowRadius = 25
-        image.layer.shadowOffset = CGSize(width: 0, height: 10)
-        image.layer.shadowOpacity = 1
+        image.setShadows()
         return image
     }()
     

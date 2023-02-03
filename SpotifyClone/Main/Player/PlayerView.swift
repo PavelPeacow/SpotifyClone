@@ -9,9 +9,18 @@ import UIKit
 
 final class PlayerView: UIView {
     
+    lazy var gradient: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.type = .axial
+        gradient.zPosition = -1
+        gradient.locations = [0, 0.75]
+        return gradient
+    }()
+    
     lazy var cover: UIImageViewURL = {
         let image = UIImageViewURL()
         image.translatesAutoresizingMaskIntoConstraints = false
+        image.setShadows()
         return image
     }()
     
@@ -29,6 +38,13 @@ final class PlayerView: UIView {
         label.textColor = .gray
         label.text = "Architects"
         return label
+    }()
+    
+    lazy var likeSong: UIButton = {
+        let button = UIButton()
+        button.setSFImage(systemName: "heart", size: 35, color: .white)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     lazy var timeElapsedSlider: UISlider = {
@@ -88,9 +104,12 @@ final class PlayerView: UIView {
         
         backgroundColor = .black
         
+        layer.addSublayer(gradient)
+        
         addSubview(cover)
         addSubview(songTitle)
         addSubview(groupTitle)
+        addSubview(likeSong)
         
         addSubview(timeElapsedSlider)
         addSubview(timeElapsed)
@@ -121,6 +140,9 @@ extension PlayerView {
             
             groupTitle.topAnchor.constraint(equalTo: songTitle.bottomAnchor),
             groupTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            
+            likeSong.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+            likeSong.topAnchor.constraint(equalTo: cover.bottomAnchor, constant: 20),
             
             timeElapsedSlider.topAnchor.constraint(equalTo: groupTitle.bottomAnchor, constant: 20),
             timeElapsedSlider.centerXAnchor.constraint(equalTo: centerXAnchor),

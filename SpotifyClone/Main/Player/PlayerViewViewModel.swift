@@ -11,10 +11,6 @@ final class PlayerViewViewModel {
     
     var track: Track?
     
-    var didTapPreviousSong = false
-    var didTapPauseSong = false
-    var didTapNextSong = false
-    
     func getFormattedTime(timeInterval: TimeInterval) -> String {
         let mins = timeInterval / 60
         let secs = timeInterval.truncatingRemainder(dividingBy: 60)
@@ -26,18 +22,6 @@ final class PlayerViewViewModel {
             return ""
         }
         return "\(minsStr):\(secsStr)"
-    }
-    
-    func pauseSong() {
-        
-    }
-    
-    func nextSong() {
-        
-    }
-    
-    func previousSong() {
-        
     }
     
     func getTrack(with trackID: String) async {
