@@ -13,12 +13,7 @@ final class PlayerViewController: UIViewController {
     static let shared = PlayerViewController()
     
     private let playerView = PlayerView()
-    private let viewModel = PlayerViewViewModel()
-    
-    private var player: AVAudioPlayer?
-    
-    var isPlaying = true
-    var timer: CADisplayLink?
+    private var viewModel = PlayerViewModel()
     
     override func loadView() {
         super.loadView()
@@ -28,13 +23,16 @@ final class PlayerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        timer = CADisplayLink(target: self, selector: #selector(updateWhilePlaying))
-        timer?.add(to: .current, forMode: .default)
         addTargets()
+        setDelegates()
     }
     
     override func viewDidLayoutSubviews() {
         playerView.gradient.frame = playerView.bounds
+    }
+    
+    private func setDelegates() {
+        viewModel.delegate = self
     }
     
     private func addTargets() {
@@ -47,7 +45,6 @@ final class PlayerViewController: UIViewController {
     func startPlaySong(song: String) {
         Task { [weak self] in
             await viewModel.getTrack(with: song)
-            isPlaying = true
             guard let url = URL(string: viewModel.track?.album?.images?.first?.url ?? "") else { return }
             
             playerView.cover.loadImage(for: url) { [weak self] in
@@ -60,43 +57,39 @@ final class PlayerViewController: UIViewController {
             playerView.songTitle.text = viewModel.track?.name
             playerView.groupTitle.text = viewModel.track?.artists?.first?.name
             
-            guard let url = URL(string: viewModel.track?.previewURL ?? "") else { return }
-            
-            DispatchQueue.global().async {
-                if let data = try? Data(contentsOf: url) {
-                    DispatchQueue.main.async {
-                        do {
-                            self?.player = try AVAudioPlayer(data: data)
-                            self?.player?.volume = 0.1
-                            self?.player?.play()
-                            self?.playerView.timeElapsedSlider.maximumValue = Float(self?.player?.duration ?? 0.0)
-                        } catch {
-                            print(error.localizedDescription)
-                        }
-                    }
-                    
-                }
-            }
-            
-            
+            viewModel.playTrack(url: viewModel.track?.previewURL ?? "")
         }
         
     }
     
 }
 
-extension PlayerViewController {
-    
-    @objc func updateWhilePlaying() {
-        let remainingTimeInSeconds = player?.duration ?? 0.0 - (player?.currentTime ?? 0.0)
-        playerView.timeElapsed.text = viewModel.getFormattedTime(timeInterval: player?.currentTime ?? 0.0)
-        playerView.timeLeft.text = viewModel.getFormattedTime(timeInterval: remainingTimeInSeconds)
-        playerView.timeElapsedSlider.value = Float(self.player?.currentTime ?? 0.0)
+extension PlayerViewController: PlayerViewViewModelDelegate {
+
+    func didStartPlayTrack(_ duration: TimeInterval) {
+        playerView.timeElapsedSlider.maximumValue = Float(duration)
     }
     
+    func updateWhilePlaying(_ timeElapsed: String, _ timeLeft: String, _ timeElapsedSlider: Float) {
+        playerView.timeElapsed.text = timeElapsed
+        playerView.timeLeft.text = timeLeft
+        playerView.timeElapsedSlider.value = timeElapsedSlider
+    }
+    
+    func isPlayingTrack(_ isPlaying: Bool) {
+        if isPlaying {
+            playerView.pauseControlBtn.setSFImage(systemName: "pause.circle.fill", size: 50, color: .white)
+        } else {
+            playerView.pauseControlBtn.setSFImage(systemName: "play.circle.fill", size: 50, color: .white)
+        }
+    }
+}
+
+extension PlayerViewController {
+
     @objc func didSlideSlider(_ sender: UISlider) {
-        let value = sender.value
-        player?.currentTime = Float64(value)
+        let value = Double(sender.value)
+        viewModel.didSlide(by: value)
     }
     
     @objc func didTapPrevousSongBtn() {
@@ -104,14 +97,7 @@ extension PlayerViewController {
     }
     
     @objc func didTapPauseBtn() {
-        if isPlaying {
-            player?.stop()
-            playerView.pauseControlBtn.setSFImage(systemName: "play.circle.fill", size: 50, color: .white)
-        } else {
-            player?.play()
-            playerView.pauseControlBtn.setSFImage(systemName: "pause.circle.fill", size: 50, color: .white)
-        }
-        isPlaying.toggle()
+        viewModel.didTapPause()
     }
     
     @objc func didTapNextSongBtn() {

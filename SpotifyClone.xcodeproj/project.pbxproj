@@ -31,7 +31,7 @@
 		B56C3CB92984EA4A002BC147 /* PlaylistAlbumDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56C3CB82984EA4A002BC147 /* PlaylistAlbumDetailViewModel.swift */; };
 		B57DA9CF298D18BC006C892B /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DA9CC298D18BC006C892B /* PlayerViewController.swift */; };
 		B57DA9D0298D18BC006C892B /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DA9CD298D18BC006C892B /* PlayerView.swift */; };
-		B57DA9D1298D18BC006C892B /* PlayerViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DA9CE298D18BC006C892B /* PlayerViewViewModel.swift */; };
+		B57DA9D1298D18BC006C892B /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DA9CE298D18BC006C892B /* PlayerViewModel.swift */; };
 		B57DA9D3298D3092006C892B /* UIButton+SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DA9D2298D3092006C892B /* UIButton+SFSymbol.swift */; };
 		B57DA9D5298D3813006C892B /* UIView+Shadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DA9D4298D3813006C892B /* UIView+Shadows.swift */; };
 		B59272962983C60400932ADD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59272952983C60400932ADD /* HomeView.swift */; };
@@ -79,7 +79,7 @@
 		B56C3CB82984EA4A002BC147 /* PlaylistAlbumDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistAlbumDetailViewModel.swift; sourceTree = "<group>"; };
 		B57DA9CC298D18BC006C892B /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		B57DA9CD298D18BC006C892B /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
-		B57DA9CE298D18BC006C892B /* PlayerViewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewViewModel.swift; sourceTree = "<group>"; };
+		B57DA9CE298D18BC006C892B /* PlayerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
 		B57DA9D2298D3092006C892B /* UIButton+SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+SFSymbol.swift"; sourceTree = "<group>"; };
 		B57DA9D4298D3813006C892B /* UIView+Shadows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shadows.swift"; sourceTree = "<group>"; };
 		B59272952983C60400932ADD /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -230,7 +230,7 @@
 			children = (
 				B57DA9CC298D18BC006C892B /* PlayerViewController.swift */,
 				B57DA9CD298D18BC006C892B /* PlayerView.swift */,
-				B57DA9CE298D18BC006C892B /* PlayerViewViewModel.swift */,
+				B57DA9CE298D18BC006C892B /* PlayerViewModel.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -448,7 +448,7 @@
 				B592729D2983D99000932ADD /* HomeViewModel.swift in Sources */,
 				B5BD57722978EB9E004D9789 /* LoginViewController.swift in Sources */,
 				B5BD578B2978F647004D9789 /* APIConstant.swift in Sources */,
-				B57DA9D1298D18BC006C892B /* PlayerViewViewModel.swift in Sources */,
+				B57DA9D1298D18BC006C892B /* PlayerViewModel.swift in Sources */,
 				B56C27872987808C0048F8D7 /* Album.swift in Sources */,
 				B56C3CB52984E80B002BC147 /* PlaylistAlbumDetailView.swift in Sources */,
 				B56C279229890DFD0048F8D7 /* MainTabBarViewController.swift in Sources */,
