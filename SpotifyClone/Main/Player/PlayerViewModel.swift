@@ -19,8 +19,15 @@ final class PlayerViewModel {
     
     private var player = AVAudioPlayer()
     
-    private var isPlaying = false
+    private var isPlaying = false {
+        didSet {
+            delegate?.isPlayingTrack(isPlaying)
+        }
+    }
     
+    var currentTrackIndex = 0
+    
+    var tracksID = [String]()
     var track: Track?
     
     var delegate: PlayerViewViewModelDelegate?
@@ -38,6 +45,28 @@ final class PlayerViewModel {
         let timeLeft = getFormattedTime(timeInterval: remainingTimeInSeconds)
         let timeElapsedSlider = Float(player.currentTime)
         delegate?.updateWhilePlaying(timeElapsed, timeLeft, timeElapsedSlider)
+    }
+    
+    func getNextSong() -> String {
+        currentTrackIndex += 1
+        
+        if currentTrackIndex > tracksID.count - 1 {
+            currentTrackIndex = 0
+        }
+
+        let nextTrack = tracksID[currentTrackIndex]
+        return nextTrack
+    }
+    
+    func getPrevoiusSong() -> String {
+        currentTrackIndex -= 1
+        
+        if currentTrackIndex < 0 {
+            currentTrackIndex = tracksID.count - 1
+        }
+        
+        let previousTrack = tracksID[currentTrackIndex]
+        return previousTrack
     }
     
     func didTapPause() {
@@ -85,7 +114,7 @@ final class PlayerViewModel {
                 DispatchQueue.main.async {
                     do {
                         self.player = try AVAudioPlayer(data: data)
-                        self.player.volume = 0.3
+                        self.player.volume = 0.15
                         self.player.play()
                         self.isPlaying = true
                         self.delegate?.didStartPlayTrack(self.player.duration)

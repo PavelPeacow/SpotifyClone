@@ -42,6 +42,12 @@ final class PlayerViewController: UIViewController {
         playerView.rightControlBtn.addTarget(self, action: #selector(didTapNextSongBtn), for: .touchUpInside)
     }
     
+    func startPlaySongs(songs: [String], at posititon: Int) {
+        viewModel.tracksID = songs
+        viewModel.currentTrackIndex = posititon
+        startPlaySong(song: songs[posititon])
+    }
+    
     func startPlaySong(song: String) {
         Task { [weak self] in
             await viewModel.getTrack(with: song)
@@ -93,7 +99,8 @@ extension PlayerViewController {
     }
     
     @objc func didTapPrevousSongBtn() {
-        
+        let previousSong = viewModel.getPrevoiusSong()
+        startPlaySong(song: previousSong)
     }
     
     @objc func didTapPauseBtn() {
@@ -101,7 +108,8 @@ extension PlayerViewController {
     }
     
     @objc func didTapNextSongBtn() {
-        
+        let nextSong = viewModel.getNextSong()
+        startPlaySong(song: nextSong)
     }
     
 }

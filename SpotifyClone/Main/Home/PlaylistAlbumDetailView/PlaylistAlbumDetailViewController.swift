@@ -162,9 +162,13 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let song = viewModel.tracks[indexPath.row]
-        let id = song.id ?? ""
-        print(id)
-        PlayerViewController.shared.startPlaySong(song: id)
+        
+        let tracksID = viewModel.tracks.map { Track in
+            Track.id ?? ""
+        }
+                
+        print(tracksID)
+        PlayerViewController.shared.startPlaySongs(songs: tracksID, at: indexPath.row)
         present(PlayerViewController.shared, animated: true)
     }
     
