@@ -52,6 +52,7 @@
 		B5BD579429795041004D9789 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD579329795041004D9789 /* LoginViewModel.swift */; };
 		B5BD5796297963BA004D9789 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD5795297963BA004D9789 /* LoginView.swift */; };
 		B5BD579A297964FE004D9789 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD5799297964FE004D9789 /* HomeViewController.swift */; };
+		B5D868DF2996842C00677118 /* PlayerViewBottom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D868DE2996842C00677118 /* PlayerViewBottom.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,6 +103,7 @@
 		B5BD579329795041004D9789 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		B5BD5795297963BA004D9789 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B5BD5799297964FE004D9789 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		B5D868DE2996842C00677118 /* PlayerViewBottom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewBottom.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				B56C2796298BBE4D0048F8D7 /* FloatingCover.swift */,
+				B5D868DE2996842C00677118 /* PlayerViewBottom.swift */,
 			);
 			path = CommonViews;
 			sourceTree = "<group>";
@@ -472,6 +475,7 @@
 				B56C278329877FED0048F8D7 /* APIImage.swift in Sources */,
 				B56C3CA22984125F002BC147 /* HeaderCollectionReusableView.swift in Sources */,
 				B5BD579429795041004D9789 /* LoginViewModel.swift in Sources */,
+				B5D868DF2996842C00677118 /* PlayerViewBottom.swift in Sources */,
 				B56C3CB92984EA4A002BC147 /* PlaylistAlbumDetailViewModel.swift in Sources */,
 				B56C3CA429842ACF002BC147 /* FeaturedPlaylists.swift in Sources */,
 				B56C2785298780560048F8D7 /* Track.swift in Sources */,

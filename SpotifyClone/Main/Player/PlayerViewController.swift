@@ -15,6 +15,8 @@ final class PlayerViewController: UIViewController {
     private let playerView = PlayerView()
     private var viewModel = PlayerViewModel()
     
+    private lazy var tabbar = presentingViewController as? MainTabBarViewController
+    
     override func loadView() {
         super.loadView()
         view = playerView
@@ -63,9 +65,16 @@ final class PlayerViewController: UIViewController {
             playerView.songTitle.text = viewModel.track?.name
             playerView.groupTitle.text = viewModel.track?.artists?.first?.name
             
+            
+            tabbar?.playerViewBottom.configure(imageURL: viewModel.track?.album?.images?.first?.url ?? "", songTitle: viewModel.track?.name ?? "", groupTitle: viewModel.track?.artists?.first?.name ?? "")
+            
             viewModel.playTrack(url: viewModel.track?.previewURL ?? "")
         }
         
+    }
+    
+    func pauseFromBottomPlayerView() {
+        viewModel.didTapPause()
     }
     
 }
@@ -85,8 +94,10 @@ extension PlayerViewController: PlayerViewViewModelDelegate {
     func isPlayingTrack(_ isPlaying: Bool) {
         if isPlaying {
             playerView.pauseControlBtn.setSFImage(systemName: "pause.circle.fill", size: 50, color: .white)
+            tabbar?.playerViewBottom.playBtn.setSFImage(systemName: "pause.circle.fill", size: 20, color: .white)
         } else {
             playerView.pauseControlBtn.setSFImage(systemName: "play.circle.fill", size: 50, color: .white)
+            tabbar?.playerViewBottom.playBtn.setSFImage(systemName: "play.circle.fill", size: 20, color: .white)
         }
     }
 }

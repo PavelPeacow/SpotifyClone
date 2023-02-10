@@ -168,6 +168,7 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDelegate {
         }
                 
         print(tracksID)
+
         PlayerViewController.shared.startPlaySongs(songs: tracksID, at: indexPath.row)
         present(PlayerViewController.shared, animated: true)
     }

@@ -7,12 +7,20 @@
 
 import UIKit
 
-class MainTabBarViewController: UITabBarController {
+final class MainTabBarViewController: UITabBarController {
+    
+    let playerViewBottom = PlayerViewBottom()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.addSubview(playerViewBottom)
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapPlayerView))
+        playerViewBottom.addGestureRecognizer(gesture)
+        
         setTabBar()
+        setConstraints()
     }
     
     func setTabBar() {
@@ -23,5 +31,24 @@ class MainTabBarViewController: UITabBarController {
         
         setViewControllers([home], animated: true)
     }
+}
 
+extension MainTabBarViewController {
+    
+    @objc func didTapPlayerView() {
+        present(PlayerViewController.shared, animated: true)
+    }
+    
+}
+
+extension MainTabBarViewController {
+    
+    func setConstraints() {
+        NSLayoutConstraint.activate([
+            playerViewBottom.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+            playerViewBottom.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
+            playerViewBottom.bottomAnchor.constraint(equalTo: tabBar.topAnchor),
+            playerViewBottom.heightAnchor.constraint(equalToConstant: 50),
+        ])
+    }
 }
