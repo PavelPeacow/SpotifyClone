@@ -93,6 +93,11 @@ final class PlayerViewModel: NSObject {
         return nextTrack
     }
     
+    func resetTrackTweaks() {
+        isShuffleEnabled = false
+        isRepeatEnabled = false
+    }
+    
     func getPrevoiusSong() -> String {
         if isShuffleEnabled {
             

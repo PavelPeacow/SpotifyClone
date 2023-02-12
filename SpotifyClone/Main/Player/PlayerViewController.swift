@@ -51,6 +51,7 @@ final class PlayerViewController: UIViewController {
         print(songs)
         viewModel.shuffleTracksID = songs
         viewModel.currentTrackIndex = posititon
+        viewModel.resetTrackTweaks()
         startPlaySong(song: songs[posititon])
     }
     
