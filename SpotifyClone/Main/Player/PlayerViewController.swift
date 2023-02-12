@@ -42,10 +42,14 @@ final class PlayerViewController: UIViewController {
         playerView.leftControlBtn.addTarget(self, action: #selector(didTapPrevousSongBtn), for: .touchUpInside)
         playerView.pauseControlBtn.addTarget(self, action: #selector(didTapPauseBtn), for: .touchUpInside)
         playerView.rightControlBtn.addTarget(self, action: #selector(didTapNextSongBtn), for: .touchUpInside)
+        playerView.shufflePlayBtn.addTarget(self, action: #selector(didTapShufflePlay), for: .touchUpInside)
+        playerView.repeatBtn.addTarget(self, action: #selector(ditTapRepeat), for: .touchUpInside)
     }
     
     func startPlaySongs(songs: [String], at posititon: Int) {
         viewModel.tracksID = songs
+        print(songs)
+        viewModel.shuffleTracksID = songs
         viewModel.currentTrackIndex = posititon
         startPlaySong(song: songs[posititon])
     }
@@ -80,7 +84,7 @@ final class PlayerViewController: UIViewController {
 }
 
 extension PlayerViewController: PlayerViewViewModelDelegate {
-
+    
     func didStartPlayTrack(_ duration: TimeInterval) {
         playerView.timeElapsedSlider.maximumValue = Float(duration)
     }
@@ -100,6 +104,33 @@ extension PlayerViewController: PlayerViewViewModelDelegate {
             tabbar?.playerViewBottom.playBtn.setSFImage(systemName: "play.circle.fill", size: 20, color: .white)
         }
     }
+    
+    func didActivateShufflePlay(_ isShufflePlayEnabled: Bool) {
+        print(isShufflePlayEnabled)
+        if isShufflePlayEnabled {
+            playerView.shufflePlayBtn.setSFImage(systemName: "shuffle.circle.fill", size: 25, color: .green)
+        } else {
+            playerView.shufflePlayBtn.setSFImage(systemName: "shuffle", size: 25, color: .white)
+        }
+    }
+    
+    func didActivateRepeat(_ isRepeatEnabled: Bool) {
+        print(isRepeatEnabled)
+        if isRepeatEnabled {
+            playerView.repeatBtn.setSFImage(systemName: "repeat.circle.fill", size: 25, color: .green)
+        } else {
+            playerView.repeatBtn.setSFImage(systemName: "repeat", size: 25, color: .white)
+        }
+    }
+    
+    func didFinishSong(_ didFinishSong: Bool) {
+        if didFinishSong {
+            let nextSong = viewModel.getNextSong()
+            startPlaySong(song: nextSong)
+        }
+        
+    }
+
 }
 
 extension PlayerViewController {
@@ -121,6 +152,14 @@ extension PlayerViewController {
     @objc func didTapNextSongBtn() {
         let nextSong = viewModel.getNextSong()
         startPlaySong(song: nextSong)
+    }
+    
+    @objc func didTapShufflePlay() {
+        viewModel.activateShufflePlay()
+    }
+    
+    @objc func ditTapRepeat() {
+        viewModel.activateRepeat()
     }
     
 }

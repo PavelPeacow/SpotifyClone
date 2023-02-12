@@ -13,7 +13,7 @@ final class PlayerView: UIView {
         let gradient = CAGradientLayer()
         gradient.type = .axial
         gradient.zPosition = -1
-        gradient.locations = [0, 0.75]
+        gradient.locations = [0, 1]
         return gradient
     }()
     
@@ -42,7 +42,7 @@ final class PlayerView: UIView {
     
     lazy var likeSong: UIButton = {
         let button = UIButton()
-        button.setSFImage(systemName: "heart", size: 35, color: .white)
+        button.setSFImage(systemName: "heart", size: 30, color: .white)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -69,10 +69,10 @@ final class PlayerView: UIView {
     }()
     
     lazy var controlsStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [leftControlBtn, pauseControlBtn, rightControlBtn])
-        stackView.alignment = .center
+        let stackView = UIStackView(arrangedSubviews: [shufflePlayBtn, leftControlBtn, pauseControlBtn, rightControlBtn, repeatBtn])
+        stackView.alignment = .fill
         stackView.spacing = 15
-        stackView.distribution = .fill
+        stackView.distribution = .fillProportionally
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -80,7 +80,7 @@ final class PlayerView: UIView {
     
     lazy var leftControlBtn: UIButton = {
         let button = UIButton()
-        button.setSFImage(systemName: "arrow.left.to.line.circle.fill", size: 50, color: .white)
+        button.setSFImage(systemName: "arrow.left.to.line.circle.fill", size: 30, color: .white)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -94,7 +94,21 @@ final class PlayerView: UIView {
     
     lazy var rightControlBtn: UIButton = {
         let button = UIButton()
-        button.setSFImage(systemName: "arrow.right.to.line.circle.fill", size: 50, color: .white)
+        button.setSFImage(systemName: "arrow.right.to.line.circle.fill", size: 30, color: .white)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var shufflePlayBtn: UIButton = {
+        let button = UIButton()
+        button.setSFImage(systemName: "shuffle", size: 25, color: .white)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var repeatBtn: UIButton = {
+        let button = UIButton()
+        button.setSFImage(systemName: "repeat", size: 25, color: .white)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -156,7 +170,8 @@ extension PlayerView {
             timeLeft.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
             
             controlsStackView.topAnchor.constraint(equalTo: timeElapsedSlider.bottomAnchor, constant: 20),
-            controlsStackView.centerXAnchor.constraint(equalTo: timeElapsedSlider.centerXAnchor),
+            controlsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            controlsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
         ])
     }
 }

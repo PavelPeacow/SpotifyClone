@@ -13,9 +13,14 @@ protocol PlayerViewViewModelDelegate {
     func updateWhilePlaying(_ timeElapsed: String, _ timeLeft: String, _ timeElapsedSlider: Float)
     
     func isPlayingTrack(_ isPlaying: Bool)
+    
+    func didActivateShufflePlay(_ isShufflePlayEnabled: Bool)
+    func didActivateRepeat(_ isRepeatEnabled: Bool)
+    
+    func didFinishSong(_ didFinishSong: Bool)
 }
 
-final class PlayerViewModel {
+final class PlayerViewModel: NSObject {
     
     private var player = AVAudioPlayer()
     
@@ -27,46 +32,107 @@ final class PlayerViewModel {
     
     var currentTrackIndex = 0
     
+    var isShuffleEnabled = false {
+        didSet {
+            delegate?.didActivateShufflePlay(isShuffleEnabled)
+        }
+    }
+    
+    var isRepeatEnabled = false {
+        didSet {
+            delegate?.didActivateRepeat(isRepeatEnabled)
+        }
+    }
+    
+    var didFinishSong = false {
+        didSet {
+            delegate?.didFinishSong(didFinishSong)
+        }
+    }
+    
     var tracksID = [String]()
+    var shuffleTracksID = [String]()
     var track: Track?
     
     var delegate: PlayerViewViewModelDelegate?
     
     private var timer: CADisplayLink?
 
-    init() {
+    override init() {
+        super.init()
         timer = CADisplayLink(target: self, selector: #selector(updateWhilePlaying))
         timer?.add(to: .current, forMode: .default)
     }
     
     @objc func updateWhilePlaying() {
-        let remainingTimeInSeconds = player.duration - player.currentTime
         let timeElapsed = getFormattedTime(timeInterval: player.currentTime)
-        let timeLeft = getFormattedTime(timeInterval: remainingTimeInSeconds)
+        let timeLeft = getFormattedTime(timeInterval: player.duration)
         let timeElapsedSlider = Float(player.currentTime)
         delegate?.updateWhilePlaying(timeElapsed, timeLeft, timeElapsedSlider)
     }
     
     func getNextSong() -> String {
+        if isShuffleEnabled {
+            
+            currentTrackIndex += 1
+            
+            if currentTrackIndex > shuffleTracksID.count - 1 {
+                currentTrackIndex = 0
+            }
+            return shuffleTracksID[currentTrackIndex]
+        }
+        
         currentTrackIndex += 1
         
         if currentTrackIndex > tracksID.count - 1 {
             currentTrackIndex = 0
         }
 
+        isRepeatEnabled = false
         let nextTrack = tracksID[currentTrackIndex]
         return nextTrack
     }
     
     func getPrevoiusSong() -> String {
+        if isShuffleEnabled {
+            
+            currentTrackIndex -= 1
+            
+            if currentTrackIndex < 0 {
+                currentTrackIndex = shuffleTracksID.count - 1
+            }
+            return shuffleTracksID[currentTrackIndex]
+        }
+        
         currentTrackIndex -= 1
         
         if currentTrackIndex < 0 {
             currentTrackIndex = tracksID.count - 1
         }
         
+        isRepeatEnabled = false
         let previousTrack = tracksID[currentTrackIndex]
         return previousTrack
+    }
+    
+    func activateShufflePlay() {
+        isShuffleEnabled.toggle()
+        if isShuffleEnabled {
+            shuffleTracksID.shuffle()
+            currentTrackIndex = shuffleTracksID.firstIndex(of: track?.id ?? "") ?? 0
+        } else {
+            currentTrackIndex = tracksID.firstIndex(of: track?.id ?? "") ?? 0
+            print(currentTrackIndex)
+        }
+    }
+    
+    func activateRepeat() {
+        if isRepeatEnabled {
+            player.numberOfLoops = 0
+        } else {
+            player.numberOfLoops = -1
+        }
+        isRepeatEnabled.toggle()
     }
     
     func didTapPause() {
@@ -76,7 +142,6 @@ final class PlayerViewModel {
             player.play()
         }
         isPlaying.toggle()
-        delegate?.isPlayingTrack(isPlaying)
     }
     
     func didSlide(by value: Double) {
@@ -114,9 +179,11 @@ final class PlayerViewModel {
                 DispatchQueue.main.async {
                     do {
                         self.player = try AVAudioPlayer(data: data)
-                        self.player.volume = 0.15
+                        self.player.delegate = self
+                        self.player.volume = 0.05
                         self.player.play()
                         self.isPlaying = true
+                        self.didFinishSong = false
                         self.delegate?.didStartPlayTrack(self.player.duration)
                     } catch {
                         print(error.localizedDescription)
@@ -125,6 +192,14 @@ final class PlayerViewModel {
                 
             }
         }
+    }
+    
+}
+
+extension PlayerViewModel: AVAudioPlayerDelegate {
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        didFinishSong = true
     }
     
 }
