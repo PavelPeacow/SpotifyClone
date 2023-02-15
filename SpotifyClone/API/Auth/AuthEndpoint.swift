@@ -7,13 +7,6 @@
 
 import Foundation
 
-protocol Endpoint {
-    var httpMethod: String { get }
-    func urlComponents(scheme: String, host: String, path: String, queryItems: [URLQueryItem]?) -> URL?
-    var url: URL? { get }
-    func getRequest(url: URL) -> URLRequest
-}
-
 enum AuthEndpoint: Endpoint {
     case getCode
     case exchangeCodeForToken(code: String)
