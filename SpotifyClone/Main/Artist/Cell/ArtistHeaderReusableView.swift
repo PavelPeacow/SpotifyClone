@@ -14,6 +14,19 @@ final class ArtistHeaderReusableView: UICollectionReusableView {
     private var imageViewHeight = NSLayoutConstraint()
     private var imageViewBottom = NSLayoutConstraint()
     private var containerViewHeight = NSLayoutConstraint()
+    
+    lazy var gradient: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: bounds.height)
+        gradient.type = .axial
+        gradient.locations = [0, 0.65, 1]
+        gradient.colors = [
+            UIColor.clear.cgColor,
+            UIColor.clear.cgColor,
+            UIColor.black.cgColor
+        ]
+        return gradient
+    }()
 
     lazy var imageView: UIImageViewURL = {
         let image = UIImageViewURL()
@@ -45,6 +58,7 @@ final class ArtistHeaderReusableView: UICollectionReusableView {
         containerView.addSubview(imageView)
         
         addSubview(artistTitle)
+        containerView.layer.addSublayer(gradient)
         
         setConstraints()
     }
@@ -74,6 +88,7 @@ extension ArtistHeaderReusableView {
         
         alpha = 1.0 + offsetY / 200
         artistTitle.alpha = 1.0 - offsetY / 100
+        gradient.opacity = Float(1.0 - offsetY / 100)
     }
     
 }

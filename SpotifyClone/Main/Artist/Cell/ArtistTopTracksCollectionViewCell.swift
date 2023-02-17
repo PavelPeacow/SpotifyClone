@@ -27,8 +27,8 @@ class ArtistTopTracksCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addSubview(albumImage)
-        addSubview(trackTitle)
+        contentView.addSubview(albumImage)
+        contentView.addSubview(trackTitle)
         
         setConstraints()
     }
@@ -48,13 +48,13 @@ extension ArtistTopTracksCollectionViewCell {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
-            albumImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            albumImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             albumImage.heightAnchor.constraint(equalToConstant: 50),
             albumImage.widthAnchor.constraint(equalToConstant: 50),
-            albumImage.centerYAnchor.constraint(equalTo: centerYAnchor),
+            albumImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
             trackTitle.leadingAnchor.constraint(equalTo: albumImage.trailingAnchor, constant: 5),
-            trackTitle.centerYAnchor.constraint(equalTo: centerYAnchor),
+            trackTitle.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ])
     }
     
