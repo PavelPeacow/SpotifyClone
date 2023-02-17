@@ -12,10 +12,11 @@ struct Artist: Decodable {
     let href: String?
     let id: String?
     let name: String?
+    let images: [Image]?
     let type: String?
     let uri: String?
 
     enum CodingKeys: String, CodingKey {
-        case href, id, name, type, uri
+        case href, id, name, type, uri, images
     }
 }

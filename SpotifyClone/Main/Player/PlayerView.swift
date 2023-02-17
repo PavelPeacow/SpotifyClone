@@ -36,6 +36,7 @@ final class PlayerView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .gray
+        label.isUserInteractionEnabled = true
         label.text = "Architects"
         return label
     }()

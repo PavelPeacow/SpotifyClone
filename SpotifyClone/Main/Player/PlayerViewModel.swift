@@ -185,7 +185,7 @@ final class PlayerViewModel: NSObject {
                     do {
                         self.player = try AVAudioPlayer(data: data)
                         self.player.delegate = self
-                        self.player.volume = 0.05
+                        self.player.volume = 0.1
                         self.player.play()
                         self.isPlaying = true
                         self.didFinishSong = false

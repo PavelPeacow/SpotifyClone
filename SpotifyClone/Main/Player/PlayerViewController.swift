@@ -26,6 +26,7 @@ final class PlayerViewController: UIViewController {
         super.viewDidLoad()
         
         addTargets()
+        addGestures()
         setDelegates()
     }
     
@@ -42,8 +43,15 @@ final class PlayerViewController: UIViewController {
         playerView.leftControlBtn.addTarget(self, action: #selector(didTapPrevousSongBtn), for: .touchUpInside)
         playerView.pauseControlBtn.addTarget(self, action: #selector(didTapPauseBtn), for: .touchUpInside)
         playerView.rightControlBtn.addTarget(self, action: #selector(didTapNextSongBtn), for: .touchUpInside)
+        
         playerView.shufflePlayBtn.addTarget(self, action: #selector(didTapShufflePlay), for: .touchUpInside)
         playerView.repeatBtn.addTarget(self, action: #selector(ditTapRepeat), for: .touchUpInside)
+        
+    }
+    
+    private func addGestures() {
+        let getsure = UITapGestureRecognizer(target: self, action: #selector(didTapGroupTitle))
+        playerView.groupTitle.addGestureRecognizer(getsure)
     }
     
     func startPlaySongs(songs: [String], at posititon: Int) {
@@ -135,7 +143,23 @@ extension PlayerViewController: PlayerViewViewModelDelegate {
 }
 
 extension PlayerViewController {
-
+    
+    @objc func didTapGroupTitle() {
+        dismiss(animated: true) { [weak self] in
+            guard let nav = self?.tabbar?.viewControllers?.first as? UINavigationController else { return }
+            
+            let artistID = self?.viewModel.track?.artists?.first?.id ?? ""
+            
+            if let topViewController = nav.topViewController as? ArtistViewController {
+                if topViewController.viewModel.artist?.id == artistID  { return }
+            }
+            
+            let vc = ArtistViewController()
+            vc.configure(with: artistID)
+            nav.pushViewController(vc, animated: true)
+        }
+    }
+    
     @objc func didSlideSlider(_ sender: UISlider) {
         let value = Double(sender.value)
         viewModel.didSlide(by: value)
