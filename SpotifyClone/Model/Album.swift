@@ -8,6 +8,7 @@
 import Foundation
 
 struct Album: Decodable {
+    let albumGroup: String?
     let albumType: String?
     let artists: [Artist]?
     let availableMarkets: [String]?
@@ -23,6 +24,7 @@ struct Album: Decodable {
     let type, uri: String?
 
     enum CodingKeys: String, CodingKey {
+        case albumGroup = "album_group"
         case albumType = "album_type"
         case artists
         case availableMarkets = "available_markets"

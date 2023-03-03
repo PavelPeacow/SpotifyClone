@@ -15,6 +15,7 @@ final class ArtistView: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(ArtistTopTracksCollectionViewCell.self, forCellWithReuseIdentifier: ArtistTopTracksCollectionViewCell.identifier)
+        collectionView.register(ArtistAlbumCollectionViewCell.self, forCellWithReuseIdentifier: ArtistAlbumCollectionViewCell.identifier)
         collectionView.contentInsetAdjustmentBehavior = .never
         
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier)

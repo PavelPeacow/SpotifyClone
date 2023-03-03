@@ -31,6 +31,7 @@ final class ArtistViewController: UIViewController {
         Task {
             await viewModel.getArtist(artistID: artistID)
             await viewModel.getArtistTopTracks(artistID: artistID)
+            await viewModel.getArtistAlbums(artistID: artistID)
             artistView.collectionView.reloadData()
         }
     }
@@ -50,6 +51,8 @@ extension ArtistViewController: UICollectionViewDataSource {
             return 0
         case .popularTracks:
             return viewModel.popularTracks.count
+        case .albums:
+            return viewModel.albums.count
         }
         
     }
@@ -64,6 +67,14 @@ extension ArtistViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArtistTopTracksCollectionViewCell.identifier, for: indexPath) as! ArtistTopTracksCollectionViewCell
             
             cell.configure(with: viewModel.popularTracks[indexPath.row].name ?? "", imageURL: viewModel.popularTracks[indexPath.row].album?.images?.first?.url ?? "")
+            
+            return cell
+        case .albums:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArtistAlbumCollectionViewCell.identifier, for: indexPath) as! ArtistAlbumCollectionViewCell
+            
+            let album = viewModel.albums[indexPath.row]
+            
+            cell.configure(albumCover: album.images?.first?.url ?? "", albumTitle: album.name ?? "", type: album.albumType ?? "", date: album.releaseDate ?? "")
             
             return cell
         }
@@ -84,6 +95,10 @@ extension ArtistViewController: UICollectionViewDataSource {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
             header.setTitle(with: section.title ?? "")
             return header
+        case .albums:
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier, for: indexPath) as! HeaderCollectionReusableView
+            header.setTitle(with: section.title ?? "")
+            return header
         }
     }
     
@@ -97,5 +112,43 @@ extension ArtistViewController: UICollectionViewDataSource {
 }
 
 extension ArtistViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let cell = collectionView.cellForItem(at: indexPath)
+        cell?.animateTap(scale: 0.95)
+        
+        switch ArtistSections.allCases[indexPath.section] {
+            
+        case .mainHeader:
+            return
+        case .popularTracks:
+            Task {
+                let track = viewModel.popularTracks[indexPath.row]
+                let id = track.album?.id ?? ""
+                
+                let albumContent = await viewModel.getAlbumContent(albumID: id)
+                
+                let tracks = albumContent?.tracks?.items.map { $0.id ?? "" }
+                
+                PlayerViewController.shared.startPlaySongs(songs: tracks ?? [], at: (track.trackNumber ?? 0) - 1)
+            }
+        case .albums:
+            Task {
+                let album = viewModel.albums[indexPath.row]
+                let id = album.id ?? ""
+                
+                let albumContent = await viewModel.getAlbumContent(albumID: id)
+                
+                let tracks = albumContent?.tracks?.items
+                
+                let vc = PlaylistAlbumDetailViewController()
+                vc.configure(tracks: tracks, album: album)
+                navigationController?.pushViewController(vc, animated: true)
+            }
+           
+        }
+        
+    }
     
 }

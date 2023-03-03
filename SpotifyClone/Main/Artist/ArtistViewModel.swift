@@ -10,6 +10,7 @@ import Foundation
 final class ArtistViewModel {
     
     var popularTracks = [Track]()
+    var albums = [Album]()
     var artist: Artist?
     
     func getArtist(artistID: String) async {
@@ -27,6 +28,25 @@ final class ArtistViewModel {
             popularTracks = result.tracks
         } catch {
             print(error)
+        }
+    }
+    
+    func getArtistAlbums(artistID: String) async {
+        do {
+            let result = try await APIManager().getSpotifyContent(type: ArtistAlbums.self, endpoint: ArtistEndpoint.getArtistAlbums(id: artistID))
+            albums = result.items
+        } catch {
+            print(error)
+        }
+    }
+    
+    func getAlbumContent(albumID: String) async -> AlbumContent? {
+        do {
+            let result = try await APIManager().getSpotifyContent(type: AlbumContent.self, endpoint: ContentEndpoint.getAlbum(albumID: albumID))
+            return result
+        } catch {
+            print(error)
+            return nil
         }
     }
 

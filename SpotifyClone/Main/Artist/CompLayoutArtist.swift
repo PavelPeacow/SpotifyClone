@@ -10,6 +10,7 @@ import UIKit
 enum ArtistSections: CaseIterable {
     case mainHeader
     case popularTracks
+    case albums
     
     var title: String? {
         switch self {
@@ -17,6 +18,8 @@ enum ArtistSections: CaseIterable {
             return nil
         case .popularTracks:
             return "Popular Tracks"
+        case .albums:
+            return "Latest releases"
         }
     }
 
@@ -26,10 +29,10 @@ extension NSCollectionLayoutSection {
     
     static func createHeader() -> NSCollectionLayoutSection {
         
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(0), heightDimension: .absolute(0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(1), heightDimension: .absolute(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(0), heightDimension: .absolute(0))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(1), heightDimension: .absolute(1))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -67,6 +70,28 @@ extension NSCollectionLayoutSection {
         return section
     }
     
+    static func createArtistAlbumsSection() -> NSCollectionLayoutSection {
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(100))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(300))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = .fixed(15)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        section.contentInsets = .init(top: 15, leading: 0, bottom: 15, trailing: 0)
+        section.interGroupSpacing = 15
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(20))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        
+        section.boundarySupplementaryItems = [header]
+        
+        return section
+    }
+    
 }
 
 extension UICollectionViewCompositionalLayout {
@@ -79,6 +104,8 @@ extension UICollectionViewCompositionalLayout {
                 return .createHeader()
             case .popularTracks:
                 return .createArtistTopTracksSection()
+            case .albums:
+                return .createArtistAlbumsSection()
             }
         }
         
