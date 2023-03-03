@@ -143,7 +143,7 @@ extension ArtistViewController: UICollectionViewDelegate {
                 let tracks = albumContent?.tracks?.items
                 
                 let vc = PlaylistAlbumDetailViewController()
-                vc.configure(tracks: tracks, album: album)
+                vc.configure(tracks: tracks, album: album, artist: viewModel.artist)
                 navigationController?.pushViewController(vc, animated: true)
             }
            

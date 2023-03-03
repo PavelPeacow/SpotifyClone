@@ -116,32 +116,39 @@ extension HomeViewController: UICollectionViewDelegate {
                 let playlist = viewModel.featuredPlaylist[indexPath.row]
                 let id = playlist.id
                 let tracks = await viewModel.getPlaylistContent(playlistID: id)
+                let user = await viewModel.getUser(userID: playlist.owner.id)
                 
                 var tracksArray = [Track]()
                 tracks?.forEach {
                     tracksArray.append($0.track)
                 }
                 
-                vc.configure(tracks: tracksArray, playlist: playlist)
+                vc.configure(tracks: tracksArray, playlist: playlist, user: user)
                 navigationController?.pushViewController(vc, animated: true)
             }
         case .userAlbum:
-            let vc = PlaylistAlbumDetailViewController()
-            let album = viewModel.userAlbums[indexPath.row].album
-            let tracks = viewModel.userAlbums[indexPath.row].album.tracks?.items
-            vc.configure(tracks: tracks, album: album)
-            navigationController?.pushViewController(vc, animated: true)
+            Task {
+                let vc = PlaylistAlbumDetailViewController()
+                let album = viewModel.userAlbums[indexPath.row].album
+                let tracks = viewModel.userAlbums[indexPath.row].album.tracks?.items
+                
+                let artist = await viewModel.getArtist(artistID: album.artists?.first?.id ?? "")
+                
+                vc.configure(tracks: tracks, album: album, artist: artist)
+                navigationController?.pushViewController(vc, animated: true)
+            }
         case .recentlyPlayed:
             Task {
                 let vc = PlaylistAlbumDetailViewController()
                 
                 let id = viewModel.recentlyPlayed[indexPath.row].track.album?.id ?? ""
                 let albumContent = await viewModel.getAlbumContent(albumID: id)
-                
+                let artist = await viewModel.getArtist(artistID: albumContent?.artists?.first?.id ?? "")
+                print(id)
                 let album = viewModel.recentlyPlayed[indexPath.row].track.album
                 let albumTracks = albumContent?.tracks?.items
                 
-                vc.configure(tracks: albumTracks, album: album)
+                vc.configure(tracks: albumTracks, album: album, artist: artist)
                 navigationController?.pushViewController(vc, animated: true)
             }
         }

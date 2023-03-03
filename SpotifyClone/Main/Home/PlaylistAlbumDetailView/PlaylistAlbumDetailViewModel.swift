@@ -13,4 +13,22 @@ final class PlaylistAlbumDetailViewModel {
     var playlist: PlaylistItem?
     var album: Album?
     
+    var artist: Artist?
+    var user: User?
+    
+    func convertSecondsToHrMinute(miliseconds: Int) -> String {
+        var calendar = Calendar.current
+        calendar.locale = .init(identifier: "en")
+        
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute]
+        formatter.unitsStyle = .short
+        formatter.calendar = calendar
+        
+        let seconds = miliseconds / 1000
+        
+        let formattedString = formatter.string(from:TimeInterval(seconds))!
+        return formattedString
+    }
+ 
 }

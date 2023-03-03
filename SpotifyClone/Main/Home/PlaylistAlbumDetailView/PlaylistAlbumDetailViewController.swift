@@ -35,7 +35,8 @@ final class PlaylistAlbumDetailViewController: UIViewController {
         albumDetailView.collectionView.dataSource = self
     }
     
-    func configure(tracks: [Track]?, album: Album? = nil, playlist: PlaylistItem? = nil) {
+#warning("TODO: probably need its own model to input")
+    func configure(tracks: [Track]?, album: Album? = nil, playlist: PlaylistItem? = nil, artist: Artist? = nil, user: User? = nil) {
         guard let tracks = tracks else { return }
         
         if let _ = album {
@@ -51,9 +52,11 @@ final class PlaylistAlbumDetailViewController: UIViewController {
         case .album:
             viewModel.album = album
             coverURL = viewModel.album?.images?.first?.url ?? ""
+            viewModel.artist = artist
         case .playlist:
             viewModel.playlist = playlist
             coverURL = viewModel.playlist?.images.first?.url ?? ""
+            viewModel.user = user
         }
         
         viewModel.tracks = tracks
@@ -79,6 +82,24 @@ final class PlaylistAlbumDetailViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         albumDetailView.gradient.frame = albumDetailView.floatingCover.bounds
+    }
+    
+}
+
+extension PlaylistAlbumDetailViewController: PlaylistAlbumHeaderCollectionReusableViewDelegate {
+    
+    func didTapArtist() {
+        switch type {
+            
+        case .album:
+            let vc = ArtistViewController()
+            vc.configure(with: viewModel.artist?.id ?? "")
+            navigationController?.pushViewController(vc, animated: true)
+        case .playlist:
+#warning("TODO: ProfileView")
+            print("Need to do profileView")
+        }
+        
     }
     
 }
@@ -117,22 +138,33 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PlaylistAlbumHeaderCollectionReusableView.identifier, for: indexPath) as! PlaylistAlbumHeaderCollectionReusableView
         
+        header.delegate = self
+        
         let title: String
         let date: String
         let itemType: String
+        let artistImage: String
+        let artistTitle: String
         
         switch type {
             
         case .album:
             title = viewModel.album?.name ?? ""
             date = viewModel.album?.releaseDate ?? ""
-            itemType = viewModel.album?.type ?? ""
-            header.setCover(title: title, typeAndDate: "\(itemType.capitalized) - \(date.prefix(4))")
+            itemType = viewModel.album?.albumType ?? ""
+            artistImage = viewModel.artist?.images?.first?.url ?? ""
+            artistTitle = viewModel.artist?.name ?? ""
+            
+            header.setCover(title: title, typeAndDate: "\(itemType.capitalized) - \(date.prefix(4))", artistImage: artistImage, artistTitle: artistTitle)
         case .playlist:
             title = viewModel.playlist?.description ?? ""
             date = viewModel.playlist?.owner.displayName ?? ""
             itemType = viewModel.playlist?.type ?? ""
-            header.setCover(title: title, typeAndDate: "\(itemType.capitalized) - \(date)")
+            artistImage = viewModel.user?.images?.first?.url ?? ""
+            artistTitle = viewModel.user?.displayName ?? ""
+            let playlistTime = viewModel.tracks.reduce(into: 0, { $0 += $1.durationMS ?? 0 })
+            let formattedTime = viewModel.convertSecondsToHrMinute(miliseconds: playlistTime)
+            header.setCover(title: title, typeAndDate: "\(formattedTime)", artistImage: artistImage, artistTitle: artistTitle)
         }
         
         print(title)
@@ -141,7 +173,7 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        CGSize(width: view.frame.width, height: 350)
+        CGSize(width: view.frame.width, height: 400)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -166,9 +198,9 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDelegate {
         let tracksID = viewModel.tracks.map { Track in
             Track.id ?? ""
         }
-                
+        
         print(tracksID)
-
+        
         PlayerViewController.shared.startPlaySongs(songs: tracksID, at: indexPath.row)
         present(PlayerViewController.shared, animated: true)
     }

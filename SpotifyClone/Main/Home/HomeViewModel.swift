@@ -71,5 +71,25 @@ final class HomeViewModel {
             return nil
         }
     }
+    
+    func getArtist(artistID: String) async -> Artist? {
+        do {
+            let result = try await APIManager().getSpotifyContent(type: Artist.self, endpoint: ArtistEndpoint.getArtist(id: artistID))
+            return result
+        } catch {
+            print(error)
+            return nil
+        }
+    }
+    
+    func getUser(userID: String) async -> User? {
+        do {
+            let result = try await APIManager().getSpotifyContent(type: User.self, endpoint: UserEndpoint.getUser(id: userID))
+            return result
+        } catch {
+            print(error)
+            return nil
+        }
+    }
 
 }
