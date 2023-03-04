@@ -38,6 +38,7 @@ final class PlaylistAlbumDetailView: UIView {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.register(PlaylistAlbumDetailViewCell.self, forCellWithReuseIdentifier: PlaylistAlbumDetailViewCell.identifier)
         collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.backgroundColor = .mainBackground
         
         collection.register(PlaylistAlbumHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PlaylistAlbumHeaderCollectionReusableView.identifier)
         return collection

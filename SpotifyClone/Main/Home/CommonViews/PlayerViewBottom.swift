@@ -21,7 +21,7 @@ final class PlayerViewBottom: UIView {
     lazy var title: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 14)
+        label.font = .setFont(.bold, size: 14)
         return label
     }()
     

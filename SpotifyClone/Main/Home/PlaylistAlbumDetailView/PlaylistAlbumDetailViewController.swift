@@ -72,7 +72,7 @@ final class PlaylistAlbumDetailViewController: UIViewController {
         let averageColor = albumDetailView.floatingCover.cover.image?.averageColor ?? .green
         albumDetailView.gradient.colors = [
             averageColor.cgColor,
-            UIColor.black.cgColor,
+            UIColor.mainBackground.cgColor,
         ]
         albumDetailView.backgroundColor = averageColor
         albumDetailView.container.backgroundColor = averageColor

@@ -21,7 +21,7 @@ final class HomeCollectionViewCell: UICollectionViewCell {
     private lazy var title: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 18)
+        label.font = .setFont(.bold, size: 14)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

@@ -38,13 +38,14 @@ final class PlaylistAlbumDetailViewCell: UICollectionViewCell {
     
     private lazy var trackTitle: UILabel = {
         let label = UILabel()
+        label.font = .setFont(.book, size: 16)
         return label
     }()
     
     private lazy var groupTitle: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .thin)
-        label.textColor = .gray
+        label.font = .setFont(.book, size: 16)
+        label.textColor = .secondaryLabel
         return label
     }()
     

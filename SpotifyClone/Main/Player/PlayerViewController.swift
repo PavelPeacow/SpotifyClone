@@ -72,7 +72,7 @@ final class PlayerViewController: UIViewController {
                 let averageColor = self?.playerView.cover.image?.averageColor ?? .green
                 self?.playerView.gradient.colors = [
                     averageColor.cgColor,
-                    UIColor.black.cgColor
+                    UIColor.mainBackground.cgColor
                 ]
             }
             playerView.songTitle.text = viewModel.track?.name

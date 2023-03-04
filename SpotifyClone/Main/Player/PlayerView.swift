@@ -27,7 +27,7 @@ final class PlayerView: UIView {
     lazy var songTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.font = .setFont(.bold, size: 22)
         label.text = "Hereafter"
         return label
     }()
@@ -35,7 +35,8 @@ final class PlayerView: UIView {
     lazy var groupTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .gray
+        label.textColor = .secondaryLabel
+        label.font = .setFont(.book, size: 16)
         label.isUserInteractionEnabled = true
         label.text = "Architects"
         return label
@@ -117,7 +118,7 @@ final class PlayerView: UIView {
     init() {
         super.init(frame: .zero)
         
-        backgroundColor = .black
+        backgroundColor = .mainBackground
         
         layer.addSublayer(gradient)
         

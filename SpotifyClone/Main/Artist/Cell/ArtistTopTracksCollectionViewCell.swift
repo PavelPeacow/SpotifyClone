@@ -20,6 +20,7 @@ class ArtistTopTracksCollectionViewCell: UICollectionViewCell {
     
     lazy var trackTitle: UILabel = {
         let label = UILabel()
+        label.font = .setFont(.book, size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

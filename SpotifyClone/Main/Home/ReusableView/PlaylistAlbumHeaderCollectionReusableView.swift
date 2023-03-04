@@ -29,7 +29,7 @@ class PlaylistAlbumHeaderCollectionReusableView: UICollectionReusableView {
     
     private lazy var title: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.font = .setFont(.bold, size: 22)
         label.adjustsFontSizeToFitWidth = true
         label.numberOfLines = 2
         label.isUserInteractionEnabled = true
@@ -56,7 +56,7 @@ class PlaylistAlbumHeaderCollectionReusableView: UICollectionReusableView {
     
     private lazy var artistTitle: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.font = .setFont(.bold, size: 16)
         label.adjustsFontSizeToFitWidth = true
         label.numberOfLines = 2
         return label
@@ -64,8 +64,8 @@ class PlaylistAlbumHeaderCollectionReusableView: UICollectionReusableView {
     
     private lazy var typeAndDate: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16)
-        label.textColor = .gray
+        label.font = .setFont(.book, size: 16)
+        label.textColor = .secondaryLabel
         return label
     }()
     

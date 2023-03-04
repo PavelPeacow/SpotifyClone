@@ -30,13 +30,14 @@ class ArtistAlbumCollectionViewCell: UICollectionViewCell {
     
     lazy var albumTitle: UILabel = {
         let label = UILabel()
-        label.textColor = .white
+        label.font = .setFont(.bold, size: 16)
         return label
     }()
     
     lazy var albumInformation: UILabel = {
         let label = UILabel()
-        label.textColor = .gray
+        label.font = .setFont(.book, size: 16)
+        label.textColor = .secondaryLabel
         return label
     }()
     

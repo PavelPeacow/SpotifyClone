@@ -23,7 +23,7 @@ final class ArtistHeaderReusableView: UICollectionReusableView {
         gradient.colors = [
             UIColor.clear.cgColor,
             UIColor.clear.cgColor,
-            UIColor.black.cgColor
+            UIColor.mainBackground.cgColor
         ]
         return gradient
     }()
@@ -46,7 +46,7 @@ final class ArtistHeaderReusableView: UICollectionReusableView {
         let label = UILabel()
         label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true
-        label.font = .systemFont(ofSize: 40, weight: .bold)
+        label.font = .setFont(.bold, size: 40)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

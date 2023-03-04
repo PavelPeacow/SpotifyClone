@@ -32,7 +32,7 @@ final class LoginView: UIView {
         label.text = "Millions of songs.\nFree on spotify."
         label.numberOfLines = 2
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.font = .setFont(.bold, size: 22)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -43,7 +43,6 @@ final class LoginView: UIView {
         btn.backgroundColor = .green
         btn.layer.cornerRadius = 15
         btn.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
-        btn.setTitleColor(.label, for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()

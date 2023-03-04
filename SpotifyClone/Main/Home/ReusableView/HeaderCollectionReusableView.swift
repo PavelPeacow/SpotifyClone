@@ -13,7 +13,7 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     
     private lazy var sectionTitle: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 18)
+        label.font = .setFont(.bold, size: 18)
         return label
     }()
     

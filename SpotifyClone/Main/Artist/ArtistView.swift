@@ -17,6 +17,7 @@ final class ArtistView: UIView {
         collectionView.register(ArtistTopTracksCollectionViewCell.self, forCellWithReuseIdentifier: ArtistTopTracksCollectionViewCell.identifier)
         collectionView.register(ArtistAlbumCollectionViewCell.self, forCellWithReuseIdentifier: ArtistAlbumCollectionViewCell.identifier)
         collectionView.contentInsetAdjustmentBehavior = .never
+        collectionView.backgroundColor = .mainBackground
         
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier)
         collectionView.register(ArtistHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ArtistHeaderReusableView.identifier)

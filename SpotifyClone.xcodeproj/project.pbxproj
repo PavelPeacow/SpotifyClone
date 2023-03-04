@@ -42,6 +42,13 @@
 		B59272982983C6A600932ADD /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59272972983C6A600932ADD /* HomeCollectionViewCell.swift */; };
 		B592729B2983C9B600932ADD /* CompLayoutSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B592729A2983C9B600932ADD /* CompLayoutSections.swift */; };
 		B592729D2983D99000932ADD /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B592729C2983D99000932ADD /* HomeViewModel.swift */; };
+		B5A0C5DD29B35329005E0B15 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0C5DC29B35329005E0B15 /* Color.swift */; };
+		B5A0C5E929B35AAD005E0B15 /* CircularStd-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B5A0C5DF29B35AAD005E0B15 /* CircularStd-Bold.otf */; };
+		B5A0C5EA29B35AAD005E0B15 /* CircularStd-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = B5A0C5E029B35AAD005E0B15 /* CircularStd-Black.otf */; };
+		B5A0C5EB29B35AAD005E0B15 /* CircularStd-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B5A0C5E129B35AAD005E0B15 /* CircularStd-Medium.otf */; };
+		B5A0C5EF29B35AAD005E0B15 /* CircularStd-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B5A0C5E529B35AAD005E0B15 /* CircularStd-Light.otf */; };
+		B5A0C5F229B35AAD005E0B15 /* CircularStd-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = B5A0C5E829B35AAD005E0B15 /* CircularStd-Book.otf */; };
+		B5A0C5F429B35D07005E0B15 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0C5F329B35D07005E0B15 /* Font.swift */; };
 		B5BD576E2978EB9E004D9789 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD576D2978EB9E004D9789 /* AppDelegate.swift */; };
 		B5BD57702978EB9E004D9789 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD576F2978EB9E004D9789 /* SceneDelegate.swift */; };
 		B5BD57722978EB9E004D9789 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD57712978EB9E004D9789 /* LoginViewController.swift */; };
@@ -104,6 +111,13 @@
 		B59272972983C6A600932ADD /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		B592729A2983C9B600932ADD /* CompLayoutSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompLayoutSections.swift; sourceTree = "<group>"; };
 		B592729C2983D99000932ADD /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		B5A0C5DC29B35329005E0B15 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		B5A0C5DF29B35AAD005E0B15 /* CircularStd-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-Bold.otf"; sourceTree = "<group>"; };
+		B5A0C5E029B35AAD005E0B15 /* CircularStd-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-Black.otf"; sourceTree = "<group>"; };
+		B5A0C5E129B35AAD005E0B15 /* CircularStd-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-Medium.otf"; sourceTree = "<group>"; };
+		B5A0C5E529B35AAD005E0B15 /* CircularStd-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-Light.otf"; sourceTree = "<group>"; };
+		B5A0C5E829B35AAD005E0B15 /* CircularStd-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-Book.otf"; sourceTree = "<group>"; };
+		B5A0C5F329B35D07005E0B15 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		B5BD576A2978EB9E004D9789 /* SpotifyClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotifyClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5BD576D2978EB9E004D9789 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5BD576F2978EB9E004D9789 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -298,6 +312,18 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		B5A0C5DE29B35A0D005E0B15 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				B5A0C5E029B35AAD005E0B15 /* CircularStd-Black.otf */,
+				B5A0C5DF29B35AAD005E0B15 /* CircularStd-Bold.otf */,
+				B5A0C5E829B35AAD005E0B15 /* CircularStd-Book.otf */,
+				B5A0C5E529B35AAD005E0B15 /* CircularStd-Light.otf */,
+				B5A0C5E129B35AAD005E0B15 /* CircularStd-Medium.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		B5BD57612978EB9E004D9789 = {
 			isa = PBXGroup;
 			children = (
@@ -343,6 +369,9 @@
 		B5BD57822978EBE9004D9789 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B5A0C5DE29B35A0D005E0B15 /* Fonts */,
+				B5A0C5F329B35D07005E0B15 /* Font.swift */,
+				B5A0C5DC29B35329005E0B15 /* Color.swift */,
 				B5BD57762978EB9F004D9789 /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -516,7 +545,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5A0C5EF29B35AAD005E0B15 /* CircularStd-Light.otf in Resources */,
+				B5A0C5EB29B35AAD005E0B15 /* CircularStd-Medium.otf in Resources */,
 				B5BD577A2978EB9F004D9789 /* LaunchScreen.storyboard in Resources */,
+				B5A0C5E929B35AAD005E0B15 /* CircularStd-Bold.otf in Resources */,
+				B5A0C5F229B35AAD005E0B15 /* CircularStd-Book.otf in Resources */,
+				B5A0C5EA29B35AAD005E0B15 /* CircularStd-Black.otf in Resources */,
 				B5BD57772978EB9F004D9789 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -545,6 +579,7 @@
 				B56C3CB52984E80B002BC147 /* PlaylistAlbumDetailView.swift in Sources */,
 				B5F7A839299B97710001ED69 /* ArtistHeaderReusableView.swift in Sources */,
 				B56C279229890DFD0048F8D7 /* MainTabBarViewController.swift in Sources */,
+				B5A0C5DD29B35329005E0B15 /* Color.swift in Sources */,
 				B56C3CAC2984D4DF002BC147 /* ContentEndpoint.swift in Sources */,
 				B5BD576E2978EB9E004D9789 /* AppDelegate.swift in Sources */,
 				B5BD57882978F25A004D9789 /* Animation.swift in Sources */,
@@ -554,6 +589,7 @@
 				B5BD578F2978FD6A004D9789 /* OAuthCode.swift in Sources */,
 				B592729B2983C9B600932ADD /* CompLayoutSections.swift in Sources */,
 				B5F7A836299B8FF60001ED69 /* ArtistTopTracksCollectionViewCell.swift in Sources */,
+				B5A0C5F429B35D07005E0B15 /* Font.swift in Sources */,
 				B5BD57922979348F004D9789 /* EncodeBase64.swift in Sources */,
 				B5F7A82F299B89C80001ED69 /* ArtistEndpoint.swift in Sources */,
 				B56C3CB02984E0FF002BC147 /* NewReleaseAlbum.swift in Sources */,
@@ -726,10 +762,12 @@
 				DEVELOPMENT_TEAM = V352R4M2J4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SpotifyClone/App/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -753,10 +791,12 @@
 				DEVELOPMENT_TEAM = V352R4M2J4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SpotifyClone/App/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

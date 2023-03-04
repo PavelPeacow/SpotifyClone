@@ -15,7 +15,7 @@ final class HomeView: UIView {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
         collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.backgroundColor = .systemBackground
+        collection.backgroundColor = .mainBackground
         
         collection.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCollectionReusableView.identifier)
         return collection
