@@ -28,6 +28,7 @@ final class PlayerView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .setFont(.bold, size: 22)
+        label.isUserInteractionEnabled = true
         label.text = "Hereafter"
         return label
     }()

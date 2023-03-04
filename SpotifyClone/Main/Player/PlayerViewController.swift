@@ -52,6 +52,9 @@ final class PlayerViewController: UIViewController {
     private func addGestures() {
         let getsure = UITapGestureRecognizer(target: self, action: #selector(didTapGroupTitle))
         playerView.groupTitle.addGestureRecognizer(getsure)
+        
+        let gestureTrack = UITapGestureRecognizer(target: self, action: #selector(didTapSongTitle))
+        playerView.songTitle.addGestureRecognizer(gestureTrack)
     }
     
     func startPlaySongs(songs: [String], at posititon: Int) {
@@ -157,6 +160,32 @@ extension PlayerViewController {
             let vc = ArtistViewController()
             vc.configure(with: artistID)
             nav.pushViewController(vc, animated: true)
+        }
+    }
+    
+    @objc func didTapSongTitle() {
+        dismiss(animated: true) { [weak self] in
+            Task {
+                guard let nav = self?.tabbar?.viewControllers?.first as? UINavigationController else { return }
+                
+                let songTitle = self?.viewModel.track?.name ?? ""
+                
+                if let topViewController = nav.topViewController as? PlaylistAlbumDetailViewController {
+                    if topViewController.viewModel.tracks.contains(where: { $0.name == songTitle }) { return }
+                }
+                
+                let id = self?.viewModel.track?.album?.id ?? ""
+                
+                let albumContent = await self?.viewModel.getAlbumContent(albumID: id)
+                let artist = await self?.viewModel.getArtist(artistID: albumContent?.artists?.first?.id ?? "")
+                let albumTracks = albumContent?.tracks?.items
+                let album = self?.viewModel.track?.album
+                
+                let vc = PlaylistAlbumDetailViewController()
+                vc.configure(tracks: albumTracks, album: album, artist: artist)
+                nav.pushViewController(vc, animated: true)
+            }
+           
         }
     }
     

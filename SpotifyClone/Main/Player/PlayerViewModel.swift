@@ -201,6 +201,30 @@ final class PlayerViewModel: NSObject {
     
 }
 
+extension PlayerViewModel {
+    
+    func getAlbumContent(albumID: String) async -> AlbumContent? {
+        do {
+            let result = try await APIManager().getSpotifyContent(type: AlbumContent.self, endpoint: ContentEndpoint.getAlbum(albumID: albumID))
+            return result
+        } catch {
+            print(error)
+            return nil
+        }
+    }
+    
+    func getArtist(artistID: String) async -> Artist? {
+        do {
+            let result = try await APIManager().getSpotifyContent(type: Artist.self, endpoint: ArtistEndpoint.getArtist(id: artistID))
+            return result
+        } catch {
+            print(error)
+            return nil
+        }
+    }
+    
+}
+
 extension PlayerViewModel: AVAudioPlayerDelegate {
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {

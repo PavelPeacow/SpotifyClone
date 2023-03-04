@@ -15,7 +15,7 @@ enum CellType {
 final class PlaylistAlbumDetailViewController: UIViewController {
     
     private let albumDetailView = PlaylistAlbumDetailView()
-    private let viewModel = PlaylistAlbumDetailViewModel()
+    let viewModel = PlaylistAlbumDetailViewModel()
     
     private var type: CellType = .playlist
     
