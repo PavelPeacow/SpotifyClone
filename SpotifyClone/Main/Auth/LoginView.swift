@@ -21,7 +21,7 @@ final class LoginView: UIView {
     
     private lazy var logoImage: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(systemName: "music.note.house.fill")?.withTintColor(.green, renderingMode: .alwaysOriginal)
+        image.image = UIImage(systemName: "music.note.list")?.withTintColor(.green, renderingMode: .alwaysOriginal)
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
