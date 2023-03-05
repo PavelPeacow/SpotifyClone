@@ -5,7 +5,7 @@
 //  Created by Павел Кай on 28.01.2023.
 //
 
-import Foundation
+import UIKit
 
 final class PlaylistAlbumDetailViewModel {
     
@@ -15,6 +15,8 @@ final class PlaylistAlbumDetailViewModel {
     
     var artist: Artist?
     var user: User?
+    
+    var currentPlayingCell: PlaylistAlbumDetailViewCell?
     
     func convertSecondsToHrMinute(miliseconds: Int) -> String {
         var calendar = Calendar.current

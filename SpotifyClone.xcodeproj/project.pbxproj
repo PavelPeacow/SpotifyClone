@@ -49,6 +49,7 @@
 		B5A0C5EF29B35AAD005E0B15 /* CircularStd-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B5A0C5E529B35AAD005E0B15 /* CircularStd-Light.otf */; };
 		B5A0C5F229B35AAD005E0B15 /* CircularStd-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = B5A0C5E829B35AAD005E0B15 /* CircularStd-Book.otf */; };
 		B5A0C5F429B35D07005E0B15 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0C5F329B35D07005E0B15 /* Font.swift */; };
+		B5A0C5F729B496DC005E0B15 /* MusicVisualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0C5F629B496DC005E0B15 /* MusicVisualizerView.swift */; };
 		B5BD576E2978EB9E004D9789 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD576D2978EB9E004D9789 /* AppDelegate.swift */; };
 		B5BD57702978EB9E004D9789 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD576F2978EB9E004D9789 /* SceneDelegate.swift */; };
 		B5BD57722978EB9E004D9789 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD57712978EB9E004D9789 /* LoginViewController.swift */; };
@@ -118,6 +119,7 @@
 		B5A0C5E529B35AAD005E0B15 /* CircularStd-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-Light.otf"; sourceTree = "<group>"; };
 		B5A0C5E829B35AAD005E0B15 /* CircularStd-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-Book.otf"; sourceTree = "<group>"; };
 		B5A0C5F329B35D07005E0B15 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		B5A0C5F629B496DC005E0B15 /* MusicVisualizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicVisualizerView.swift; sourceTree = "<group>"; };
 		B5BD576A2978EB9E004D9789 /* SpotifyClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotifyClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5BD576D2978EB9E004D9789 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5BD576F2978EB9E004D9789 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -324,6 +326,14 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		B5A0C5F529B496AD005E0B15 /* CommonView */ = {
+			isa = PBXGroup;
+			children = (
+				B5A0C5F629B496DC005E0B15 /* MusicVisualizerView.swift */,
+			);
+			path = CommonView;
+			sourceTree = "<group>";
+		};
 		B5BD57612978EB9E004D9789 = {
 			isa = PBXGroup;
 			children = (
@@ -348,6 +358,7 @@
 				B5BD57892978F25E004D9789 /* Helper */,
 				B56C279B298BF7F80048F8D7 /* Extension */,
 				B56C3CA72984CBF8002BC147 /* Subclass */,
+				B5A0C5F529B496AD005E0B15 /* CommonView */,
 				B5BD57832978EC02004D9789 /* Main */,
 				B5BD57902978FD6D004D9789 /* Model */,
 				B5BD57822978EBE9004D9789 /* Resources */,
@@ -620,6 +631,7 @@
 				B5BD579A297964FE004D9789 /* HomeViewController.swift in Sources */,
 				B56C278C2987A2700048F8D7 /* Artist.swift in Sources */,
 				B56C3CB22984E7E4002BC147 /* PlaylistAlbumDetailViewController.swift in Sources */,
+				B5A0C5F729B496DC005E0B15 /* MusicVisualizerView.swift in Sources */,
 				B50E391F29B22A290083AEAE /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

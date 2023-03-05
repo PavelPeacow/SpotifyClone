@@ -12,6 +12,10 @@ protocol PlayerViewControllerDelegate {
     func didTapPause(_ isPlaying: Bool)
 }
 
+protocol PlayerViewControllerNewTrackUpdater {
+    func didStartPlayNewTrack(_ id: String)
+}
+
 final class PlayerViewController: UIViewController {
     
     static let shared = PlayerViewController()
@@ -20,6 +24,7 @@ final class PlayerViewController: UIViewController {
     var viewModel = PlayerViewModel()
     
     var delegate: PlayerViewControllerDelegate?
+    var trackUpdater: PlayerViewControllerNewTrackUpdater?
     
     private lazy var tabbar = presentingViewController as? MainTabBarViewController
     
@@ -75,6 +80,9 @@ final class PlayerViewController: UIViewController {
     func startPlaySong(song: String) {
         Task { [weak self] in
             await viewModel.getTrack(with: song)
+            
+            trackUpdater?.didStartPlayNewTrack(viewModel.track?.id ?? "")
+            
             guard let url = URL(string: viewModel.track?.album?.images?.first?.url ?? "") else { return }
             
             playerView.cover.loadImage(for: url) { [weak self] in

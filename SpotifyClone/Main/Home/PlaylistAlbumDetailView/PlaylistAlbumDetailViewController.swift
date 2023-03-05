@@ -33,6 +33,7 @@ final class PlaylistAlbumDetailViewController: UIViewController {
     private func setDelegates() {
         albumDetailView.collectionView.delegate = self
         albumDetailView.collectionView.dataSource = self
+        PlayerViewController.shared.trackUpdater = self
     }
     
 #warning("TODO: probably need its own model to input")
@@ -94,6 +95,28 @@ final class PlaylistAlbumDetailViewController: UIViewController {
     
 }
 
+extension PlaylistAlbumDetailViewController: PlayerViewControllerNewTrackUpdater {
+    
+    func didStartPlayNewTrack(_ id: String) {
+        let cellId = viewModel.tracks.firstIndex(where: { $0.id == id }) ?? 0
+        let indexPath = IndexPath(item: cellId, section: 0)
+        
+        guard let cellToUpadte = albumDetailView.collectionView.cellForItem(at: indexPath) as? PlaylistAlbumDetailViewCell else { return }
+
+        if let currentPlayingCell = viewModel.currentPlayingCell {
+            if currentPlayingCell != cellToUpadte {
+                viewModel.currentPlayingCell?.setNonPlayingState()
+                viewModel.currentPlayingCell = cellToUpadte
+            }
+        } else {
+            viewModel.currentPlayingCell = cellToUpadte
+        }
+        
+        cellToUpadte.setPlayingState()
+    }
+    
+}
+
 extension PlaylistAlbumDetailViewController: PlaylistAlbumHeaderCollectionReusableViewDelegate {
     
     func didTapArtist() {
@@ -125,6 +148,8 @@ extension PlaylistAlbumDetailViewController: PlaylistAlbumHeaderCollectionReusab
             present(PlayerViewController.shared, animated: true)
         } else {
             PlayerViewController.shared.pauseFromBottomPlayerView()
+            viewModel.currentPlayingCell?.setNonPlayingState()
+            viewModel.currentPlayingCell = nil
         }
         
     }
@@ -159,6 +184,9 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
         }
         
         cell.configure(imageURL: image, trackTitle: title, groupTitle: grouptTitle)
+        cell.trackID = track.id
+        cell.isPlayingState()
+        
         return cell
     }
     
@@ -183,7 +211,6 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
             artistTitle = viewModel.artist?.name ?? ""
             
             header.id = viewModel.album?.id ?? ""
-            print(viewModel.album?.id)
             
             header.setCover(title: title, typeAndDate: "\(itemType.capitalized) - \(date.prefix(4))", artistImage: artistImage, artistTitle: artistTitle)
         case .playlist:
@@ -194,7 +221,6 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
             artistTitle = viewModel.user?.displayName ?? ""
             
             header.id = viewModel.playlist?.id ?? ""
-            print(viewModel.playlist?.id)
             
             let playlistTime = viewModel.tracks.reduce(into: 0, { $0 += $1.durationMS ?? 0 })
             let formattedTime = viewModel.convertSecondsToHrMinute(miliseconds: playlistTime)

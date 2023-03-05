@@ -11,6 +11,8 @@ final class PlaylistAlbumDetailViewCell: UICollectionViewCell {
     
     static let identifier = "AlbumCollectionViewCell"
     
+    var trackID: String?
+    
     private lazy var contentStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [trackImage, titlesStackView])
         stackView.spacing = 8
@@ -21,10 +23,25 @@ final class PlaylistAlbumDetailViewCell: UICollectionViewCell {
         return stackView
     }()
     
+    private lazy var musicVisualizerView: MusicVisualizerView = {
+        let view = MusicVisualizerView()
+        view.isHidden = true
+        return view
+    }()
+    
+    private lazy var visualizerAndTitleStackView: UIStackView = {
+       let stackView = UIStackView(arrangedSubviews: [musicVisualizerView, trackTitle])
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.spacing = 3
+        stackView.alignment = .fill
+        return stackView
+    }()
+    
     private lazy var titlesStackView: UIStackView = {
-       let stackView = UIStackView(arrangedSubviews: [trackTitle, groupTitle])
+       let stackView = UIStackView(arrangedSubviews: [visualizerAndTitleStackView, groupTitle])
         stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
         stackView.alignment = .fill
         return stackView
     }()
@@ -36,7 +53,7 @@ final class PlaylistAlbumDetailViewCell: UICollectionViewCell {
         return image
     }()
     
-    private lazy var trackTitle: UILabel = {
+     lazy var trackTitle: UILabel = {
         let label = UILabel()
         label.font = .setFont(.book, size: 16)
         return label
@@ -71,6 +88,24 @@ final class PlaylistAlbumDetailViewCell: UICollectionViewCell {
         self.groupTitle.text = groupTitle
     }
     
+    func setPlayingState() {
+        musicVisualizerView.isHidden = false
+        trackTitle.textColor = .green
+    }
+    
+    func setNonPlayingState() {
+        musicVisualizerView.isHidden = true
+        trackTitle.textColor = .white
+    }
+    
+    func isPlayingState() {
+        if PlayerViewController.shared.viewModel.track?.id == trackID {
+            setPlayingState()
+        } else {
+            setNonPlayingState()
+        }
+    }
+    
 }
 
 extension PlaylistAlbumDetailViewCell {
@@ -79,6 +114,9 @@ extension PlaylistAlbumDetailViewCell {
         NSLayoutConstraint.activate([
             trackImage.heightAnchor.constraint(equalToConstant: 50),
             trackImage.widthAnchor.constraint(equalToConstant: 50),
+            
+            musicVisualizerView.heightAnchor.constraint(equalToConstant: 20),
+            musicVisualizerView.widthAnchor.constraint(equalToConstant: 20),
             
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
