@@ -24,7 +24,7 @@ final class PlayerViewModel: NSObject {
     
     private var player = AVAudioPlayer()
     
-    private var isPlaying = false {
+    var isPlaying = false {
         didSet {
             delegate?.isPlayingTrack(isPlaying)
         }
@@ -53,6 +53,7 @@ final class PlayerViewModel: NSObject {
     var tracksID = [String]()
     var shuffleTracksID = [String]()
     var track: Track?
+    var playlistIdOfPlayingTrack: String?
     
     var delegate: PlayerViewViewModelDelegate?
     

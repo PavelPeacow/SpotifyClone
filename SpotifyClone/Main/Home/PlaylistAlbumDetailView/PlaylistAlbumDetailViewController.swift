@@ -78,6 +78,14 @@ final class PlaylistAlbumDetailViewController: UIViewController {
         albumDetailView.container.backgroundColor = averageColor
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let header = albumDetailView.collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: 0)) as? PlaylistAlbumHeaderCollectionReusableView {
+            header.isPlayingThisAlbum()
+        }
+    }
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -98,6 +106,25 @@ extension PlaylistAlbumDetailViewController: PlaylistAlbumHeaderCollectionReusab
         case .playlist:
 #warning("TODO: ProfileView")
             print("Need to do profileView")
+        }
+        
+    }
+    
+    func didTapPlayBtn(_ isTap: Bool) {
+        if isTap {
+            switch type {
+                
+            case .album:
+                PlayerViewController.shared.viewModel.playlistIdOfPlayingTrack = nil
+            case .playlist:
+                PlayerViewController.shared.viewModel.playlistIdOfPlayingTrack = viewModel.playlist?.id
+            }
+            
+            let songs = viewModel.tracks.map( {$0.id ?? "" })
+            PlayerViewController.shared.startPlaySongs(songs: songs, at: 0)
+            present(PlayerViewController.shared, animated: true)
+        } else {
+            PlayerViewController.shared.pauseFromBottomPlayerView()
         }
         
     }
@@ -155,6 +182,9 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
             artistImage = viewModel.artist?.images?.first?.url ?? ""
             artistTitle = viewModel.artist?.name ?? ""
             
+            header.id = viewModel.album?.id ?? ""
+            print(viewModel.album?.id)
+            
             header.setCover(title: title, typeAndDate: "\(itemType.capitalized) - \(date.prefix(4))", artistImage: artistImage, artistTitle: artistTitle)
         case .playlist:
             title = viewModel.playlist?.description ?? ""
@@ -162,10 +192,16 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
             itemType = viewModel.playlist?.type ?? ""
             artistImage = viewModel.user?.images?.first?.url ?? ""
             artistTitle = viewModel.user?.displayName ?? ""
+            
+            header.id = viewModel.playlist?.id ?? ""
+            print(viewModel.playlist?.id)
+            
             let playlistTime = viewModel.tracks.reduce(into: 0, { $0 += $1.durationMS ?? 0 })
             let formattedTime = viewModel.convertSecondsToHrMinute(miliseconds: playlistTime)
             header.setCover(title: title, typeAndDate: "\(formattedTime)", artistImage: artistImage, artistTitle: artistTitle)
         }
+        
+        header.isPlayingThisAlbum()
         
         print(title)
         
@@ -193,13 +229,23 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDelegateFlowLayout 
 extension PlaylistAlbumDetailViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let song = viewModel.tracks[indexPath.row]
-        
         let tracksID = viewModel.tracks.map { Track in
             Track.id ?? ""
         }
         
         print(tracksID)
+        
+        switch type {
+            
+        case .album:
+            PlayerViewController.shared.viewModel.playlistIdOfPlayingTrack = nil
+        case .playlist:
+            PlayerViewController.shared.viewModel.playlistIdOfPlayingTrack = viewModel.playlist?.id
+        }
+        
+        if let header = albumDetailView.collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: 0)) as? PlaylistAlbumHeaderCollectionReusableView {
+            header.didStartPlayTappedSong()
+        }
         
         PlayerViewController.shared.startPlaySongs(songs: tracksID, at: indexPath.row)
         present(PlayerViewController.shared, animated: true)

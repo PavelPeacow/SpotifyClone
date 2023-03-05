@@ -8,12 +8,18 @@
 import UIKit
 import AVFoundation
 
+protocol PlayerViewControllerDelegate {
+    func didTapPause(_ isPlaying: Bool)
+}
+
 final class PlayerViewController: UIViewController {
     
     static let shared = PlayerViewController()
     
     private let playerView = PlayerView()
-    private var viewModel = PlayerViewModel()
+    var viewModel = PlayerViewModel()
+    
+    var delegate: PlayerViewControllerDelegate?
     
     private lazy var tabbar = presentingViewController as? MainTabBarViewController
     
@@ -91,6 +97,7 @@ final class PlayerViewController: UIViewController {
     
     func pauseFromBottomPlayerView() {
         viewModel.didTapPause()
+        delegate?.didTapPause(viewModel.isPlaying)
     }
     
 }
@@ -162,7 +169,7 @@ extension PlayerViewController {
             nav.pushViewController(vc, animated: true)
         }
     }
-    
+#warning("Refactore is needed I think")
     @objc func didTapSongTitle() {
         dismiss(animated: true) { [weak self] in
             Task {
@@ -171,22 +178,30 @@ extension PlayerViewController {
                 let songTitle = self?.viewModel.track?.name ?? ""
                 
                 if let topViewController = nav.topViewController as? PlaylistAlbumDetailViewController {
+                    
+                    guard topViewController.viewModel.playlist == nil else {
+                        await self?.createDetailViewController(nav: nav)
+                        return
+                    }
                     if topViewController.viewModel.tracks.contains(where: { $0.name == songTitle }) { return }
                 }
                 
-                let id = self?.viewModel.track?.album?.id ?? ""
-                
-                let albumContent = await self?.viewModel.getAlbumContent(albumID: id)
-                let artist = await self?.viewModel.getArtist(artistID: albumContent?.artists?.first?.id ?? "")
-                let albumTracks = albumContent?.tracks?.items
-                let album = self?.viewModel.track?.album
-                
-                let vc = PlaylistAlbumDetailViewController()
-                vc.configure(tracks: albumTracks, album: album, artist: artist)
-                nav.pushViewController(vc, animated: true)
+                await self?.createDetailViewController(nav: nav)
             }
-           
         }
+    }
+    
+    private func createDetailViewController(nav: UINavigationController) async {
+        let id = viewModel.track?.album?.id ?? ""
+        
+        let albumContent = await viewModel.getAlbumContent(albumID: id)
+        let artist = await viewModel.getArtist(artistID: albumContent?.artists?.first?.id ?? "")
+        let albumTracks = albumContent?.tracks?.items
+        let album = viewModel.track?.album
+        
+        let vc = PlaylistAlbumDetailViewController()
+        vc.configure(tracks: albumTracks, album: album, artist: artist)
+        nav.pushViewController(vc, animated: true)
     }
     
     @objc func didSlideSlider(_ sender: UISlider) {
@@ -201,6 +216,7 @@ extension PlayerViewController {
     
     @objc func didTapPauseBtn() {
         viewModel.didTapPause()
+        delegate?.didTapPause(viewModel.isPlaying)
     }
     
     @objc func didTapNextSongBtn() {
