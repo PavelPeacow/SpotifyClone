@@ -98,11 +98,13 @@ final class PlaylistAlbumDetailViewCell: UICollectionViewCell {
         trackTitle.textColor = .white
     }
     
-    func isPlayingState() {
+    func isPlayingState() -> Bool {
         if PlayerViewController.shared.viewModel.track?.id == trackID {
             setPlayingState()
+            return true
         } else {
             setNonPlayingState()
+            return false
         }
     }
     

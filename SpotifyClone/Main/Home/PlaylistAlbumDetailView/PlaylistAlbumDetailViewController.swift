@@ -85,24 +85,32 @@ final class PlaylistAlbumDetailViewController: UIViewController {
         if let header = albumDetailView.collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: 0)) as? PlaylistAlbumHeaderCollectionReusableView {
             header.isPlayingThisAlbum()
         }
+        
+        print("WillAppear")
+        PlayerViewController.shared.trackUpdater = self
+        let currentPlayingTrackID = PlayerViewController.shared.viewModel.track?.id ?? ""
+        checkForCurrentTrack(id: currentPlayingTrackID)
     }
-    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         albumDetailView.gradient.frame = albumDetailView.floatingCover.bounds
     }
     
-}
-
-extension PlaylistAlbumDetailViewController: PlayerViewControllerNewTrackUpdater {
-    
-    func didStartPlayNewTrack(_ id: String) {
-        let cellId = viewModel.tracks.firstIndex(where: { $0.id == id }) ?? 0
+    private func checkForCurrentTrack(id: String) {
+        guard let cellId = viewModel.tracks.firstIndex(where: { $0.id == id }) else {
+            viewModel.currentPlayingCell?.setNonPlayingState()
+            viewModel.currentPlayingCell = nil
+            return
+        }
         let indexPath = IndexPath(item: cellId, section: 0)
         
-        guard let cellToUpadte = albumDetailView.collectionView.cellForItem(at: indexPath) as? PlaylistAlbumDetailViewCell else { return }
-
+        guard let cellToUpadte = albumDetailView.collectionView.cellForItem(at: indexPath) as? PlaylistAlbumDetailViewCell else {
+            viewModel.currentPlayingCell?.setNonPlayingState()
+            viewModel.currentPlayingCell = nil
+            return
+        }
+        
         if let currentPlayingCell = viewModel.currentPlayingCell {
             if currentPlayingCell != cellToUpadte {
                 viewModel.currentPlayingCell?.setNonPlayingState()
@@ -112,7 +120,16 @@ extension PlaylistAlbumDetailViewController: PlayerViewControllerNewTrackUpdater
             viewModel.currentPlayingCell = cellToUpadte
         }
         
-        cellToUpadte.setPlayingState()
+        viewModel.currentPlayingCell?.setPlayingState()
+        
+    }
+    
+}
+
+extension PlaylistAlbumDetailViewController: PlayerViewControllerNewTrackUpdater {
+    
+    func didStartPlayNewTrack(_ id: String) {
+        checkForCurrentTrack(id: id)
     }
     
 }
@@ -185,7 +202,10 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
         
         cell.configure(imageURL: image, trackTitle: title, groupTitle: grouptTitle)
         cell.trackID = track.id
-        cell.isPlayingState()
+        
+        if cell.isPlayingState() {
+            viewModel.currentPlayingCell = cell
+        }
         
         return cell
     }
