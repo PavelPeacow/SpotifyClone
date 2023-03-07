@@ -9,13 +9,6 @@ import UIKit
 import AVFoundation
 
 #warning("TODO: Change delegates to NotificationCenter")
-protocol PlayerViewControllerDelegate {
-    func didTapPause(_ isPlaying: Bool)
-}
-
-protocol PlayerViewControllerNewTrackUpdater {
-    func didStartPlayNewTrack(_ id: String)
-}
 
 final class PlayerViewController: UIViewController {
     
@@ -23,9 +16,6 @@ final class PlayerViewController: UIViewController {
     
     private let playerView = PlayerView()
     var viewModel = PlayerViewModel()
-    
-    var delegate: PlayerViewControllerDelegate?
-    var trackUpdater: PlayerViewControllerNewTrackUpdater?
     
     private lazy var tabbar = presentingViewController as? MainTabBarViewController
     
@@ -82,7 +72,7 @@ final class PlayerViewController: UIViewController {
         Task { [weak self] in
             await viewModel.getTrack(with: song)
             
-            trackUpdater?.didStartPlayNewTrack(viewModel.track?.id ?? "")
+            NotificationCenter.default.post(name: .didStartPlayingNewTrack, object: nil, userInfo: [Notification.key : viewModel.track?.id ?? ""])
             
             guard let url = URL(string: viewModel.track?.album?.images?.first?.url ?? "") else { return }
             
@@ -106,7 +96,7 @@ final class PlayerViewController: UIViewController {
     
     func pauseFromBottomPlayerView() {
         viewModel.didTapPause()
-        delegate?.didTapPause(viewModel.isPlaying)
+        NotificationCenter.default.post(name: .didPauseTrack, object: nil, userInfo: [Notification.key : viewModel.isPlaying])
     }
     
 }
@@ -225,7 +215,7 @@ extension PlayerViewController {
     
     @objc func didTapPauseBtn() {
         viewModel.didTapPause()
-        delegate?.didTapPause(viewModel.isPlaying)
+        NotificationCenter.default.post(name: .didPauseTrack, object: nil, userInfo: [Notification.key : viewModel.isPlaying])
     }
     
     @objc func didTapNextSongBtn() {

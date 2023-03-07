@@ -95,7 +95,7 @@ class PlaylistAlbumHeaderCollectionReusableView: UICollectionReusableView {
         addSubview(stackViewDescription)
         addSubview(playBtn)
         
-        PlayerViewController.shared.delegate = self
+        setNotification()
         
         addGestures()
         addTargets()
@@ -117,14 +117,18 @@ class PlaylistAlbumHeaderCollectionReusableView: UICollectionReusableView {
     }
     
     func isPlayingThisAlbum() {
-        if !PlayerViewController.shared.viewModel.isPlaying {
+        let isPlaying = PlayerViewController.shared.viewModel.isPlaying
+        
+        if !isPlaying {
             isTapPlayBtn = false
             return
         }
         
-        if PlayerViewController.shared.viewModel.track?.album?.id ?? "" == id && PlayerViewController.shared.viewModel.playlistIdOfPlayingTrack == nil || PlayerViewController.shared.viewModel.playlistIdOfPlayingTrack == id {
+        let albumId = PlayerViewController.shared.viewModel.track?.album?.id ?? ""
+        let playlistId = PlayerViewController.shared.viewModel.playlistIdOfPlayingTrack
+        
+        if (albumId == id && playlistId == nil) || playlistId == id {
             isTapPlayBtn = true
-            print("churka")
         } else {
             isTapPlayBtn = false
         }
@@ -147,12 +151,28 @@ class PlaylistAlbumHeaderCollectionReusableView: UICollectionReusableView {
         self.artistImage.layer.cornerRadius = self.artistImage.frame.height / 2
     }
     
+    private func setNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didGetTapPauseNotification), name: .didPauseTrack, object: nil)
+    }
+    
 }
 
-extension PlaylistAlbumHeaderCollectionReusableView: PlayerViewControllerDelegate {
+extension PlaylistAlbumHeaderCollectionReusableView {
+    
+    @objc func didGetTapPauseNotification(_ notification: Notification) {
+        guard let data = notification.userInfo as? [String : Bool] else { return }
+        
+        if let isPlaying = data[Notification.key] {
+            didTapPause(isPlaying)
+        }
+    }
     
     func didTapPause(_ isPlaying: Bool) {
-        if isPlaying && PlayerViewController.shared.viewModel.track?.album?.id ?? "" == id && PlayerViewController.shared.viewModel.playlistIdOfPlayingTrack == nil || PlayerViewController.shared.viewModel.playlistIdOfPlayingTrack == id {
+        let track = PlayerViewController.shared.viewModel.track
+        let albumId = track?.album?.id
+        let playingPlaylistId = PlayerViewController.shared.viewModel.playlistIdOfPlayingTrack
+        
+        if isPlaying && (albumId == id && playingPlaylistId == nil || playingPlaylistId == id) {
             isTapPlayBtn = true
         } else {
             isTapPlayBtn = false

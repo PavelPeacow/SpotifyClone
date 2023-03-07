@@ -27,13 +27,13 @@ final class PlaylistAlbumDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setNotification()
         setDelegates()
     }
     
     private func setDelegates() {
         albumDetailView.collectionView.delegate = self
         albumDetailView.collectionView.dataSource = self
-        PlayerViewController.shared.trackUpdater = self
     }
     
 #warning("TODO: probably need its own model to input")
@@ -90,7 +90,6 @@ final class PlaylistAlbumDetailViewController: UIViewController {
         navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem()
         
         print("WillAppear")
-        PlayerViewController.shared.trackUpdater = self
         let currentPlayingTrackID = PlayerViewController.shared.viewModel.track?.id ?? ""
         checkForCurrentTrack(id: currentPlayingTrackID)
     }
@@ -127,12 +126,20 @@ final class PlaylistAlbumDetailViewController: UIViewController {
         
     }
     
+    private func setNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didGetStartPlayNewTrackNotification), name: .didStartPlayingNewTrack, object: nil)
+    }
+    
 }
 
-extension PlaylistAlbumDetailViewController: PlayerViewControllerNewTrackUpdater {
+extension PlaylistAlbumDetailViewController {
     
-    func didStartPlayNewTrack(_ id: String) {
-        checkForCurrentTrack(id: id)
+    @objc func didGetStartPlayNewTrackNotification(_ notification: Notification) {
+        guard let data = notification.userInfo as? [String : String] else { return }
+        
+        if let trackID = data[Notification.key] {
+            checkForCurrentTrack(id: trackID)
+        }
     }
     
 }

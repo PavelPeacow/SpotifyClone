@@ -50,6 +50,7 @@
 		B5A0C5F229B35AAD005E0B15 /* CircularStd-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = B5A0C5E829B35AAD005E0B15 /* CircularStd-Book.otf */; };
 		B5A0C5F429B35D07005E0B15 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0C5F329B35D07005E0B15 /* Font.swift */; };
 		B5A0C5F729B496DC005E0B15 /* MusicVisualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0C5F629B496DC005E0B15 /* MusicVisualizerView.swift */; };
+		B5A0C61B29B75075005E0B15 /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0C61A29B75075005E0B15 /* Notification+Name.swift */; };
 		B5BD576E2978EB9E004D9789 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD576D2978EB9E004D9789 /* AppDelegate.swift */; };
 		B5BD57702978EB9E004D9789 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD576F2978EB9E004D9789 /* SceneDelegate.swift */; };
 		B5BD57722978EB9E004D9789 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD57712978EB9E004D9789 /* LoginViewController.swift */; };
@@ -120,6 +121,7 @@
 		B5A0C5E829B35AAD005E0B15 /* CircularStd-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-Book.otf"; sourceTree = "<group>"; };
 		B5A0C5F329B35D07005E0B15 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		B5A0C5F629B496DC005E0B15 /* MusicVisualizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicVisualizerView.swift; sourceTree = "<group>"; };
+		B5A0C61A29B75075005E0B15 /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
 		B5BD576A2978EB9E004D9789 /* SpotifyClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotifyClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5BD576D2978EB9E004D9789 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5BD576F2978EB9E004D9789 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 				B56C2799298BF7CE0048F8D7 /* UIIMage+AverageColor.swift */,
 				B57DA9D2298D3092006C892B /* UIButton+SFSymbol.swift */,
 				B57DA9D4298D3813006C892B /* UIView+Shadows.swift */,
+				B5A0C61A29B75075005E0B15 /* Notification+Name.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -574,6 +577,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5BD578D2978F6C5004D9789 /* AuthEndpoint.swift in Sources */,
+				B5A0C61B29B75075005E0B15 /* Notification+Name.swift in Sources */,
 				B5BD57852978ED55004D9789 /* APIManager.swift in Sources */,
 				B57DA9D3298D3092006C892B /* UIButton+SFSymbol.swift in Sources */,
 				B5F7A834299B8E050001ED69 /* CompLayoutArtist.swift in Sources */,
