@@ -71,6 +71,7 @@ final class PlaylistAlbumDetailViewController: UIViewController {
     
     private func setGradientColorsAndBackground() {
         let averageColor = albumDetailView.floatingCover.cover.image?.averageColor ?? .green
+        viewModel.averageColor = averageColor
         albumDetailView.gradient.colors = [
             averageColor.cgColor,
             UIColor.mainBackground.cgColor,
@@ -85,6 +86,8 @@ final class PlaylistAlbumDetailViewController: UIViewController {
         if let header = albumDetailView.collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: 0)) as? PlaylistAlbumHeaderCollectionReusableView {
             header.isPlayingThisAlbum()
         }
+        
+        navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem()
         
         print("WillAppear")
         PlayerViewController.shared.trackUpdater = self
@@ -260,6 +263,22 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         albumDetailView.floatingCover.scrollViewDidScroll(scrollView: scrollView)
+        
+        
+        let alpha = min(1, scrollView.contentOffset.y/100)
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = viewModel.averageColor?.withAlphaComponent(alpha)
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white.withAlphaComponent(alpha), .font: UIFont.setFont(.book, size: 16)]
+        navigationItem.standardAppearance = appearance
+        navigationItem.scrollEdgeAppearance = appearance
+        navigationItem.compactAppearance = appearance
+        
+        navigationItem.title = type == .album ? viewModel.album?.name : viewModel.playlist?.name
+        
+        
+        
     }
     
 }

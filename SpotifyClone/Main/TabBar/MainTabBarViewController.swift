@@ -26,6 +26,9 @@ final class MainTabBarViewController: UITabBarController {
     func setTabBar() {
         let home = UINavigationController(rootViewController: HomeViewController())
         
+        home.navigationBar.tintColor = .white
+        home.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem()
+        
         home.tabBarItem.image = UIImage(systemName: "house.fill")
         home.tabBarItem.title = "Browse"
         

@@ -28,7 +28,7 @@ final class PlaylistAlbumDetailView: UIView {
     lazy var container: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.zPosition = -3
+        view.layer.zPosition = -2
         return view
     }()
     
@@ -65,12 +65,12 @@ extension PlaylistAlbumDetailView {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            collectionView.topAnchor.constraint(equalTo: topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            floatingCover.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            floatingCover.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: -30),
             floatingCover.centerXAnchor.constraint(equalTo: centerXAnchor),
             floatingCover.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1),
             floatingCover.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.45),

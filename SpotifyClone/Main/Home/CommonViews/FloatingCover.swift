@@ -13,8 +13,8 @@ class FloatingCover: UIView {
     private var coverHeight: NSLayoutConstraint?
     private var coverWidth: NSLayoutConstraint?
     
-    private var heightConstant: CGFloat = 200
-    private var widthConstant: CGFloat = 200
+    private var heightConstant: CGFloat = 230
+    private var widthConstant: CGFloat = 230
     
     lazy var cover: UIImageViewURL = {
         let image = UIImageViewURL()
@@ -61,7 +61,7 @@ extension FloatingCover {
         widthConstraint.constant = heightConstant - normalizedScroll
         heightConstraint.constant = widthConstant - normalizedScroll
         
-        let normalizedAlpha = y / 200
+        let normalizedAlpha = y / 100
         alpha = 1.0 - normalizedAlpha
     }
     

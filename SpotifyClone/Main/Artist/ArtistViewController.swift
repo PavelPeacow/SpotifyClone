@@ -22,6 +22,12 @@ final class ArtistViewController: UIViewController {
         setDelegates()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        #warning("Reset custom navBar")
+        navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem()
+    }
+    
     private func setDelegates() {
         artistView.collectionView.delegate = self
         artistView.collectionView.dataSource = self

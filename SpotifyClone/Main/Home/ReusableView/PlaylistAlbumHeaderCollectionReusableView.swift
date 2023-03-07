@@ -29,7 +29,7 @@ class PlaylistAlbumHeaderCollectionReusableView: UICollectionReusableView {
     }
     var id: String?
     
-    private lazy var stackViewDescription: UIStackView = {
+    lazy var stackViewDescription: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [title, stackViewArtist, typeAndDate])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution = .fill

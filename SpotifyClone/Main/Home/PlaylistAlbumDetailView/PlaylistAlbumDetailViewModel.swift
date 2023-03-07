@@ -18,6 +18,8 @@ final class PlaylistAlbumDetailViewModel {
     
     var currentPlayingCell: PlaylistAlbumDetailViewCell?
     
+    var averageColor: UIColor?
+    
     func convertSecondsToHrMinute(miliseconds: Int) -> String {
         var calendar = Calendar.current
         calendar.locale = .init(identifier: "en")

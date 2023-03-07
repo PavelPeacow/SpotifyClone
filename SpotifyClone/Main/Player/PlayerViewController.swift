@@ -8,6 +8,7 @@
 import UIKit
 import AVFoundation
 
+#warning("TODO: Change delegates to NotificationCenter")
 protocol PlayerViewControllerDelegate {
     func didTapPause(_ isPlaying: Bool)
 }
