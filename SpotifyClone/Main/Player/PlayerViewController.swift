@@ -200,8 +200,14 @@ extension PlayerViewController {
         let albumTracks = albumContent?.tracks?.items
         let album = viewModel.track?.album
         
+        var artists = [AddedBy]()
+        
+        albumTracks?.forEach { artists.append(contentsOf: $0.artists ?? []) }
+
+        let fullInfoArtists = await viewModel.getFullInfoAboutArtist(artists: artists)
+        
         let vc = PlaylistAlbumDetailViewController()
-        vc.configure(tracks: albumTracks, album: album, artist: artist)
+        vc.configure(tracks: albumTracks, album: album, artist: artist, otherArtists: fullInfoArtists)
         nav.pushViewController(vc, animated: true)
     }
     

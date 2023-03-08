@@ -13,12 +13,14 @@ final class ArtistViewModel {
     var albums = [Album]()
     var artist: Artist?
     
-    func getArtist(artistID: String) async {
+    func getArtist(artistID: String) async -> Artist? {
         do {
             let result = try await APIManager().getSpotifyContent(type: Artist.self, endpoint: ArtistEndpoint.getArtist(id: artistID))
             artist = result
+            return artist
         } catch {
             print(error)
+            return nil
         }
     }
     
@@ -50,5 +52,27 @@ final class ArtistViewModel {
         }
     }
 
+    func getFullInfoAboutArtist(artists: [AddedBy]) async -> [Artist] {
+        let artists = artists.uniques(by: \.name).sorted(by: { $0.name ?? "" < $1.name ?? "" })
+        var fullInfoArtits = [Artist]()
+        
+        await withTaskGroup(of: Artist?.self, body: { group in
+            for artID in artists {
+                group.addTask {
+                    let fullInfoArtist = await self.getArtist(artistID: artID.id)
+                    return fullInfoArtist
+                }
+            }
+            
+            for await artist in group {
+                if let artist = artist {
+                    fullInfoArtits.append(artist)
+                }
+                
+            }
+        })
+        
+        return fullInfoArtits
+    }
     
 }

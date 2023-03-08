@@ -7,6 +7,17 @@
 
 import UIKit
 
+extension Array {
+
+    func uniques<T: Hashable>(by keyPath: KeyPath<Element, T>) -> [Element] {
+        return reduce([]) { result, element in
+            let alreadyExists = (result.contains(where: { $0[keyPath: keyPath] == element[keyPath: keyPath] }))
+            return alreadyExists ? result : result + [element]
+        }
+    }
+}
+
+
 class HomeViewController: UIViewController {
     
     private let homeView = HomeView()
@@ -132,9 +143,15 @@ extension HomeViewController: UICollectionViewDelegate {
                 let album = viewModel.userAlbums[indexPath.row].album
                 let tracks = viewModel.userAlbums[indexPath.row].album.tracks?.items
                 
+                var artists = [AddedBy]()
+                
+                tracks?.forEach { artists.append(contentsOf: $0.artists ?? []) }
+
+                let fullInfoArtists = await viewModel.getFullInfoAboutArtist(artists: artists)
+                
                 let artist = await viewModel.getArtist(artistID: album.artists?.first?.id ?? "")
                 
-                vc.configure(tracks: tracks, album: album, artist: artist)
+                vc.configure(tracks: tracks, album: album, artist: artist, otherArtists: fullInfoArtists)
                 navigationController?.pushViewController(vc, animated: true)
             }
         case .recentlyPlayed:
@@ -148,7 +165,13 @@ extension HomeViewController: UICollectionViewDelegate {
                 let album = viewModel.recentlyPlayed[indexPath.row].track.album
                 let albumTracks = albumContent?.tracks?.items
                 
-                vc.configure(tracks: albumTracks, album: album, artist: artist)
+                var artists = [AddedBy]()
+                
+                albumTracks?.forEach { artists.append(contentsOf: $0.artists ?? []) }
+
+                let fullInfoArtists = await viewModel.getFullInfoAboutArtist(artists: artists)
+                
+                vc.configure(tracks: albumTracks, album: album, artist: artist, otherArtists: fullInfoArtists)
                 navigationController?.pushViewController(vc, animated: true)
             }
         }

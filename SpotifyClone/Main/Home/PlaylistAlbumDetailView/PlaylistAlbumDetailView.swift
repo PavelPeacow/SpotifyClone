@@ -33,7 +33,7 @@ final class PlaylistAlbumDetailView: UIView {
     }()
     
     lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
+        let layout = UICollectionViewCompositionalLayout(section: .createPlaylistAlbumLayoutSection())
         
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.register(PlaylistAlbumDetailViewCell.self, forCellWithReuseIdentifier: PlaylistAlbumDetailViewCell.identifier)

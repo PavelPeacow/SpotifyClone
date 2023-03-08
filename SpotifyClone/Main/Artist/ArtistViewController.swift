@@ -138,6 +138,7 @@ extension ArtistViewController: UICollectionViewDelegate {
                 let tracks = albumContent?.tracks?.items.map { $0.id ?? "" }
                 
                 PlayerViewController.shared.startPlaySongs(songs: tracks ?? [], at: (track.trackNumber ?? 0) - 1)
+                present(PlayerViewController.shared, animated: true)
             }
         case .albums:
             Task {
@@ -148,8 +149,14 @@ extension ArtistViewController: UICollectionViewDelegate {
                 
                 let tracks = albumContent?.tracks?.items
                 
+                var artists = [AddedBy]()
+                
+                tracks?.forEach { artists.append(contentsOf: $0.artists ?? []) }
+
+                let fullInfoArtists = await viewModel.getFullInfoAboutArtist(artists: artists)
+                
                 let vc = PlaylistAlbumDetailViewController()
-                vc.configure(tracks: tracks, album: album, artist: viewModel.artist)
+                vc.configure(tracks: tracks, album: album, artist: viewModel.artist, otherArtists: fullInfoArtists)
                 navigationController?.pushViewController(vc, animated: true)
             }
            

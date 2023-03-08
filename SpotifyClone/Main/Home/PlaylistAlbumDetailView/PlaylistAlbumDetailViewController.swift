@@ -37,9 +37,9 @@ final class PlaylistAlbumDetailViewController: UIViewController {
     }
     
 #warning("TODO: probably need its own model to input")
-    func configure(tracks: [Track]?, album: Album? = nil, playlist: PlaylistItem? = nil, artist: Artist? = nil, user: User? = nil) {
+    func configure(tracks: [Track]?, album: Album? = nil, playlist: PlaylistItem? = nil, artist: Artist? = nil, user: User? = nil, otherArtists: [Artist]? = nil) {
         guard let tracks = tracks else { return }
-        
+        viewModel.otherArtists = otherArtists ?? []
         if let _ = album {
             type = .album
         } else {
@@ -183,6 +183,16 @@ extension PlaylistAlbumDetailViewController: PlaylistAlbumHeaderCollectionReusab
     
 }
 
+extension PlaylistAlbumDetailViewController: PlaylistAlbumFooterCollectionReusableViewDelegate {
+    
+    func didTapArtist(_ artistId: String) {
+        let vc = ArtistViewController()
+        vc.configure(with: artistId)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+}
+
 extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -269,8 +279,8 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
         case UICollectionView.elementKindSectionFooter:
             let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: PlaylistAlbumFooterCollectionReusableView.identifier, for: indexPath) as! PlaylistAlbumFooterCollectionReusableView
             
+            footer.delegate = self
             
-           
             let date: String
             let count: Int
             let artists: [Artist]
@@ -283,38 +293,21 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
             case .album:
                 date = viewModel.album?.releaseDate ?? ""
                 count = viewModel.tracks.count
-                artists = [viewModel.artist!]
+                artists = viewModel.otherArtists
                 
-
                 footer.configure(date: date, trackCount: count, playingTime: formattedTime, artists: artists)
             case .playlist:
                 return footer
-//                date = "che"
-//                count = viewModel.tracks.count
-//                artists =  viewModel.album?.artists ?? []
-//
-//                footer.configure(date: date, trackCount: count, playingTime: formattedTime, artists: artists)
             }
             
             return footer
         default:
             return UICollectionReusableView()
         }
-        
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        CGSize(width: view.frame.width, height: 400)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        CGSize(width: view.frame.width, height: 200)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         albumDetailView.floatingCover.scrollViewDidScroll(scrollView: scrollView)
-        
         
         let alpha = min(1, scrollView.contentOffset.y/100)
         
@@ -327,17 +320,6 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
         navigationItem.compactAppearance = appearance
         
         navigationItem.title = type == .album ? viewModel.album?.name : viewModel.playlist?.name
-        
-        
-        
-    }
-    
-}
-
-extension PlaylistAlbumDetailViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: view.frame.width, height: 50)
     }
     
 }

@@ -13,6 +13,7 @@ final class PlaylistAlbumDetailViewModel {
     var playlist: PlaylistItem?
     var album: Album?
     
+    var otherArtists = [Artist]()
     var artist: Artist?
     var user: User?
     

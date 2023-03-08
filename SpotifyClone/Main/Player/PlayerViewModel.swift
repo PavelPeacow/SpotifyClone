@@ -224,6 +224,30 @@ extension PlayerViewModel {
         }
     }
     
+    func getFullInfoAboutArtist(artists: [AddedBy]) async -> [Artist] {
+        let artists = artists.uniques(by: \.name).sorted(by: { $0.name ?? "" < $1.name ?? "" })
+        var fullInfoArtits = [Artist]()
+        
+        await withTaskGroup(of: Artist?.self, body: { group in
+            for artID in artists {
+                group.addTask {
+                    let fullInfoArtist = await self.getArtist(artistID: artID.id)
+                    return fullInfoArtist
+                }
+            }
+            
+            for await artist in group {
+                if let artist = artist {
+                    fullInfoArtits.append(artist)
+                }
+                
+            }
+        })
+        
+        return fullInfoArtits
+    }
+
+    
 }
 
 extension PlayerViewModel: AVAudioPlayerDelegate {

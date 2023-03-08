@@ -7,9 +7,17 @@
 
 import UIKit
 
+protocol PlaylistAlbumFooterCollectionReusableViewDelegate {
+    func didTapArtist(_ artistId: String)
+}
+
 class PlaylistAlbumFooterCollectionReusableView: UICollectionReusableView {
         
     static let identifier = "PlaylistAlbumFooterCollectionReusableView"
+    
+    var delegate: PlaylistAlbumFooterCollectionReusableViewDelegate?
+    
+    var artistIds = [String]()
     
     lazy var stackViewContent: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [stackViewDescription])
@@ -55,13 +63,25 @@ class PlaylistAlbumFooterCollectionReusableView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        for (index, view) in stackViewContent.arrangedSubviews.enumerated() {
+            if index == 0 { continue }
+            stackViewContent.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+    }
+    
     func configure(date: String, trackCount: Int, playingTime: String, artists: [Artist]) {
         self.date.text = date
-        songsCountAndTime.text = "\(trackCount), \(playingTime)"
+        songsCountAndTime.text = "total tracks: \(trackCount) ● \(playingTime)"
         print(artists)
         
         artists.forEach { artist in
             guard let url = URL(string: artist.images?.first?.url ?? "") else { return }
+            
+            artistIds.append(artist.id ?? "")
             
             let image = UIImageViewURL()
             image.contentMode = .scaleAspectFit
@@ -83,9 +103,25 @@ class PlaylistAlbumFooterCollectionReusableView: UICollectionReusableView {
             stackView.distribution = .fill
             stackView.alignment = .fill
             stackView.axis = .horizontal
+            stackView.isUserInteractionEnabled = true
+            
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapArtist))
+            stackView.addGestureRecognizer(gesture)
             
             stackViewContent.addArrangedSubview(stackView)
         }
+    }
+    
+}
+
+extension PlaylistAlbumFooterCollectionReusableView {
+    
+    @objc func didTapArtist(_ sender: UIGestureRecognizer) {
+        guard let stackView = sender.view as? UIStackView else { return }
+        guard let selectedViewIndex = stackViewContent.arrangedSubviews.firstIndex(of: stackView) else { return }
+        
+        let id = artistIds[selectedViewIndex - 1]
+        delegate?.didTapArtist(id)
     }
     
 }
@@ -97,6 +133,7 @@ extension PlaylistAlbumFooterCollectionReusableView {
             stackViewContent.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
             stackViewContent.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
             stackViewContent.topAnchor.constraint(equalTo: topAnchor, constant: 25),
+            stackViewContent.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -55),
         ])
     }
     
