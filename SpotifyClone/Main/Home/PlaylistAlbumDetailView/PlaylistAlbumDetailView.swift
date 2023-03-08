@@ -41,6 +41,8 @@ final class PlaylistAlbumDetailView: UIView {
         collection.backgroundColor = .mainBackground
         
         collection.register(PlaylistAlbumHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PlaylistAlbumHeaderCollectionReusableView.identifier)
+        collection.register(PlaylistAlbumFooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: PlaylistAlbumFooterCollectionReusableView.identifier)
+        
         return collection
     }()
     

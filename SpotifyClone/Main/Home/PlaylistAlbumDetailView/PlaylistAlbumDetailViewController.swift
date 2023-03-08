@@ -202,11 +202,11 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
             
         case .album:
             title = track.name ?? ""
-            grouptTitle = viewModel.album?.artists?.first?.name ?? ""
+            grouptTitle = track.artists?.map( { $0.name ?? "" } ).joined(separator: ", ") ?? ""
             image = nil
         case .playlist:
             title = track.name ?? ""
-            grouptTitle = track.artists?.first?.name ?? ""
+            grouptTitle = track.artists?.map( { $0.name ?? "" } ).joined(separator: ", ") ?? ""
             image = track.album?.images?.first?.url ?? ""
         }
         
@@ -221,51 +221,95 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PlaylistAlbumHeaderCollectionReusableView.identifier, for: indexPath) as! PlaylistAlbumHeaderCollectionReusableView
         
-        header.delegate = self
-        
-        let title: String
-        let date: String
-        let itemType: String
-        let artistImage: String
-        let artistTitle: String
-        
-        switch type {
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PlaylistAlbumHeaderCollectionReusableView.identifier, for: indexPath) as! PlaylistAlbumHeaderCollectionReusableView
             
-        case .album:
-            title = viewModel.album?.name ?? ""
-            date = viewModel.album?.releaseDate ?? ""
-            itemType = viewModel.album?.albumType ?? ""
-            artistImage = viewModel.artist?.images?.first?.url ?? ""
-            artistTitle = viewModel.artist?.name ?? ""
+            header.delegate = self
             
-            header.id = viewModel.album?.id ?? ""
+            let title: String
+            let date: String
+            let itemType: String
+            let artistImage: String
+            let artistTitle: String
             
-            header.setCover(title: title, typeAndDate: "\(itemType.capitalized) - \(date.prefix(4))", artistImage: artistImage, artistTitle: artistTitle)
-        case .playlist:
-            title = viewModel.playlist?.description ?? ""
-            date = viewModel.playlist?.owner.displayName ?? ""
-            itemType = viewModel.playlist?.type ?? ""
-            artistImage = viewModel.user?.images?.first?.url ?? ""
-            artistTitle = viewModel.user?.displayName ?? ""
+            switch type {
+                
+            case .album:
+                title = viewModel.album?.name ?? ""
+                date = viewModel.album?.releaseDate ?? ""
+                itemType = viewModel.album?.albumType ?? ""
+                artistImage = viewModel.artist?.images?.first?.url ?? ""
+                artistTitle = viewModel.artist?.name ?? ""
+                
+                header.id = viewModel.album?.id ?? ""
+                
+                header.setCover(title: title, typeAndDate: "\(itemType.capitalized) - \(date.prefix(4))", artistImage: artistImage, artistTitle: artistTitle)
+            case .playlist:
+                title = viewModel.playlist?.description ?? ""
+                date = viewModel.playlist?.owner.displayName ?? ""
+                itemType = viewModel.playlist?.type ?? ""
+                artistImage = viewModel.user?.images?.first?.url ?? ""
+                artistTitle = viewModel.user?.displayName ?? ""
+                
+                header.id = viewModel.playlist?.id ?? ""
+                
+                let playlistTime = viewModel.tracks.reduce(into: 0, { $0 += $1.durationMS ?? 0 })
+                let formattedTime = viewModel.convertSecondsToHrMinute(miliseconds: playlistTime)
+                header.setCover(title: title, typeAndDate: "\(formattedTime)", artistImage: artistImage, artistTitle: artistTitle)
+            }
             
-            header.id = viewModel.playlist?.id ?? ""
+            header.isPlayingThisAlbum()
+            
+            print(title)
+            
+            return header
+            
+        case UICollectionView.elementKindSectionFooter:
+            let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: PlaylistAlbumFooterCollectionReusableView.identifier, for: indexPath) as! PlaylistAlbumFooterCollectionReusableView
+            
+            
+           
+            let date: String
+            let count: Int
+            let artists: [Artist]
             
             let playlistTime = viewModel.tracks.reduce(into: 0, { $0 += $1.durationMS ?? 0 })
             let formattedTime = viewModel.convertSecondsToHrMinute(miliseconds: playlistTime)
-            header.setCover(title: title, typeAndDate: "\(formattedTime)", artistImage: artistImage, artistTitle: artistTitle)
+            
+            switch type {
+                
+            case .album:
+                date = viewModel.album?.releaseDate ?? ""
+                count = viewModel.tracks.count
+                artists = [viewModel.artist!]
+                
+
+                footer.configure(date: date, trackCount: count, playingTime: formattedTime, artists: artists)
+            case .playlist:
+                return footer
+//                date = "che"
+//                count = viewModel.tracks.count
+//                artists =  viewModel.album?.artists ?? []
+//
+//                footer.configure(date: date, trackCount: count, playingTime: formattedTime, artists: artists)
+            }
+            
+            return footer
+        default:
+            return UICollectionReusableView()
         }
         
-        header.isPlayingThisAlbum()
         
-        print(title)
-        
-        return header
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         CGSize(width: view.frame.width, height: 400)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        CGSize(width: view.frame.width, height: 200)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -18,10 +18,25 @@ final class PlayerViewBottom: UIView {
         return image
     }()
     
+    lazy var stackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [title, artist])
+        stackView.alignment = .fill
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
     lazy var title: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .setFont(.bold, size: 14)
+        label.font = .setFont(.book, size: 14)
+        return label
+    }()
+    
+    lazy var artist: UILabel = {
+        let label = UILabel()
+        label.font = .setFont(.book, size: 14)
+        label.textColor = .secondaryLabel
         return label
     }()
     
@@ -37,7 +52,7 @@ final class PlayerViewBottom: UIView {
         super.init(frame: frame)
         
         addSubview(cover)
-        addSubview(title)
+        addSubview(stackView)
         addSubview(playBtn)
 
         setUpView()
@@ -50,7 +65,6 @@ final class PlayerViewBottom: UIView {
     
     private func setUpView() {
         isHidden = true
-        backgroundColor = .red
         clipsToBounds = true
         layer.cornerRadius = 5
         translatesAutoresizingMaskIntoConstraints = false
@@ -64,7 +78,8 @@ final class PlayerViewBottom: UIView {
             self?.backgroundColor = averageColor
         }
         
-        title.text = "\(songTitle)*\(groupTitle)"
+        title.text = songTitle
+        artist.text = groupTitle
     }
     
 }
@@ -86,9 +101,9 @@ extension PlayerViewBottom {
             cover.centerYAnchor.constraint(equalTo: centerYAnchor),
             cover.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5),
             
-            title.centerYAnchor.constraint(equalTo: centerYAnchor),
-            title.trailingAnchor.constraint(equalTo: playBtn.leadingAnchor, constant: -5),
-            title.leadingAnchor.constraint(equalTo: cover.trailingAnchor, constant: 5),
+            stackView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            stackView.trailingAnchor.constraint(equalTo: playBtn.leadingAnchor, constant: -5),
+            stackView.leadingAnchor.constraint(equalTo: cover.trailingAnchor, constant: 5),
             
             playBtn.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
             playBtn.centerYAnchor.constraint(equalTo: centerYAnchor),

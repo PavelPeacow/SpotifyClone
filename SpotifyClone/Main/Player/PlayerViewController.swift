@@ -84,10 +84,12 @@ final class PlayerViewController: UIViewController {
                 ]
             }
             playerView.songTitle.text = viewModel.track?.name
-            playerView.groupTitle.text = viewModel.track?.artists?.first?.name
+            playerView.groupTitle.text = viewModel.track?.artists?.map( { $0.name ?? "" } ).joined(separator: ", ")
             
             
-            tabbar?.playerViewBottom.configure(imageURL: viewModel.track?.album?.images?.first?.url ?? "", songTitle: viewModel.track?.name ?? "", groupTitle: viewModel.track?.artists?.first?.name ?? "")
+            tabbar?.playerViewBottom.configure(imageURL: viewModel.track?.album?.images?.first?.url ?? "",
+                                               songTitle: viewModel.track?.name ?? "",
+                                               groupTitle: viewModel.track?.artists?.map( { $0.name ?? "" } ).joined(separator: ", ") ?? "")
             
             viewModel.playTrack(url: viewModel.track?.previewURL ?? "")
         }
