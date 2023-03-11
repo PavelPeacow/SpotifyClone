@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - FeaturedPlaylists
 struct FeaturedPlaylists: Decodable {
-    let message: String
+    let message: String?
     let playlists: Playlists
     
 }
@@ -35,7 +35,7 @@ struct PlaylistItem: Decodable {
     let snapshotID: String
     let type: String
     let uri: String
-
+    
     enum CodingKeys: String, CodingKey {
         case collaborative, description
         case href, id, images, name, owner
@@ -51,7 +51,7 @@ struct Owner: Decodable {
     let id: String
     let type: String
     let uri: String
-
+    
     enum CodingKeys: String, CodingKey {
         case displayName = "display_name"
         case href, id, type, uri

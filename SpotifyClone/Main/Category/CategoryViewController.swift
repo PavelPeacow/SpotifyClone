@@ -9,6 +9,8 @@ import UIKit
 
 class CategoryViewController: UIViewController {
     
+    let viewModel = CategoryViewModel()
+    
     lazy var pinnedSearchViewContainer: UIView = {
         let view = UIView()
         view.backgroundColor = .mainBackground
@@ -59,6 +61,12 @@ class CategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        Task {
+            await viewModel.getCategories()
+            await viewModel.getCategoriesImages()
+            collectionView.reloadData()
+        }
+        
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
         navigationItem.standardAppearance = appearance
@@ -86,13 +94,16 @@ class CategoryViewController: UIViewController {
 extension CategoryViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        20
+        viewModel.playlistsImagesUrl.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier, for: indexPath) as! CategoryCollectionViewCell
         
-        cell.configure(title: "Rock", image: "")
+        let category = viewModel.categories[indexPath.row]
+        let imageUrl = viewModel.playlistsImagesUrl[indexPath.row]
+        
+        cell.configure(title: category.name, image: imageUrl)
         
         return cell
     }
@@ -120,6 +131,16 @@ extension CategoryViewController: UICollectionViewDataSource {
 }
 
 extension CategoryViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        Task {
+            let item = viewModel.categories[indexPath.row]
+            print(item.name)
+            let result = await viewModel.getCategoryPlaylists(categoryId: item.id, limit: "1")
+            print(result?.items.first?.name)
+        }
+        
+    }
     
 }
 

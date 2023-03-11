@@ -28,7 +28,7 @@ final class HomeViewModel {
         do {
             let result = try await APIManager().getSpotifyContent(type: FeaturedPlaylists.self, endpoint: ContentEndpoint.getFeaturedPlaylists)
             featuredPlaylist = result.playlists.items
-            featuredPlaylistSectionTitle = result.message
+            featuredPlaylistSectionTitle = result.message ?? ""
         } catch {
             print(error)
         }
