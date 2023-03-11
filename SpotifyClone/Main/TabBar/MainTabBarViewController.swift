@@ -24,6 +24,8 @@ final class MainTabBarViewController: UITabBarController {
     }
     
     func setTabBar() {
+        view.tintColor = .white
+        
         let home = UINavigationController(rootViewController: HomeViewController())
         
         home.navigationBar.tintColor = .white
@@ -32,7 +34,15 @@ final class MainTabBarViewController: UITabBarController {
         home.tabBarItem.image = UIImage(systemName: "house.fill")
         home.tabBarItem.title = "Browse"
         
-        setViewControllers([home], animated: true)
+        let category = UINavigationController(rootViewController: CategoryViewController())
+        
+        category.navigationBar.tintColor = .white
+        category.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem()
+        
+        category.tabBarItem.image = UIImage(systemName: "magnifyingglass")
+        category.tabBarItem.title = "Search"
+        
+        setViewControllers([home, category], animated: true)
     }
 }
 

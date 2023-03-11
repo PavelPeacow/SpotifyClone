@@ -53,6 +53,10 @@
 		B5A0C61B29B75075005E0B15 /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0C61A29B75075005E0B15 /* Notification+Name.swift */; };
 		B5A9FD7E29B8856B0040F0F4 /* PlaylistAlbumFooterCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A9FD7D29B8856B0040F0F4 /* PlaylistAlbumFooterCollectionReusableView.swift */; };
 		B5A9FD8029B8C10A0040F0F4 /* PlaylistAlbumCompLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A9FD7F29B8C10A0040F0F4 /* PlaylistAlbumCompLayout.swift */; };
+		B5BBDA9129BB805400F367AA /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BBDA9029BB805400F367AA /* CategoryViewController.swift */; };
+		B5BBDA9429BB829400F367AA /* CategorySearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BBDA9329BB829400F367AA /* CategorySearchView.swift */; };
+		B5BBDA9629BB85DC00F367AA /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BBDA9529BB85DC00F367AA /* CategoryCollectionViewCell.swift */; };
+		B5BBDA9829BB978E00F367AA /* CategoryHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BBDA9729BB978E00F367AA /* CategoryHeaderCollectionReusableView.swift */; };
 		B5BD576E2978EB9E004D9789 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD576D2978EB9E004D9789 /* AppDelegate.swift */; };
 		B5BD57702978EB9E004D9789 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD576F2978EB9E004D9789 /* SceneDelegate.swift */; };
 		B5BD57722978EB9E004D9789 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD57712978EB9E004D9789 /* LoginViewController.swift */; };
@@ -126,6 +130,10 @@
 		B5A0C61A29B75075005E0B15 /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
 		B5A9FD7D29B8856B0040F0F4 /* PlaylistAlbumFooterCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistAlbumFooterCollectionReusableView.swift; sourceTree = "<group>"; };
 		B5A9FD7F29B8C10A0040F0F4 /* PlaylistAlbumCompLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistAlbumCompLayout.swift; sourceTree = "<group>"; };
+		B5BBDA9029BB805400F367AA /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		B5BBDA9329BB829400F367AA /* CategorySearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySearchView.swift; sourceTree = "<group>"; };
+		B5BBDA9529BB85DC00F367AA /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		B5BBDA9729BB978E00F367AA /* CategoryHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		B5BD576A2978EB9E004D9789 /* SpotifyClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotifyClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5BD576D2978EB9E004D9789 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5BD576F2978EB9E004D9789 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -339,8 +347,27 @@
 			isa = PBXGroup;
 			children = (
 				B5A0C5F629B496DC005E0B15 /* MusicVisualizerView.swift */,
+				B5BBDA9329BB829400F367AA /* CategorySearchView.swift */,
 			);
 			path = CommonView;
+			sourceTree = "<group>";
+		};
+		B5BBDA9229BB805700F367AA /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				B5BBDA9029BB805400F367AA /* CategoryViewController.swift */,
+				B5BBDA9929BC5B7200F367AA /* Cell */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		B5BBDA9929BC5B7200F367AA /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B5BBDA9529BB85DC00F367AA /* CategoryCollectionViewCell.swift */,
+				B5BBDA9729BB978E00F367AA /* CategoryHeaderCollectionReusableView.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		B5BD57612978EB9E004D9789 = {
@@ -404,6 +431,7 @@
 				B5BD5797297964A3004D9789 /* Auth */,
 				B57DA9CB298D18BC006C892B /* Player */,
 				B5BD5798297964B7004D9789 /* Home */,
+				B5BBDA9229BB805700F367AA /* Category */,
 				B5F7A829299B86550001ED69 /* Artist */,
 			);
 			path = Main;
@@ -609,6 +637,7 @@
 				B59272982983C6A600932ADD /* HomeCollectionViewCell.swift in Sources */,
 				B5F7A832299B89E40001ED69 /* EndpointProtocol.swift in Sources */,
 				B5BD578F2978FD6A004D9789 /* OAuthCode.swift in Sources */,
+				B5BBDA9429BB829400F367AA /* CategorySearchView.swift in Sources */,
 				B592729B2983C9B600932ADD /* CompLayoutSections.swift in Sources */,
 				B5F7A836299B8FF60001ED69 /* ArtistTopTracksCollectionViewCell.swift in Sources */,
 				B5A0C5F429B35D07005E0B15 /* Font.swift in Sources */,
@@ -633,7 +662,10 @@
 				B5D868DF2996842C00677118 /* PlayerViewBottom.swift in Sources */,
 				B56C3CB92984EA4A002BC147 /* PlaylistAlbumDetailViewModel.swift in Sources */,
 				B56C3CA429842ACF002BC147 /* FeaturedPlaylists.swift in Sources */,
+				B5BBDA9629BB85DC00F367AA /* CategoryCollectionViewCell.swift in Sources */,
 				B56C2785298780560048F8D7 /* Track.swift in Sources */,
+				B5BBDA9829BB978E00F367AA /* CategoryHeaderCollectionReusableView.swift in Sources */,
+				B5BBDA9129BB805400F367AA /* CategoryViewController.swift in Sources */,
 				B56C279A298BF7CE0048F8D7 /* UIIMage+AverageColor.swift in Sources */,
 				B5BD57702978EB9E004D9789 /* SceneDelegate.swift in Sources */,
 				B57DA9D5298D3813006C892B /* UIView+Shadows.swift in Sources */,
@@ -712,7 +744,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -766,7 +798,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
