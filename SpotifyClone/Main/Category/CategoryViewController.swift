@@ -91,6 +91,16 @@ class CategoryViewController: UIViewController {
     
 }
 
+extension CategoryViewController: CategoryHeaderCollectionReusableViewDelegate {
+    
+    func didTapSearchView() {
+        let vc = SearchViewController()
+        vc.navigationItem.hidesBackButton = true
+        navigationController?.pushViewController(vc, animated: false)
+    }
+    
+}
+
 extension CategoryViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -110,6 +120,8 @@ extension CategoryViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CategoryHeaderCollectionReusableView.identifier, for: indexPath) as! CategoryHeaderCollectionReusableView
+        
+        header.delegate = self
         
         return header
     }

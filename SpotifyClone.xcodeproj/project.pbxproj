@@ -75,6 +75,11 @@
 		B5BD5796297963BA004D9789 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD5795297963BA004D9789 /* LoginView.swift */; };
 		B5BD579A297964FE004D9789 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD5799297964FE004D9789 /* HomeViewController.swift */; };
 		B5D868DF2996842C00677118 /* PlayerViewBottom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D868DE2996842C00677118 /* PlayerViewBottom.swift */; };
+		B5ED986E29BCEB0400725008 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED986D29BCEB0400725008 /* SearchViewController.swift */; };
+		B5ED987129BDD5F400725008 /* SearchEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED987029BDD5F400725008 /* SearchEndpoint.swift */; };
+		B5ED987429BDD73C00725008 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED987329BDD73C00725008 /* SearchViewModel.swift */; };
+		B5ED987629BDD85800725008 /* SearchResponce.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED987529BDD85800725008 /* SearchResponce.swift */; };
+		B5ED987929BDDC6000725008 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED987829BDDC6000725008 /* SearchCollectionViewCell.swift */; };
 		B5F7A828299B86520001ED69 /* ArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F7A827299B86520001ED69 /* ArtistViewController.swift */; };
 		B5F7A82B299B866E0001ED69 /* ArtistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F7A82A299B866E0001ED69 /* ArtistView.swift */; };
 		B5F7A82D299B86750001ED69 /* ArtistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F7A82C299B86750001ED69 /* ArtistViewModel.swift */; };
@@ -157,6 +162,11 @@
 		B5BD5795297963BA004D9789 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B5BD5799297964FE004D9789 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		B5D868DE2996842C00677118 /* PlayerViewBottom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewBottom.swift; sourceTree = "<group>"; };
+		B5ED986D29BCEB0400725008 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		B5ED987029BDD5F400725008 /* SearchEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEndpoint.swift; sourceTree = "<group>"; };
+		B5ED987329BDD73C00725008 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		B5ED987529BDD85800725008 /* SearchResponce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponce.swift; sourceTree = "<group>"; };
+		B5ED987829BDDC6000725008 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		B5F7A827299B86520001ED69 /* ArtistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistViewController.swift; sourceTree = "<group>"; };
 		B5F7A82A299B866E0001ED69 /* ArtistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistView.swift; sourceTree = "<group>"; };
 		B5F7A82C299B86750001ED69 /* ArtistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistViewModel.swift; sourceTree = "<group>"; };
@@ -379,6 +389,7 @@
 			children = (
 				B5BBDA9029BB805400F367AA /* CategoryViewController.swift */,
 				B5885CF729BC72B600DD7EB3 /* CategoryViewModel.swift */,
+				B5ED986F29BCEB0E00725008 /* Search */,
 				B5BBDA9929BC5B7200F367AA /* Cell */,
 			);
 			path = Category;
@@ -472,6 +483,7 @@
 				B5F7A830299B89CC0001ED69 /* Artist */,
 				B50E391D29B228C00083AEAE /* User */,
 				B5885CF629BC720000DD7EB3 /* Category */,
+				B5ED987229BDD5F700725008 /* Search */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -501,6 +513,7 @@
 				B50E392029B22A2C0083AEAE /* User */,
 				B50E391829B1D5CC0083AEAE /* Artist */,
 				B5885CFB29BC737700DD7EB3 /* Category */,
+				B5ED987729BDD85A00725008 /* Search */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -528,6 +541,40 @@
 				B56C3CA82984CFF2002BC147 /* ReusableView */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		B5ED986F29BCEB0E00725008 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				B5ED986D29BCEB0400725008 /* SearchViewController.swift */,
+				B5ED987329BDD73C00725008 /* SearchViewModel.swift */,
+				B5ED987A29BDDC6300725008 /* Cell */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		B5ED987229BDD5F700725008 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				B5ED987029BDD5F400725008 /* SearchEndpoint.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		B5ED987729BDD85A00725008 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				B5ED987529BDD85800725008 /* SearchResponce.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		B5ED987A29BDDC6300725008 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B5ED987829BDDC6000725008 /* SearchCollectionViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		B5F7A829299B86550001ED69 /* Artist */ = {
@@ -642,6 +689,7 @@
 				B5F7A834299B8E050001ED69 /* CompLayoutArtist.swift in Sources */,
 				B59272962983C60400932ADD /* HomeView.swift in Sources */,
 				B57DA9D0298D18BC006C892B /* PlayerView.swift in Sources */,
+				B5ED987429BDD73C00725008 /* SearchViewModel.swift in Sources */,
 				B56C3CA62984CBF4002BC147 /* UIImageViewURL.swift in Sources */,
 				B56C3CB72984E92B002BC147 /* PlaylistAlbumDetailViewCell.swift in Sources */,
 				B592729D2983D99000932ADD /* HomeViewModel.swift in Sources */,
@@ -693,9 +741,13 @@
 				B56C2785298780560048F8D7 /* Track.swift in Sources */,
 				B5BBDA9829BB978E00F367AA /* CategoryHeaderCollectionReusableView.swift in Sources */,
 				B5BBDA9129BB805400F367AA /* CategoryViewController.swift in Sources */,
+				B5ED987929BDDC6000725008 /* SearchCollectionViewCell.swift in Sources */,
 				B56C279A298BF7CE0048F8D7 /* UIIMage+AverageColor.swift in Sources */,
 				B5BD57702978EB9E004D9789 /* SceneDelegate.swift in Sources */,
 				B57DA9D5298D3813006C892B /* UIView+Shadows.swift in Sources */,
+				B5ED986E29BCEB0400725008 /* SearchViewController.swift in Sources */,
+				B5ED987129BDD5F400725008 /* SearchEndpoint.swift in Sources */,
+				B5ED987629BDD85800725008 /* SearchResponce.swift in Sources */,
 				B50E391A29B1D7310083AEAE /* ArtistAlbumCollectionViewCell.swift in Sources */,
 				B5885CF529BC71FD00DD7EB3 /* CategoryEndpoint.swift in Sources */,
 				B50E391729B1D5C50083AEAE /* ArtistAlbum.swift in Sources */,

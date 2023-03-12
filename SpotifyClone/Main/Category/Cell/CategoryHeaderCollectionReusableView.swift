@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol CategoryHeaderCollectionReusableViewDelegate {
+    func didTapSearchView()
+}
+
 class CategoryHeaderCollectionReusableView: UICollectionReusableView {
     
     static let identifier = "CategoryHeaderCollectionReusableView"
+    
+    var delegate: CategoryHeaderCollectionReusableViewDelegate?
     
     lazy var categorySearchTitle: UILabel = {
         let label = UILabel()
@@ -22,6 +28,8 @@ class CategoryHeaderCollectionReusableView: UICollectionReusableView {
     lazy var categorySearchView: CategorySearchView = {
         let view = CategorySearchView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapSearchView))
+        view.addGestureRecognizer(gesture)
         return view
     }()
     
@@ -36,8 +44,6 @@ class CategoryHeaderCollectionReusableView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-//        backgroundColor = .orange
-//        
         addSubview(categorySearchTitle)
         addSubview(categorySearchView)
         addSubview(categorySubtitle)
@@ -46,6 +52,14 @@ class CategoryHeaderCollectionReusableView: UICollectionReusableView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
+extension CategoryHeaderCollectionReusableView {
+    
+    @objc func didTapSearchView() {
+        delegate?.didTapSearchView()
     }
     
 }
