@@ -102,6 +102,7 @@ class SearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+        navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem()
         searchTextField.becomeFirstResponder()
     }
     

@@ -151,9 +151,13 @@ extension CategoryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         Task {
             let item = viewModel.categories[indexPath.row]
-            print(item.name)
-            let result = await viewModel.getCategoryPlaylists(categoryId: item.id, limit: "1")
-            print(result?.items.first?.name)
+            
+            let playlists = await viewModel.getCategoryPlaylists(categoryId: item.id)
+            
+            let vc = CategoryPlaylistsViewController()
+            vc.configure(playlists: playlists?.items ?? [])
+            
+            navigationController?.pushViewController(vc, animated: true)
         }
         
     }
