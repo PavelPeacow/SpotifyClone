@@ -157,7 +157,7 @@ extension PlayerViewController {
     
     @objc func didTapGroupTitle() {
         dismiss(animated: true) { [weak self] in
-            guard let nav = self?.tabbar?.viewControllers?.first as? UINavigationController else { return }
+            guard let nav = self?.tabbar?.selectedViewController as? UINavigationController else { return }
             
             let artistID = self?.viewModel.track?.artists?.first?.id ?? ""
             
@@ -174,7 +174,7 @@ extension PlayerViewController {
     @objc func didTapSongTitle() {
         dismiss(animated: true) { [weak self] in
             Task {
-                guard let nav = self?.tabbar?.viewControllers?.first as? UINavigationController else { return }
+                guard let nav = self?.tabbar?.selectedViewController as? UINavigationController else { return }
                 
                 let songTitle = self?.viewModel.track?.name ?? ""
                 

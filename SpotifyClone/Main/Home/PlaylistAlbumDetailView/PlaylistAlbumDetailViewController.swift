@@ -311,14 +311,7 @@ extension PlaylistAlbumDetailViewController: UICollectionViewDataSource {
         
         let alpha = min(1, scrollView.contentOffset.y/100)
         
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithTransparentBackground()
-        appearance.backgroundColor = viewModel.averageColor?.withAlphaComponent(alpha)
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white.withAlphaComponent(alpha), .font: UIFont.setFont(.book, size: 16)]
-        navigationItem.standardAppearance = appearance
-        navigationItem.scrollEdgeAppearance = appearance
-        navigationItem.compactAppearance = appearance
-        
+        navigationItem.styleNavBar(color: viewModel.averageColor ?? .black, alpha: alpha)
         navigationItem.title = type == .album ? viewModel.album?.name : viewModel.playlist?.name
     }
     

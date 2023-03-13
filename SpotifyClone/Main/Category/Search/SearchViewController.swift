@@ -89,14 +89,7 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithTransparentBackground()
-        navigationItem.standardAppearance = appearance
-        navigationItem.scrollEdgeAppearance = appearance
-        navigationItem.compactAppearance = appearance
-        navigationController?.navigationBar.isUserInteractionEnabled = false
-        
+                
         view.addSubview(collectionView)
         view.backgroundColor = .mainBackground
         searchContainer.addSubview(searchStackView)
@@ -108,8 +101,13 @@ class SearchViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        navigationController?.setNavigationBarHidden(true, animated: false)
         searchTextField.becomeFirstResponder()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
 }
@@ -164,7 +162,7 @@ extension SearchViewController: UICollectionViewDataSource {
             searchImage = artist.images?.first?.url ?? ""
             searchTitle = artist.name ?? ""
             searchSubtitle = artist.type?.capitalized ?? ""
-            cell.configure(image: searchImage, searchItemTitle: searchTitle, searchItemSubtitle: searchSubtitle)
+            cell.configure(image: searchImage, searchItemTitle: searchTitle, searchItemSubtitle: searchSubtitle, isArtistItem: true)
         } else if let album = value as? Album {
             searchImage = album.images?.first?.url ?? ""
             searchTitle = album.name ?? ""
@@ -186,10 +184,6 @@ extension SearchViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = viewModel.allResults[indexPath.row]
-        
-        let searchImage: String
-        let searchTitle: String
-        let searchSubtitle: String
         
         if let artistItem = item as? Artist {
             let vc = ArtistViewController()
@@ -227,12 +221,12 @@ extension SearchViewController {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
-            searchContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            searchContainer.topAnchor.constraint(equalTo: view.topAnchor),
             searchContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             searchContainer.bottomAnchor.constraint(equalTo: searchStackView.bottomAnchor, constant: 15),
             
-            searchStackView.topAnchor.constraint(equalTo: searchContainer.topAnchor, constant: 50),
+            searchStackView.topAnchor.constraint(equalTo: searchContainer.safeAreaLayoutGuide.topAnchor, constant: 5),
             searchStackView.leadingAnchor.constraint(equalTo: searchContainer.leadingAnchor, constant: 15),
             searchStackView.trailingAnchor.constraint(equalTo: searchContainer.trailingAnchor, constant: -15),
             
@@ -240,7 +234,7 @@ extension SearchViewController {
             
             cancelBtn.heightAnchor.constraint(equalToConstant: 30),
             
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15),
+            collectionView.topAnchor.constraint(equalTo: searchContainer.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)

@@ -67,12 +67,6 @@ class CategoryViewController: UIViewController {
             collectionView.reloadData()
         }
         
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithTransparentBackground()
-        navigationItem.standardAppearance = appearance
-        navigationItem.scrollEdgeAppearance = appearance
-        navigationItem.compactAppearance = appearance
-
         view.addSubview(collectionView)
         
         collectionView.addSubview(pinnedSearchViewContainer)
@@ -87,6 +81,16 @@ class CategoryViewController: UIViewController {
     private func setDelegates() {
         collectionView.delegate = self
         collectionView.dataSource = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
 }

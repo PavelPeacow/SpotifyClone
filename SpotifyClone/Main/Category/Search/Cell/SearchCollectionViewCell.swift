@@ -56,13 +56,23 @@ class SearchCollectionViewCell: UICollectionViewCell {
         setConstraints()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        searchItemImage.layer.cornerRadius = 0
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(image: String, searchItemTitle: String, searchItemSubtitle: String) {
+    func configure(image: String, searchItemTitle: String, searchItemSubtitle: String, isArtistItem: Bool = false) {
         guard let url = URL(string: image) else { return }
         searchItemImage.loadImage(for: url)
+        
+        if isArtistItem {
+            searchItemImage.layer.cornerRadius = 30
+            searchItemImage.clipsToBounds = true
+        }
         
         self.searchItemTitle.text = searchItemTitle
         self.searchItemSubtitle.text = searchItemSubtitle
