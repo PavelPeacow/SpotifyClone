@@ -34,6 +34,14 @@ final class MainTabBarViewController: UITabBarController {
         home.tabBarItem.image = UIImage(systemName: "house.fill")
         home.tabBarItem.title = "Browse"
         
+        let library = UINavigationController(rootViewController: LibraryViewController())
+        
+        library.navigationBar.tintColor = .white
+        library.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem()
+        
+        library.tabBarItem.image = UIImage(systemName: "music.note.list")
+        library.tabBarItem.title = "Your Library"
+        
         let category = UINavigationController(rootViewController: CategoryViewController())
         
         category.navigationBar.tintColor = .white
@@ -42,7 +50,7 @@ final class MainTabBarViewController: UITabBarController {
         category.tabBarItem.image = UIImage(systemName: "magnifyingglass")
         category.tabBarItem.title = "Search"
         
-        setViewControllers([home, category], animated: true)
+        setViewControllers([home, library, category], animated: true)
     }
 }
 
